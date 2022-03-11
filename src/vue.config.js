@@ -9,7 +9,7 @@ module.exports = {
     isOutputSourceMap: false,
 
     pages: {
-        title: 'Farm Vue',
+        title: 'Form Builder',
     },
 
     devServer: {
