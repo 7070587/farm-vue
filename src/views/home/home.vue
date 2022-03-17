@@ -45,6 +45,38 @@
                     active
                 >
 
+                    <div class="components--list">
+                        <div
+                            v-for="(listItem, listIndex) in formBuilderList"
+                            :key="listIndex"
+                        >
+                            <div class="components--title">
+                                <i :class="listItem.icon"></i> {{ listItem.label }}
+                            </div>
+
+                            <draggable
+                                class="components--draggable"
+                                :list="listItem.list"
+                                :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+                                :clone="cloneComponent"
+                                :sort="false"
+                                draggable=".components--list__item"
+                                @end="onEnd"
+                            >
+                                <div
+                                    v-for="(element, index) in listItem.children"
+                                    :key="index"
+                                    class="components--list__item"
+                                    @click="addComponent(element)"
+                                >
+                                    <div class="components--body">
+                                        <i :class="element.icon"></i> {{ element.label }}
+                                    </div>
+                                </div>
+                            </draggable>
+                        </div>
+                    </div>
+
                 </b-tab>
 
                 <b-tab title="元件屬性">
@@ -112,6 +144,12 @@ export default class VuePageClass extends Vue {
                     label: 'text',
                     tag: 'div',
                     type: 'text',
+                    icon: 'fas fa-image',
+                },
+                {
+                    label: 'image',
+                    tag: 'img',
+                    type: 'image',
                     icon: 'fas fa-font',
                 },
             ],
@@ -122,10 +160,16 @@ export default class VuePageClass extends Vue {
             icon: 'fas fa-keyboard ',
             children: [
                 {
-                    label: 'input text',
+                    label: 'input',
                     tag: 'b-input',
                     type: 'text',
                     icon: 'fas fa-edit',
+                },
+                {
+                    label: 'textarea',
+                    tag: 'b-textarea',
+                    type: 'textarea',
+                    icon: 'fas fa-newspaper',
                 },
             ],
         },
@@ -188,5 +232,47 @@ $border-color: #f1e8e8;
     height: 100vh;
     border-left: 1px solid $border-color;
     border-right: 1px solid $border-color;
+}
+
+.components {
+    &--list {
+        padding: 8px;
+        box-sizing: border-box;
+        height: 100%;
+
+        &__item {
+            display: inline-block;
+            width: 48%;
+            margin: 1%;
+            transition: transform 0ms !important;
+        }
+    }
+
+    &--draggable {
+        padding-bottom: 20px;
+    }
+
+    &--title {
+        font-size: 14px;
+        color: #222;
+        margin: 6px 2px;
+    }
+
+    &--body {
+        padding: 8px 10px;
+        background: $selected-color;
+        font-size: 12px;
+        cursor: move;
+        border: 1px dashed $selected-color;
+        border-radius: 3px;
+        .svg-icon {
+            color: #777;
+            font-size: 15px;
+        }
+        &:hover {
+            border: 1px dashed #787be8;
+            color: #787be8;
+        }
+    }
 }
 </style>
