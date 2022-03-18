@@ -35,6 +35,22 @@
                         </b-button>
                     </div>
                 </div>
+
+                <draggable
+                    class="drawing-board"
+                    :list="drawingList"
+                    :animation="340"
+                    group="componentsGroup"
+                    @start="drawingDragStart"
+                    @end="drawingDragEnd"
+                >
+                    <div
+                        v-for="element in drawingList"
+                        class="components--body"
+                    >
+                        <i :class="element.icon"></i> {{ element.label }}
+                    </div>
+                </draggable>
             </div>
         </b-col>
 
@@ -47,7 +63,7 @@
 
                     <div class="components--list">
                         <div
-                            v-for="(listItem, listIndex) in formBuilderList"
+                            v-for="(listItem, listIndex) in componentList"
                             :key="listIndex"
                         >
                             <div class="components--title">
@@ -56,12 +72,12 @@
 
                             <draggable
                                 class="components--draggable"
-                                :list="listItem.list"
+                                :list="listItem.children"
                                 :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
                                 :clone="cloneComponent"
                                 :sort="false"
                                 draggable=".components--list__item"
-                                @end="onEnd"
+                                @end="dragcomponentEnd"
                             >
                                 <div
                                     v-for="(element, index) in listItem.children"
@@ -118,12 +134,13 @@ import { Vue, Component } from 'vue-property-decorator';
 
 import draggable from 'vuedraggable';
 
-interface IFormBuilderList {
+interface IComponentList {
     label: string;
     tag: string;
     type?: string;
     icon: string;
-    children?: IFormBuilderList[];
+    id?: string;
+    children?: IComponentList[];
 }
 
 @Component({
@@ -134,11 +151,11 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Variables
-    private formBuilderList: IFormBuilderList[] = [
+    private componentList: IComponentList[] = [
         {
             label: '顯示元件',
             tag: 'label',
-            icon: 'fas fa-laptop ',
+            icon: 'fas fa-puzzle-piece ',
             children: [
                 {
                     label: 'text',
@@ -157,7 +174,7 @@ export default class VuePageClass extends Vue {
         {
             label: '輸入元件',
             tag: 'label',
-            icon: 'fas fa-keyboard ',
+            icon: 'fas fa-puzzle-piece ',
             children: [
                 {
                     label: 'input',
@@ -173,7 +190,27 @@ export default class VuePageClass extends Vue {
                 },
             ],
         },
+        {
+            label: '布局元件',
+            tag: 'div',
+            icon: 'fas fa-puzzle-piece ',
+            children: [
+                {
+                    label: 'divider',
+                    tag: 'div',
+                    type: 'divider',
+                    icon: 'fas fa-grip-lines',
+                },
+            ],
+        },
     ];
+
+    private drawingList: IComponentList[] = [];
+
+    private tempActiveData: IComponentList = undefined;
+
+    private idGlobal: number = 100;
+
     //#endregion
 
     //#region Computed
@@ -195,14 +232,77 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region View Event
+    //#region right
+    private addComponent(item: IComponentList): void {
+        const clone = this.deepClone(item);
+        this.drawingList.push(clone);
+    }
 
-    private cloneComponent(): void {}
-    private onEnd(): void {}
-    private addComponent(): void {}
+    private cloneComponent(originItem: IComponentList): IComponentList {
+        const clone = this.deepClone(originItem);
+        this.drawingList.push(clone);
+
+        return clone;
+    }
+
+    private dragcomponentEnd(dragItem: any): void {}
+    //#endregion
+
+    //#region center
+    private drawingDragStart(): void {
+        console.log(`drawingDragStart => `);
+    }
+    private drawingDragEnd(): void {
+        console.log(`drawingDragEnd => `);
+    }
+    //#endregion
 
     //#endregion
 
     //#region Other Function
+    private deepClone(obj: any): any {
+        const _toString = Object.prototype.toString;
+
+        // null, undefined, non-object, function
+        if (!obj || typeof obj !== 'object') {
+            return obj;
+        }
+
+        // DOM Node
+        if (obj.nodeType && 'cloneNode' in obj) {
+            return obj.cloneNode(true);
+        }
+
+        // Date
+        if (_toString.call(obj) === '[object Date]') {
+            return new Date(obj.getTime());
+        }
+
+        // RegExp
+        if (_toString.call(obj) === '[object RegExp]') {
+            const flags = [];
+            if (obj.global) {
+                flags.push('g');
+            }
+            if (obj.multiline) {
+                flags.push('m');
+            }
+            if (obj.ignoreCase) {
+                flags.push('i');
+            }
+
+            return new RegExp(obj.source, flags.join(''));
+        }
+
+        const result = Array.isArray(obj) ? [] : obj.constructor ? new obj.constructor() : {};
+
+        for (const key in obj) {
+            result[key] = this.deepClone(obj[key]);
+        }
+
+        return result;
+    }
+
     //#endregion
 }
 </script>
