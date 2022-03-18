@@ -1,13 +1,20 @@
 <template>
     <b-row>
-        <b-col cols="2">
+        <b-col
+            class='col'
+            cols="2"
+        >
             <div class="header">
                 <div>Form Builder</div>
             </div>
         </b-col>
 
-        <b-col cols="8">
+        <b-col
+            class='col'
+            cols="8"
+        >
             <div class="center">
+
                 <div class="header">
                     <div class="float-right">
                         <b-button
@@ -36,25 +43,35 @@
                     </div>
                 </div>
 
-                <draggable
-                    class="drawing-board"
-                    :list="drawingList"
-                    :animation="340"
-                    group="componentsGroup"
-                    @start="drawingDragStart"
-                    @end="drawingDragEnd"
-                >
-                    <div
-                        v-for="element in drawingList"
-                        class="components--body"
+                <div class="m-3">
+                    <PureText />
+                    <ComponentInput />
+                    <ComponentTextarea />
+
+                    <draggable
+                        class="generate-board"
+                        :list="drawingList"
+                        :animation="340"
+                        group="componentsGroup"
+                        @start="drawingDragStart"
+                        @end="drawingDragEnd"
                     >
-                        <i :class="element.icon"></i> {{ element.label }}
-                    </div>
-                </draggable>
+                        <div
+                            v-for="element in drawingList"
+                            class="components--body"
+                        >
+                            <i :class="element.icon"></i> {{ element.label }}
+                        </div>
+                    </draggable>
+                </div>
+
             </div>
         </b-col>
 
-        <b-col cols="2">
+        <b-col
+            class='col'
+            cols="2"
+        >
             <b-tabs fill>
                 <b-tab
                     title="選擇元件"
@@ -123,6 +140,9 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components
+import PureText from '@/components/form-builders/text/text.vue';
+import ComponentInput from '@/components/form-builders/input/input.vue';
+import ComponentTextarea from '@/components/form-builders/textarea/textarea.vue';
 //#endregion
 
 //#region Components Src
@@ -144,7 +164,7 @@ interface IComponentList {
 }
 
 @Component({
-    components: { draggable },
+    components: { draggable, PureText, ComponentInput, ComponentTextarea },
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -311,7 +331,7 @@ export default class VuePageClass extends Vue {
 $selected-color: #f6f7ff;
 $border-color: #f1e8e8;
 
-::v-deep .col-2,
+::v-deep .col.col-2,
 .col-8 {
     padding: 0;
 }
