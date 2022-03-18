@@ -44,9 +44,6 @@
                 </div>
 
                 <div class="m-3">
-                    <PureText />
-                    <ComponentInput />
-                    <ComponentTextarea />
 
                     <draggable
                         class="generate-board"
@@ -140,9 +137,9 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components
-import PureText from '@/components/form-builders/text/text.vue';
-import ComponentInput from '@/components/form-builders/input/input.vue';
-import ComponentTextarea from '@/components/form-builders/textarea/textarea.vue';
+import PureText from '@/components/form-builders/elements/text/text.vue';
+import ComponentInput from '@/components/form-builders/elements/input/input.vue';
+import ComponentTextarea from '@/components/form-builders/elements/textarea/textarea.vue';
 //#endregion
 
 //#region Components Src
