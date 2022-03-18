@@ -1,0 +1,118 @@
+$selected-color: #f6f7ff;
+$border-color: #f1e8e8;
+$lighter-blue-color: #409eff;
+$lighter-blue-color: #409eff;
+
+.generate {
+    &--row {
+        padding: 1rem;
+        margin: 1.15rem;
+        border-radius: 4px;
+        border: 1px dashed #ccc;
+
+        &__selected {
+            border: none;
+            background-color: $selected-color;
+        }
+
+        &:hover {
+            background-color: $selected-color;
+        }
+    }
+}
+
+.action-item {
+    &:hover {
+        & > .action-item-copy,
+        & > .action-item-delete {
+            display: initial;
+        }
+    }
+
+    & > .action-item-copy,
+    & > .action-item-delete {
+        position: absolute;
+        top: -30px;
+        width: 24px;
+        height: 24px;
+        line-height: 22px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 12px;
+        border: 1px solid;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    & > .action-item-copy {
+        right: 50px;
+        border-color: $lighter-blue-color;
+        color: $lighter-blue-color;
+        background: #fff;
+        &:hover {
+            background: $lighter-blue-color;
+            color: #fff;
+        }
+    }
+
+    & > .action-item-delete {
+        right: 18px;
+        border-color: #f56c6c;
+        color: #f56c6c;
+        background: #fff;
+        &:hover {
+            background: #f56c6c;
+            color: #fff;
+        }
+    }
+}
+
+.action {
+    display: none;
+    position: absolute;
+    top: -10px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 12px;
+    border: 1px solid;
+    cursor: pointer;
+    z-index: 1;
+
+    &:hover {
+        & > .el-form-item {
+            background: $selected-color;
+            border-radius: 6px;
+        }
+        & > .drawing-item-copy,
+        & > .drawing-item-delete {
+            display: initial;
+        }
+    }
+
+    &--copy {
+        right: 56px;
+        border-color: $lighter-blue-color;
+        color: $lighter-blue-color;
+        background: #fff;
+
+        &:hover {
+            background: $lighter-blue-color;
+            color: #fff;
+        }
+    }
+
+    &--delete {
+        right: 24px;
+        border-color: #f56c6c;
+        color: #f56c6c;
+        background: #fff;
+
+        &:hover {
+            background: #f56c6c;
+            color: #fff;
+        }
+    }
+}

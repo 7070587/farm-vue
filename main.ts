@@ -14,6 +14,7 @@ config.autoReplaceSvg = false;
 // CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-vue/dist/bootstrap-vue.min.css';
+import '@/scss/styles.scss';
 
 // Vue config
 Vue.config.productionTip = false;
