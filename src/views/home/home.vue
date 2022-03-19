@@ -127,7 +127,8 @@ import { ComponentList, ModelsConfigComponent as Model } from '@/config';
 //#endregion
 
 //#region Components
-import PureText from '@/components/form-builders/elements/text/text.vue';
+import ComponentText from '@/components/form-builders/elements/text/text.vue';
+
 import ComponentInput from '@/components/form-builders/elements/input/input.vue';
 import ComponentTextarea from '@/components/form-builders/elements/textarea/textarea.vue';
 
@@ -146,7 +147,15 @@ import ComponentTextareaSetting from '@/components/form-builders/elements/textar
 import draggable from 'vuedraggable';
 
 @Component({
-    components: { draggable, PureText, ComponentInput, ComponentTextarea, ComponentInputSetting, ComponentTextareaSetting, ComponentTextSetting },
+    components: {
+        draggable,
+        ComponentText,
+        ComponentInput,
+        ComponentTextarea,
+        ComponentInputSetting,
+        ComponentTextareaSetting,
+        ComponentTextSetting,
+    },
 })
 export default class VuePageClass extends Vue {
     //#region Prop

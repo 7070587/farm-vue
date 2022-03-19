@@ -46,7 +46,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 @Component({
     components: { DeleteCopy },
 })
-export default class PureText extends Vue {
+export default class ComponentText extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
