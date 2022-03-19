@@ -119,6 +119,8 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
+import { ComponentList, ModelsConfigComponent as Model } from '@/config';
+
 //#endregion
 
 //#region Views
@@ -143,15 +145,6 @@ import ComponentTextareaSetting from '@/components/form-builders/elements/textar
 
 import draggable from 'vuedraggable';
 
-interface IComponentList {
-    label: string;
-    tag: string;
-    type?: string;
-    icon: string;
-    id?: string;
-    children?: IComponentList[];
-}
-
 @Component({
     components: { draggable, PureText, ComponentInput, ComponentTextarea, ComponentInputSetting, ComponentTextareaSetting, ComponentTextSetting },
 })
@@ -160,61 +153,9 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Variables
-    private componentList: IComponentList[] = [
-        {
-            label: '顯示元件',
-            tag: 'label',
-            icon: 'fas fa-puzzle-piece ',
-            children: [
-                {
-                    label: 'text',
-                    tag: 'div',
-                    type: 'text',
-                    icon: 'fas fa-font',
-                },
-                {
-                    label: 'image',
-                    tag: 'img',
-                    type: 'image',
-                    icon: 'fas fa-image',
-                },
-            ],
-        },
-        {
-            label: '輸入元件',
-            tag: 'label',
-            icon: 'fas fa-puzzle-piece ',
-            children: [
-                {
-                    label: 'input',
-                    tag: 'b-input',
-                    type: 'text',
-                    icon: 'fas fa-edit',
-                },
-                {
-                    label: 'textarea',
-                    tag: 'b-textarea',
-                    type: 'textarea',
-                    icon: 'fas fa-newspaper',
-                },
-            ],
-        },
-        {
-            label: '布局元件',
-            tag: 'div',
-            icon: 'fas fa-puzzle-piece ',
-            children: [
-                {
-                    label: 'divider',
-                    tag: 'div',
-                    type: 'divider',
-                    icon: 'fas fa-grip-lines',
-                },
-            ],
-        },
-    ];
+    private componentList: Model.IComponentList[] = [];
 
-    private drawingList: IComponentList[] = [];
+    private drawingList: Model.IComponentList[] = [];
     //#endregion
 
     //#region Computed
@@ -226,23 +167,28 @@ export default class VuePageClass extends Vue {
     //#region Vue Life
     private async beforeCreate(): Promise<void> {}
     private async created(): Promise<void> {}
-    private async beforeMount(): Promise<void> {}
+    private async beforeMount(): Promise<void> {
+        this.initData();
+    }
     private async mounted(): Promise<void> {}
     private async beforeDestroy(): Promise<void> {}
     private async destroyed(): Promise<void> {}
     //#endregion
 
     //#region Init
+    private initData(): void {
+        this.componentList = ComponentList;
+    }
     //#endregion
 
     //#region View Event
     //#region right
-    private addComponent(item: IComponentList): void {
+    private addComponent(item: Model.IComponentList): void {
         const clone = this.deepClone(item);
         this.drawingList.push(clone);
     }
 
-    private cloneComponent(originItem: IComponentList): IComponentList {
+    private cloneComponent(originItem: Model.IComponentList): Model.IComponentList {
         const clone = this.deepClone(originItem);
         this.drawingList.push(clone);
 
