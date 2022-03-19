@@ -1,109 +1,98 @@
 <template>
-    <b-row>
-        <b-col
-            class='col'
-            cols="2"
-        >
+    <div>
+        <div class="left header">
+            <div>Form Builder</div>
+        </div>
+
+        <div class="center">
+
             <div class="header">
-                <div>Form Builder</div>
-            </div>
-        </b-col>
-
-        <b-col
-            class='col'
-            cols="8"
-        >
-            <div class="center">
-
-                <div class="header">
-                    <div class="float-right">
-                        <b-button
-                            class="mr-2"
-                            size="sm"
-                            variant="primary"
-                        >
-                            預覽
-                        </b-button>
-
-                        <b-button
-                            class="mr-2"
-                            size="sm"
-                            variant="secondary"
-                        >
-                            檢視json
-                        </b-button>
-
-                        <b-button
-                            class="mr-2"
-                            size="sm"
-                            variant="info"
-                        >
-                            清空
-                        </b-button>
-                    </div>
-                </div>
-
-                <div class="m-3">
-
-                    <draggable
-                        class="generate-board"
-                        :list="drawingList"
-                        :animation="340"
-                        group="componentsGroup"
-                        @start="drawingDragStart"
-                        @end="drawingDragEnd"
+                <div class="float-right">
+                    <b-button
+                        class="mr-2"
+                        size="sm"
+                        variant="primary"
                     >
-                        <div
-                            v-for="element in drawingList"
-                            class="components--body"
-                        >
-                            <i :class="element.icon"></i> {{ element.label }}
-                        </div>
-                    </draggable>
+                        預覽
+                    </b-button>
+
+                    <b-button
+                        class="mr-2"
+                        size="sm"
+                        variant="secondary"
+                    >
+                        檢視json
+                    </b-button>
+
+                    <b-button
+                        class="mr-2"
+                        size="sm"
+                        variant="info"
+                    >
+                        清空
+                    </b-button>
                 </div>
-
             </div>
-        </b-col>
 
-        <b-col
-            class='col'
-            cols="2"
-        >
+            <div class="m-3">
+
+                <draggable
+                    class="generate-board"
+                    :list="drawingList"
+                    :animation="340"
+                    group="componentsGroup"
+                    @start="drawingDragStart"
+                    @end="drawingDragEnd"
+                >
+                    <div
+                        v-for="element in drawingList"
+                        class="components--body"
+                    >
+                        <i :class="element.icon"></i> {{ element.label }}
+                    </div>
+                </draggable>
+            </div>
+
+        </div>
+
+        <div class="right">
             <b-tabs fill>
                 <b-tab
                     title="選擇元件"
                     active
                 >
 
-                    <div class="components--list">
-                        <div
-                            v-for="(listItem, listIndex) in componentList"
-                            :key="listIndex"
-                        >
-                            <div class="components--title">
-                                <i :class="listItem.icon"></i> {{ listItem.label }}
-                            </div>
-
-                            <draggable
-                                class="components--draggable"
-                                :list="listItem.children"
-                                :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
-                                :clone="cloneComponent"
-                                :sort="false"
-                                draggable=".components--list__item"
-                                @end="dragcomponentEnd"
+                    <div class="components">
+                        <div class="components--list">
+                            <div
+                                v-for="(listItem, listIndex) in componentList"
+                                :key="listIndex"
                             >
-                                <div
-                                    v-for="(element, index) in listItem.children"
-                                    :key="index"
-                                    class="components--list__item"
-                                    @click="addComponent(element)"
-                                >
-                                    <div class="components--body">
-                                        <i :class="element.icon"></i> {{ element.label }}
-                                    </div>
+                                <div class="components--title">
+                                    <i :class="listItem.icon"></i> {{ listItem.label }}
                                 </div>
-                            </draggable>
+
+                                <draggable
+                                    class="components--draggable"
+                                    :list="listItem.children"
+                                    :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+                                    :clone="cloneComponent"
+                                    :sort="false"
+                                    draggable=".components--list__item"
+                                    @end="dragcomponentEnd"
+                                >
+                                    <div
+                                        v-for="(element, index) in listItem.children"
+                                        :key="index"
+                                        class="components--list__item"
+                                        @click="addComponent(element)"
+                                    >
+                                        <div class="components--body">
+                                            <i :class="element.icon"></i> {{ element.label }}
+                                        </div>
+                                    </div>
+                                </draggable>
+                            </div>
                         </div>
                     </div>
 
@@ -114,8 +103,8 @@
                 </b-tab>
 
             </b-tabs>
-        </b-col>
-    </b-row>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -161,7 +150,7 @@ interface IComponentList {
 }
 
 @Component({
-    components: { draggable, PureText, ComponentInput, ComponentTextarea },
+    components: { draggable, PureText, ComponentInput, ComponentTextarea, ComponentInputSetting },
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -328,9 +317,35 @@ export default class VuePageClass extends Vue {
 $selected-color: #f6f7ff;
 $border-color: #f1e8e8;
 
-::v-deep .col.col-2,
-.col-8 {
-    padding: 0;
+.flex {
+    display: flex;
+}
+.left {
+    width: 280px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+
+    &--header {
+    }
+}
+
+.center {
+    height: 100vh;
+    width: auto;
+    margin: 0 350px 0 260px;
+    box-sizing: border-box;
+    border-left: 1px solid $border-color;
+    border-right: 1px solid $border-color;
+}
+
+.right {
+    width: 350px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 3px;
 }
 
 .header {
@@ -343,12 +358,6 @@ $border-color: #f1e8e8;
         font-size: 1rem;
         font-weight: bold;
     }
-}
-
-.center {
-    height: 100vh;
-    border-left: 1px solid $border-color;
-    border-right: 1px solid $border-color;
 }
 
 .components {
