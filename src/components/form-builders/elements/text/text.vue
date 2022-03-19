@@ -4,7 +4,7 @@
         :class="{ 'generate--row__selected': isActived }"
     >
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> text </div>
+            <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> text </div>
         </b-col>
 
         <b-col cols="10">
