@@ -99,7 +99,6 @@
                 </b-tab>
 
                 <b-tab title="元件屬性">
-                    <p>元件屬性</p>
                 </b-tab>
 
             </b-tabs>
@@ -129,6 +128,10 @@ import { Vue, Component } from 'vue-property-decorator';
 import PureText from '@/components/form-builders/elements/text/text.vue';
 import ComponentInput from '@/components/form-builders/elements/input/input.vue';
 import ComponentTextarea from '@/components/form-builders/elements/textarea/textarea.vue';
+
+import ComponentTextSetting from '@/components/form-builders/elements/text/text-setting.vue';
+import ComponentInputSetting from '@/components/form-builders/elements/input/input-setting.vue';
+import ComponentTextareaSetting from '@/components/form-builders/elements/textarea/textarea-setting.vue';
 //#endregion
 
 //#region Components Src
@@ -150,7 +153,7 @@ interface IComponentList {
 }
 
 @Component({
-    components: { draggable, PureText, ComponentInput, ComponentTextarea, ComponentInputSetting },
+    components: { draggable, PureText, ComponentInput, ComponentTextarea, ComponentInputSetting, ComponentTextareaSetting, ComponentTextSetting },
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -167,13 +170,13 @@ export default class VuePageClass extends Vue {
                     label: 'text',
                     tag: 'div',
                     type: 'text',
-                    icon: 'fas fa-image',
+                    icon: 'fas fa-font',
                 },
                 {
                     label: 'image',
                     tag: 'img',
                     type: 'image',
-                    icon: 'fas fa-font',
+                    icon: 'fas fa-image',
                 },
             ],
         },
@@ -212,11 +215,6 @@ export default class VuePageClass extends Vue {
     ];
 
     private drawingList: IComponentList[] = [];
-
-    private tempActiveData: IComponentList = undefined;
-
-    private idGlobal: number = 100;
-
     //#endregion
 
     //#region Computed
@@ -326,14 +324,10 @@ $border-color: #f1e8e8;
     left: 0;
     top: 0;
     height: 100vh;
-
-    &--header {
-    }
 }
 
 .center {
     height: 100vh;
-    width: auto;
     margin: 0 350px 0 260px;
     box-sizing: border-box;
     border-left: 1px solid $border-color;

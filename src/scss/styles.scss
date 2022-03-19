@@ -21,6 +21,12 @@ $lighter-blue-color: #409eff;
     }
 }
 
+.setting {
+    &--row {
+        padding: 1rem 1rem 1rem 2rem;
+    }
+}
+
 .action-item {
     &:hover {
         & > .action-item-copy,
