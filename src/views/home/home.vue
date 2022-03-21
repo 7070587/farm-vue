@@ -40,8 +40,6 @@
                     :list="drawingList"
                     :animation="340"
                     :group="{ name: 'formBuilderGroup' }"
-                    @start="drawingDragStart"
-                    @end="drawingDragEnd"
                 >
                     <div v-for="element in drawingList">
                         <template v-if="element.type === 'divider'">
@@ -91,17 +89,15 @@
                                     :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
                                     :sort="false"
                                     draggable=".form-builder--list__item"
-                                    @start="dragcomponentStart"
-                                    @end="dragcomponentEnd"
                                 >
                                     <div
-                                        v-for="(element, index) in listItem.children"
+                                        v-for="(item, index) in listItem.children"
                                         :key="index"
                                         class="form-builder--list__item"
-                                        @click="addComponent(element)"
+                                        @click="addComponent(item)"
                                     >
                                         <div class="form-builder--body">
-                                            <i :class="element.icon"></i> {{ element.label }}
+                                            <i :class="item.icon"></i> {{ item.label }}
                                         </div>
                                     </div>
                                 </draggable>
@@ -195,24 +191,9 @@ export default class VuePageClass extends Vue {
     private addComponent(item: FormBuilderModel.IFormBuilderElement): void {
         this.drawingList.push(item);
     }
-
-    private dragcomponentStart(dragItem: any): void {
-        console.log(`dragcomponentStart => `, dragItem);
-    }
-
-    private dragcomponentEnd(dragItem: any): void {
-        console.log(`dragcomponentEnd => `, dragItem);
-    }
     //#endregion
 
     //#region center
-    private drawingDragStart(dragItem: any): void {
-        console.log(`drawingDragStart => `, dragItem);
-    }
-
-    private drawingDragEnd(dragItem: any): void {
-        console.log(`drawingDragEnd => `, dragItem);
-    }
     //#endregion
 
     //#endregion
