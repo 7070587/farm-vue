@@ -5,7 +5,7 @@
     >
 
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> image </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> image </div>
         </b-col>
 
         <b-col cols="10">

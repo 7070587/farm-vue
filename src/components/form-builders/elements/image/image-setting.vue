@@ -2,7 +2,7 @@
     <div>
         <b-row class="setting--row">
             <b-col cols="2">
-                <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> upload </div>
+                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> upload </div>
             </b-col>
 
             <b-col cols="10">
@@ -12,7 +12,7 @@
 
         <b-row class="setting--row">
             <b-col cols="2">
-                <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> width </div>
+                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> width </div>
             </b-col>
 
             <b-col cols="10">
@@ -26,7 +26,7 @@
 
         <b-row class="setting--row">
             <b-col cols="2">
-                <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> height </div>
+                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> height </div>
             </b-col>
 
             <b-col cols="10">

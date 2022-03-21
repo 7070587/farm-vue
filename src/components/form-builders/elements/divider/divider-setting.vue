@@ -3,7 +3,7 @@
 
         <b-row class="setting--row">
             <b-col cols="2">
-                <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> value </div>
+                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> value </div>
             </b-col>
 
             <b-col cols="10">
@@ -13,7 +13,7 @@
 
         <b-row class="setting--row">
             <b-col cols="2">
-                <div class="d-flex flex-column justify-content-start align-items-end w-100 h-100"> font size </div>
+                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> font size </div>
             </b-col>
 
             <b-col cols="10">
