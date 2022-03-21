@@ -16,7 +16,11 @@
             </b-col>
 
             <b-col cols="10">
-                <b-form-input placeholder="width"></b-form-input>
+                <b-form-input
+                    placeholder="width"
+                    type="number"
+                    min="1"
+                ></b-form-input>
             </b-col>
         </b-row>
 
@@ -26,7 +30,11 @@
             </b-col>
 
             <b-col cols="10">
-                <b-form-input placeholder="height"></b-form-input>
+                <b-form-input
+                    placeholder="height"
+                    type="number"
+                    min="1"
+                ></b-form-input>
             </b-col>
         </b-row>
     </div>
