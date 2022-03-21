@@ -4,10 +4,12 @@
             <div>Form Builder</div>
         </header>
 
-        <div class="center">
+        <div class="home">
+            <div class="left"></div>
 
-            <div class="header">
-                <div class="float-right">
+            <div class="center">
+
+                <div class="generate-control">
                     <b-button
                         class="mr-2"
                         size="sm"
@@ -32,78 +34,77 @@
                         清空
                     </b-button>
                 </div>
+
+                <div class="generate">
+                    <draggable
+                        class="generate--container"
+                        :list="drawingList"
+                        :animation="340"
+                        :group="{ name: 'formBuilderGroup' }"
+                    >
+                        <div v-for="element in drawingList">
+                            <template v-if="element.type === 'divider'">
+                                <FormBuilderDivider />
+                            </template>
+
+                            <template v-else-if="element.type === 'image'">
+                                <FormBuilderImage />
+                            </template>
+
+                            <template v-else-if="element.type === 'input'">
+                                <FormBuilderInput />
+                            </template>
+
+                            <template v-else-if="element.type === 'text'">
+                                <FormBuilderText />
+                            </template>
+
+                            <template v-else-if="element.type === 'textarea'">
+                                <FormBuilderTextarea />
+                            </template>
+                        </div>
+                    </draggable>
+                </div>
+
             </div>
 
-            <div class="generate">
-                <draggable
-                    class="generate--container"
-                    :list="drawingList"
-                    :animation="340"
-                    :group="{ name: 'formBuilderGroup' }"
-                >
-                    <div v-for="element in drawingList">
-                        <template v-if="element.type === 'divider'">
-                            <FormBuilderDivider />
-                        </template>
-
-                        <template v-else-if="element.type === 'image'">
-                            <FormBuilderImage />
-                        </template>
-
-                        <template v-else-if="element.type === 'input'">
-                            <FormBuilderInput />
-                        </template>
-
-                        <template v-else-if="element.type === 'text'">
-                            <FormBuilderText />
-                        </template>
-
-                        <template v-else-if="element.type === 'textarea'">
-                            <FormBuilderTextarea />
-                        </template>
-                    </div>
-                </draggable>
-            </div>
-
-        </div>
-
-        <div class="right">
-            <b-tabs fill>
-                <b-tab
-                    title="選擇元件"
-                    active
-                >
-                    <div class="form-builder">
-                        <div class="compform-builderonents--list">
-                            <div
-                                v-for="(listItem, listIndex) in formBuilderElementList"
-                                :key="listIndex"
-                            >
-                                <div class="form-builder--title">
-                                    <i :class="listItem.icon"></i> {{ listItem.label }}
-                                </div>
-
-                                <draggable
-                                    class="form-builder--draggable"
-                                    :list="listItem.children"
-                                    :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
-                                    :sort="false"
-                                    draggable=".form-builder--list__item"
+            <div class="right">
+                <b-tabs fill>
+                    <b-tab
+                        title="選擇元件"
+                        active
+                    >
+                        <div class="form-builder">
+                            <div class="compform-builderonents--list">
+                                <div
+                                    v-for="(listItem, listIndex) in formBuilderElementList"
+                                    :key="listIndex"
                                 >
-                                    <div
-                                        v-for="(item, index) in listItem.children"
-                                        :key="index"
-                                        class="form-builder--list__item"
-                                        @click="addComponent(item)"
-                                    >
-                                        <div class="form-builder--body">
-                                            <i :class="item.icon"></i> {{ item.label }}
-                                        </div>
+                                    <div class="form-builder--title">
+                                        <i :class="listItem.icon"></i> {{ listItem.label }}
                                     </div>
-                                </draggable>
+
+                                    <draggable
+                                        class="form-builder--draggable"
+                                        :list="listItem.children"
+                                        :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
+                                        :sort="false"
+                                        draggable=".form-builder--list__item"
+                                    >
+                                        <div
+                                            v-for="(item, index) in listItem.children"
+                                            :key="index"
+                                            class="form-builder--list__item"
+                                            @click="addComponent(item)"
+                                        >
+                                            <div class="form-builder--body">
+                                                <i :class="item.icon"></i> {{ item.label }}
+                                            </div>
+                                        </div>
+                                    </draggable>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
                 </b-tab>
 
@@ -205,7 +206,4 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
-::v-deep .nav-tabs {
-    margin-top: -3px;
-}
 </style>
