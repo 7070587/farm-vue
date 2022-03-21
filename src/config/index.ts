@@ -1,2 +1,2 @@
-export * from './component';
+export * from './form-builder';
 export * from './path';

@@ -1,59 +1,53 @@
-import { ModelsConfigComponent } from './models';
+import { ElementType } from '@/components/form-builders/elements';
 
-export * from './models';
+import * as Model from './models';
+
+export { Model };
 
 /**
  *
  */
-export const ComponentList: ModelsConfigComponent.IComponentList[] = [
+export const FormBuilderElements: Model.IFormBuilderElement[] = [
     {
         label: '顯示元件',
-        tag: 'label',
         icon: 'fas fa-puzzle-piece ',
         children: [
             {
                 label: 'text',
-                tag: 'div',
-                type: 'text',
                 icon: 'fas fa-font',
+                type: ElementType.text,
             },
             {
                 label: 'image',
-                tag: 'img',
-                type: 'image',
                 icon: 'fas fa-image',
+                type: ElementType.image,
             },
         ],
     },
     {
         label: '輸入元件',
-        tag: 'label',
         icon: 'fas fa-puzzle-piece ',
         children: [
             {
                 label: 'input',
-                tag: 'b-input',
-                type: 'text',
                 icon: 'fas fa-edit',
+                type: ElementType.input,
             },
             {
                 label: 'textarea',
-                tag: 'b-textarea',
-                type: 'textarea',
                 icon: 'fas fa-newspaper',
+                type: ElementType.textarea,
             },
         ],
     },
     {
         label: '布局元件',
-        tag: 'div',
         icon: 'fas fa-puzzle-piece ',
         children: [
             {
                 label: 'divider',
-                tag: 'div',
-                type: 'divider',
                 icon: 'fas fa-grip-lines',
+                type: ElementType.divider,
             },
         ],
     },

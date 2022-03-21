@@ -34,8 +34,6 @@
                 </div>
             </div>
 
-            <ComponentDivider />
-
             <div class="generate">
                 <draggable
                     class="generate--container"
@@ -49,7 +47,25 @@
                         v-for="element in drawingList"
                         class="components--body"
                     >
-                        <i :class="element.icon"></i> {{ element.label }}
+                        <template v-if="element.type === 'divider'">
+                            <FormBuilderDivider />
+                        </template>
+
+                        <template v-else-if="element.type === 'image'">
+                            <FormBuilderImage />
+                        </template>
+
+                        <template v-else-if="element.type === 'input'">
+                            <FormBuilderInput />
+                        </template>
+
+                        <template v-else-if="element.type === 'text'">
+                            <FormBuilderText />
+                        </template>
+
+                        <template v-else-if="element.type === 'textarea'">
+                            <FormBuilderTextarea />
+                        </template>
                     </div>
                 </draggable>
             </div>
@@ -66,7 +82,7 @@
                     <div class="components">
                         <div class="components--list">
                             <div
-                                v-for="(listItem, listIndex) in componentList"
+                                v-for="(listItem, listIndex) in formBuilderElementList"
                                 :key="listIndex"
                             >
                                 <div class="components--title">
@@ -100,7 +116,6 @@
                 </b-tab>
 
                 <b-tab title="元件屬性">
-                    <ComponentDividerSetting />
                 </b-tab>
 
             </b-tabs>
@@ -121,8 +136,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { ComponentList, ModelsConfigComponent as Model } from '@/config';
-
+import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
@@ -132,8 +146,7 @@ import { ComponentList, ModelsConfigComponent as Model } from '@/config';
 //#endregion
 
 //#region Components Src
-import ComponentDivider from '@/components/form-builders/elements/divider/divider.vue';
-import ComponentDividerSetting from '@/components/form-builders/elements/divider/divider-setting.vue';
+import FormBuilderElement from '@/components/form-builders/elements';
 //#endregion
 
 //#region Components Views
@@ -145,8 +158,7 @@ import draggable from 'vuedraggable';
 @Component({
     components: {
         draggable,
-        ComponentDivider,
-        ComponentDividerSetting,
+        ...FormBuilderElement,
     },
 })
 export default class VuePageClass extends Vue {
@@ -154,9 +166,9 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Variables
-    private componentList: Model.IComponentList[] = [];
+    private formBuilderElementList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private drawingList: Model.IComponentList[] = [];
+    private drawingList: FormBuilderModel.IFormBuilderElement[] = [];
     //#endregion
 
     //#region Computed
@@ -178,13 +190,13 @@ export default class VuePageClass extends Vue {
 
     //#region Init
     private initData(): void {
-        this.componentList = ComponentList;
+        this.formBuilderElementList = FormBuilderElements;
     }
     //#endregion
 
     //#region View Event
     //#region right
-    private addComponent(item: Model.IComponentList): void {
+    private addComponent(item: FormBuilderModel.IFormBuilderElement): void {
         this.drawingList.push(item);
     }
 
@@ -201,6 +213,7 @@ export default class VuePageClass extends Vue {
     private drawingDragStart(dragItem: any): void {
         console.log(`drawingDragStart => `, dragItem);
     }
+
     private drawingDragEnd(dragItem: any): void {
         console.log(`drawingDragEnd => `, dragItem);
     }
