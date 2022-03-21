@@ -1,6 +1,6 @@
 .generate {
-    height: calc(100% - 42px);
-    padding: 0.5rem;
+    height: calc(100vh - 42px);
+    overflow-y: auto;
 
     &--container {
         height: 100%;

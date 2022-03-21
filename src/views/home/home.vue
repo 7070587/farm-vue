@@ -205,4 +205,7 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
+::v-deep .nav-tabs {
+    margin-top: -3px;
+}
 </style>
