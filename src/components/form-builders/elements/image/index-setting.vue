@@ -1,44 +1,45 @@
 <template>
     <div>
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> upload </div>
-            </b-col>
+        <div class="setting--row">
+            <div class="setting--row__lable"> label </div>
 
-            <b-col cols="10">
-                <b-form-file placeholder="upload image"></b-form-file>
-            </b-col>
-        </b-row>
-
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> width </div>
-            </b-col>
-
-            <b-col cols="10">
-                <b-form-input
-                    placeholder="width"
-                    type="number"
-                    min="1"
-                ></b-form-input>
-            </b-col>
-        </b-row>
+            <b-form-input
+                size="sm"
+                placeholder="label"
+            ></b-form-input>
+        </div>
 
         <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> height </div>
-            </b-col>
+            <div class="setting--row__lable"> upload </div>
 
-            <b-col cols="10">
-                <b-form-input
-                    placeholder="height"
-                    type="number"
-                    min="1"
-                ></b-form-input>
-            </b-col>
+            <b-form-file
+                size="sm"
+                placeholder="upload image"
+            ></b-form-file>
         </b-row>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> width </div>
+
+            <b-form-input
+                size="sm"
+                type="number"
+                placeholder="width"
+                min="1"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> height </div>
+
+            <b-form-input
+                size="sm"
+                type="number"
+                placeholder="height"
+                min="1"
+            ></b-form-input>
+        </div>
     </div>
-
 </template>
 
 <script lang="ts">

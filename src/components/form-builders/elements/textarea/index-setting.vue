@@ -1,39 +1,32 @@
 <template>
     <div>
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> label </div>
-            </b-col>
+        <div class="setting--row">
+            <div class="setting--row__lable"> label </div>
 
-            <b-col cols="10">
-                <b-form-input placeholder="label"></b-form-input>
-            </b-col>
-        </b-row>
+            <b-form-input
+                size="sm"
+                placeholder="label"
+            ></b-form-input>
+        </div>
 
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> place holder </div>
-            </b-col>
+        <div class="setting--row">
+            <div class="setting--row__lable"> placeholder </div>
 
-            <b-col cols="10">
-                <b-form-input placeholder="placeholder"></b-form-input>
-            </b-col>
-        </b-row>
+            <b-form-input
+                size="sm"
+                placeholder="placeholder"
+            ></b-form-input>
+        </div>
 
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> value </div>
-            </b-col>
+        <div class="setting--row">
+            <div class="setting--row__lable"> value </div>
 
-            <b-col cols="10">
-                <b-form-textarea
-                    placeholder="value"
-                    rows="4"
-                ></b-form-textarea>
-            </b-col>
-        </b-row>
+            <b-form-textarea
+                size="sm"
+                placeholder="value"
+            ></b-form-textarea>
+        </div>
     </div>
-
 </template>
 
 <script lang="ts">

@@ -1,5 +1,9 @@
 .setting {
     &--row {
-        padding: 1rem 1rem 1rem 2rem;
+        margin: 1rem;
+
+        &__lable {
+            margin-bottom: 0.5rem;
+        }
     }
 }

@@ -1,31 +1,25 @@
 <template>
     <div>
+        <div class="setting--row">
+            <div class="setting--row__lable"> value </div>
 
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> value </div>
-            </b-col>
+            <b-form-input
+                size="sm"
+                placeholder="value"
+            ></b-form-input>
+        </div>
 
-            <b-col cols="10">
-                <b-form-input placeholder="value"></b-form-input>
-            </b-col>
-        </b-row>
+        <div class="setting--row">
+            <div class="setting--row__lable"> font size </div>
 
-        <b-row class="setting--row">
-            <b-col cols="2">
-                <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> font size </div>
-            </b-col>
-
-            <b-col cols="10">
-                <b-form-input
-                    placeholder="font size"
-                    type="number"
-                    min="1"
-                ></b-form-input>
-            </b-col>
-        </b-row>
+            <b-form-input
+                size="sm"
+                type="number"
+                placeholder="font size"
+                min="1"
+            ></b-form-input>
+        </div>
     </div>
-
 </template>
 
 <script lang="ts">
