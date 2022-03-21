@@ -39,14 +39,11 @@
                     class="generate--container"
                     :list="drawingList"
                     :animation="340"
-                    :group="{ name: 'componentsGroup' }"
+                    :group="{ name: 'formBuilderGroup' }"
                     @start="drawingDragStart"
                     @end="drawingDragEnd"
                 >
-                    <div
-                        v-for="element in drawingList"
-                        class="components--body"
-                    >
+                    <div v-for="element in drawingList">
                         <template v-if="element.type === 'divider'">
                             <FormBuilderDivider />
                         </template>
@@ -78,33 +75,32 @@
                     title="選擇元件"
                     active
                 >
-
-                    <div class="components">
-                        <div class="components--list">
+                    <div class="form-builder">
+                        <div class="compform-builderonents--list">
                             <div
                                 v-for="(listItem, listIndex) in formBuilderElementList"
                                 :key="listIndex"
                             >
-                                <div class="components--title">
+                                <div class="form-builder--title">
                                     <i :class="listItem.icon"></i> {{ listItem.label }}
                                 </div>
 
                                 <draggable
-                                    class="components--draggable"
+                                    class="form-builder--draggable"
                                     :list="listItem.children"
-                                    :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
+                                    :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
                                     :sort="false"
-                                    draggable=".components--list__item"
+                                    draggable=".form-builder--list__item"
                                     @start="dragcomponentStart"
                                     @end="dragcomponentEnd"
                                 >
                                     <div
                                         v-for="(element, index) in listItem.children"
                                         :key="index"
-                                        class="components--list__item"
+                                        class="form-builder--list__item"
                                         @click="addComponent(element)"
                                     >
-                                        <div class="components--body">
+                                        <div class="form-builder--body">
                                             <i :class="element.icon"></i> {{ element.label }}
                                         </div>
                                     </div>
