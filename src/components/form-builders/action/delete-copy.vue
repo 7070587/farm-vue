@@ -49,11 +49,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 })
 export default class DeleteCopy extends Vue {
     //#region Prop
-    @Prop({
-        type: Boolean, // Boolean, Number, String, Array, Object
-        default: () => false,
-    })
-    private isActived: boolean;
     //#endregion
 
     //#region Variables
