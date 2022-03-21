@@ -4,7 +4,7 @@
         :class="{ 'generate--row__selected': isActived }"
     >
 
-        <b-col cols="10">
+        <b-col cols="12">
             <DeleteCopy />
             <div class="divider">
                 <div class="divider-text">
@@ -92,7 +92,7 @@ export default class ComponentDivider extends Vue {
     background-color: transparent;
     position: relative;
     display: block;
-    width: 120.5%;
+    width: 100%;
     height: 0;
     margin: 24px 0;
     border: 0;
