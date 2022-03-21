@@ -34,13 +34,13 @@
                 </div>
             </div>
 
-            <div class="m-3">
+            <div class="generate">
 
                 <draggable
-                    class="generate-board"
+                    class="generate--container"
                     :list="drawingList"
                     :animation="340"
-                    group="componentsGroup"
+                    :group="{ name: 'componentsGroup' }"
                     @start="drawingDragStart"
                     @end="drawingDragEnd"
                 >
@@ -76,9 +76,9 @@
                                     class="components--draggable"
                                     :list="listItem.children"
                                     :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
-                                    :clone="cloneComponent"
                                     :sort="false"
                                     draggable=".components--list__item"
+                                    @start="dragcomponentStart"
                                     @end="dragcomponentEnd"
                                 >
                                     <div
@@ -127,14 +127,6 @@ import { ComponentList, ModelsConfigComponent as Model } from '@/config';
 //#endregion
 
 //#region Components
-import ComponentText from '@/components/form-builders/elements/text/text.vue';
-
-import ComponentInput from '@/components/form-builders/elements/input/input.vue';
-import ComponentTextarea from '@/components/form-builders/elements/textarea/textarea.vue';
-
-import ComponentTextSetting from '@/components/form-builders/elements/text/text-setting.vue';
-import ComponentInputSetting from '@/components/form-builders/elements/input/input-setting.vue';
-import ComponentTextareaSetting from '@/components/form-builders/elements/textarea/textarea-setting.vue';
 //#endregion
 
 //#region Components Src
@@ -149,12 +141,6 @@ import draggable from 'vuedraggable';
 @Component({
     components: {
         draggable,
-        ComponentText,
-        ComponentInput,
-        ComponentTextarea,
-        ComponentInputSetting,
-        ComponentTextareaSetting,
-        ComponentTextSetting,
     },
 })
 export default class VuePageClass extends Vue {
@@ -193,161 +179,34 @@ export default class VuePageClass extends Vue {
     //#region View Event
     //#region right
     private addComponent(item: Model.IComponentList): void {
-        const clone = this.deepClone(item);
-        this.drawingList.push(clone);
+        this.drawingList.push(item);
     }
 
-    private cloneComponent(originItem: Model.IComponentList): Model.IComponentList {
-        const clone = this.deepClone(originItem);
-        this.drawingList.push(clone);
-
-        return clone;
+    private dragcomponentStart(dragItem: any): void {
+        console.log(`dragcomponentStart => `, dragItem);
     }
 
-    private dragcomponentEnd(dragItem: any): void {}
+    private dragcomponentEnd(dragItem: any): void {
+        console.log(`dragcomponentEnd => `, dragItem);
+    }
     //#endregion
 
     //#region center
-    private drawingDragStart(): void {
-        console.log(`drawingDragStart => `);
+    private drawingDragStart(dragItem: any): void {
+        console.log(`drawingDragStart => `, dragItem);
     }
-    private drawingDragEnd(): void {
-        console.log(`drawingDragEnd => `);
+    private drawingDragEnd(dragItem: any): void {
+        console.log(`drawingDragEnd => `, dragItem);
     }
     //#endregion
 
     //#endregion
 
     //#region Other Function
-    private deepClone(obj: any): any {
-        const _toString = Object.prototype.toString;
-
-        // null, undefined, non-object, function
-        if (!obj || typeof obj !== 'object') {
-            return obj;
-        }
-
-        // DOM Node
-        if (obj.nodeType && 'cloneNode' in obj) {
-            return obj.cloneNode(true);
-        }
-
-        // Date
-        if (_toString.call(obj) === '[object Date]') {
-            return new Date(obj.getTime());
-        }
-
-        // RegExp
-        if (_toString.call(obj) === '[object RegExp]') {
-            const flags = [];
-            if (obj.global) {
-                flags.push('g');
-            }
-            if (obj.multiline) {
-                flags.push('m');
-            }
-            if (obj.ignoreCase) {
-                flags.push('i');
-            }
-
-            return new RegExp(obj.source, flags.join(''));
-        }
-
-        const result = Array.isArray(obj) ? [] : obj.constructor ? new obj.constructor() : {};
-
-        for (const key in obj) {
-            result[key] = this.deepClone(obj[key]);
-        }
-
-        return result;
-    }
 
     //#endregion
 }
 </script>
 
 <style scoped lang="scss">
-$selected-color: #f6f7ff;
-$border-color: #f1e8e8;
-
-.flex {
-    display: flex;
-}
-.left {
-    width: 280px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100vh;
-}
-
-.center {
-    height: 100vh;
-    margin: 0 350px 0 260px;
-    box-sizing: border-box;
-    border-left: 1px solid $border-color;
-    border-right: 1px solid $border-color;
-}
-
-.right {
-    width: 350px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding-top: 3px;
-}
-
-.header {
-    height: 42px;
-    line-height: 42px;
-    border-bottom: 1px solid $border-color;
-
-    div {
-        margin-left: 2rem;
-        font-size: 1rem;
-        font-weight: bold;
-    }
-}
-
-.components {
-    &--list {
-        padding: 8px;
-        box-sizing: border-box;
-        height: 100%;
-
-        &__item {
-            display: inline-block;
-            width: 48%;
-            margin: 1%;
-            transition: transform 0ms !important;
-        }
-    }
-
-    &--draggable {
-        padding-bottom: 20px;
-    }
-
-    &--title {
-        font-size: 14px;
-        color: #222;
-        margin: 6px 2px;
-    }
-
-    &--body {
-        padding: 8px 10px;
-        background: $selected-color;
-        font-size: 12px;
-        cursor: move;
-        border: 1px dashed $selected-color;
-        border-radius: 3px;
-        .svg-icon {
-            color: #777;
-            font-size: 15px;
-        }
-        &:hover {
-            border: 1px dashed #787be8;
-            color: #787be8;
-        }
-    }
-}
 </style>
