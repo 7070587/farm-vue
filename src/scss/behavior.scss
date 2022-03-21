@@ -1,0 +1,20 @@
+.behavior {
+    height: $behavior-height;
+    line-height: $behavior-height;
+    border-bottom: 1px solid $border-color;
+
+    display: flex;
+    justify-content: end;
+    padding-right: 0.75rem;
+
+    &--item {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        cursor: pointer;
+        color: $lighter-blue-color;
+
+        &:hover {
+            color: #0056b3;
+        }
+    }
+}
