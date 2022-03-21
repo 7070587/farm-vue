@@ -1,0 +1,24 @@
+.generate {
+    height: calc(100% - 42px);
+    padding: 0.5rem;
+
+    &--container {
+        height: 100%;
+    }
+
+    &--row {
+        padding: 1rem;
+        margin: 1.15rem;
+        border-radius: 4px;
+        border: 1px dashed #ccc;
+
+        &__selected {
+            border: none;
+            background-color: $selected-color;
+        }
+
+        &:hover {
+            background-color: $selected-color;
+        }
+    }
+}

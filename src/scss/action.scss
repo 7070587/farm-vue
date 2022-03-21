@@ -1,0 +1,47 @@
+.action-item {
+    &:hover {
+        & > .action-item-copy,
+        & > .action-item-delete {
+            display: initial;
+        }
+    }
+
+    & > .action-item-copy,
+    & > .action-item-delete {
+        position: absolute;
+        top: -30px;
+        width: 24px;
+        height: 24px;
+        line-height: 22px;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 12px;
+        border: 1px solid;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    & > .action-item-copy {
+        right: 50px;
+        border-color: $lighter-blue-color;
+        color: $lighter-blue-color;
+        background: #fff;
+
+        &:hover {
+            background: $lighter-blue-color;
+            color: #fff;
+        }
+    }
+
+    & > .action-item-delete {
+        right: 18px;
+        border-color: $lighter-red-color;
+        color: $lighter-red-color;
+        background: #fff;
+
+        &:hover {
+            background: $lighter-red-color;
+            color: #fff;
+        }
+    }
+}
