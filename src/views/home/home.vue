@@ -40,8 +40,6 @@
                     :list="drawingList"
                     :animation="340"
                     :group="{ name: 'componentsGroup' }"
-                    @start="drawingDragStart"
-                    @end="drawingDragEnd"
                 >
                     <div
                         v-for="element in drawingList"
@@ -95,8 +93,6 @@
                                     :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
                                     :sort="false"
                                     draggable=".components--list__item"
-                                    @start="dragcomponentStart"
-                                    @end="dragcomponentEnd"
                                 >
                                     <div
                                         v-for="(element, index) in listItem.children"
@@ -199,24 +195,9 @@ export default class VuePageClass extends Vue {
     private addComponent(item: FormBuilderModel.IFormBuilderElement): void {
         this.drawingList.push(item);
     }
-
-    private dragcomponentStart(dragItem: any): void {
-        console.log(`dragcomponentStart => `, dragItem);
-    }
-
-    private dragcomponentEnd(dragItem: any): void {
-        console.log(`dragcomponentEnd => `, dragItem);
-    }
     //#endregion
 
     //#region center
-    private drawingDragStart(dragItem: any): void {
-        console.log(`drawingDragStart => `, dragItem);
-    }
-
-    private drawingDragEnd(dragItem: any): void {
-        console.log(`drawingDragEnd => `, dragItem);
-    }
     //#endregion
 
     //#endregion
