@@ -34,8 +34,9 @@
                 </div>
             </div>
 
-            <div class="generate">
+            <ComponentDivider />
 
+            <div class="generate">
                 <draggable
                     class="generate--container"
                     :list="drawingList"
@@ -99,6 +100,7 @@
                 </b-tab>
 
                 <b-tab title="元件屬性">
+                    <ComponentDividerSetting />
                 </b-tab>
 
             </b-tabs>
@@ -130,6 +132,8 @@ import { ComponentList, ModelsConfigComponent as Model } from '@/config';
 //#endregion
 
 //#region Components Src
+import ComponentDivider from '@/components/form-builders/elements/divider/divider.vue';
+import ComponentDividerSetting from '@/components/form-builders/elements/divider/divider-setting.vue';
 //#endregion
 
 //#region Components Views
@@ -141,6 +145,8 @@ import draggable from 'vuedraggable';
 @Component({
     components: {
         draggable,
+        ComponentDivider,
+        ComponentDividerSetting,
     },
 })
 export default class VuePageClass extends Vue {
