@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="left header">
+        <header>
             <div>Form Builder</div>
-        </div>
+        </header>
 
         <div class="center">
 
