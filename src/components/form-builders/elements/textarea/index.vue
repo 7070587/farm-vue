@@ -1,8 +1,5 @@
 <template>
-    <b-row
-        class="generate--row"
-        :class="{ 'generate--row__selected': isActived }"
-    >
+    <b-row>
         <b-col cols="2">
             <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> textarea </div>
         </b-col>

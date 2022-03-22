@@ -1,8 +1,5 @@
 <template>
-    <b-row
-        class="generate--row"
-        :class="{ 'generate--row__selected': isActived }"
-    >
+    <b-row>
 
         <b-col cols="12">
             <DeleteCopy />

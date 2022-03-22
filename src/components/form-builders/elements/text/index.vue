@@ -1,8 +1,5 @@
 <template>
-    <b-row
-        class="generate--row"
-        :class="{ 'generate--row__selected': isActived }"
-    >
+    <b-row>
         <b-col cols="2">
             <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> text </div>
         </b-col>
@@ -50,7 +47,7 @@ export default class ComponentText extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
-        default: () => true,
+        default: () => false,
     })
     private isActived: boolean;
     //#endregion
