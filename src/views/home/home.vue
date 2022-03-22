@@ -22,7 +22,7 @@
                         :list="generateList"
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
-                        @choose="dragChooseDrawingItem"
+                        @choose="selectItem"
                     >
 
                         <div
@@ -133,8 +133,9 @@ export default class VuePageClass extends Vue {
 
     //#region View Event
     //#region drag
-    private dragChooseDrawingItem(item: any): void {
+    private selectItem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
+        this.activeId = this.activeData.id;
     }
 
     private isActived(elementId: string, activeId: string): boolean {
