@@ -24,10 +24,10 @@
                         :group="{ name: 'formBuilderGroup' }"
                         @choose="dragChooseDrawingItem"
                     >
+
                         <div
                             v-for="element in generateList"
-                            class="generate--row"
-                            :class="{ 'generate--row__selected': element.isActived }"
+                            :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
                             <template v-if="element.type === 'divider'">
                                 <FormBuilderDivider />
@@ -55,7 +55,10 @@
             </div>
 
             <div class="right">
-                <FormBuilderList @generateList="generateListData" />
+                <FormBuilderList
+                    :_generateList="generateList"
+                    @generateList="generateListData"
+                />
             </div>
         </div>
 
@@ -75,7 +78,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
+import { Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
@@ -85,7 +88,6 @@ import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Components Src
-import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 import FormBuilderList from './form-builder-list.vue';
 import FormBuilderElement from '@/components/form-builders/elements';
 //#endregion
@@ -99,7 +101,6 @@ import draggable from 'vuedraggable';
 @Component({
     components: {
         draggable,
-        DeleteCopy,
         FormBuilderList,
         ...FormBuilderElement,
     },
@@ -131,17 +132,25 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region View Event
-    //#region center
+    //#region drag
     private dragChooseDrawingItem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
     }
 
-    // private isActived(): boolean {
-    //     console.log(`isActived => `, this.activeData?.id, this.activeId);
-    //     return this.activeId === this.activeData?.id;
-    // }
+    private isActived(elementId: string, activeId: string): boolean {
+        return elementId === activeId;
+    }
 
-    private generateListData(generateList: FormBuilderModel.IFormBuilderElement): void {}
+    private generateListData(generateList: FormBuilderModel.IFormBuilderElement[], activeId: string): void {
+        this.generateList = generateList;
+        this.activeId = activeId;
+    }
+    //#endregion
+
+    //#region behavior
+    private behaviorClear(): void {
+        this.generateList = [];
+    }
     //#endregion
     //#endregion
 
