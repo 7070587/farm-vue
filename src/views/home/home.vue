@@ -19,11 +19,16 @@
                 <div class="generate">
                     <draggable
                         class="generate--container"
-                        :list="drawingList"
+                        :list="generateList"
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
+                        @choose="dragChooseDrawingItem"
                     >
-                        <div v-for="element in drawingList">
+                        <div
+                            v-for="element in generateList"
+                            class="generate--row"
+                            :class="{ 'generate--row__selected': element.isActived }"
+                        >
                             <template v-if="element.type === 'divider'">
                                 <FormBuilderDivider />
                             </template>
@@ -50,51 +55,10 @@
             </div>
 
             <div class="right">
-                <b-tabs fill>
-                    <b-tab
-                        title="選擇元件"
-                        active
-                    >
-                        <div class="form-builder">
-                            <div class="compform-builderonents--list">
-                                <div
-                                    v-for="(listItem, listIndex) in formBuilderElementList"
-                                    :key="listIndex"
-                                >
-                                    <div class="form-builder--title">
-                                        <i :class="listItem.icon"></i> {{ listItem.label }}
-                                    </div>
-
-                                    <draggable
-                                        class="form-builder--draggable"
-                                        :list="listItem.children"
-                                        :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
-                                        :sort="false"
-                                        draggable=".form-builder--list__item"
-                                        @end="dragEndFormBuilder"
-                                    >
-                                        <div
-                                            v-for="(item, index) in listItem.children"
-                                            :key="index"
-                                            class="form-builder--list__item"
-                                            @click="addFormBuilder(item)"
-                                        >
-                                            <div class="form-builder--body">
-                                                <i :class="item.icon"></i> {{ item.label }}
-                                            </div>
-                                        </div>
-                                    </draggable>
-                                </div>
-                            </div>
-                        </div>
-
-                </b-tab>
-
-                <b-tab title="元件屬性">
-                </b-tab>
-
-            </b-tabs>
+                <FormBuilderList @generateList="generateListData" />
+            </div>
         </div>
+
     </div>
 </template>
 
@@ -121,6 +85,8 @@ import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Components Src
+import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
+import FormBuilderList from './form-builder-list.vue';
 import FormBuilderElement from '@/components/form-builders/elements';
 //#endregion
 
@@ -133,6 +99,8 @@ import draggable from 'vuedraggable';
 @Component({
     components: {
         draggable,
+        DeleteCopy,
+        FormBuilderList,
         ...FormBuilderElement,
     },
 })
@@ -143,8 +111,8 @@ export default class VuePageClass extends Vue {
     //#region Variables
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
-
-    private dragId: number = 100;
+    private activeData: FormBuilderModel.IFormBuilderElement = undefined;
+    private activeId: string = '';
     //#endregion
 
     //#region Computed
@@ -156,44 +124,28 @@ export default class VuePageClass extends Vue {
     //#region Vue Life
     private async beforeCreate(): Promise<void> {}
     private async created(): Promise<void> {}
-    private async beforeMount(): Promise<void> {
-        this.initData();
-    }
+    private async beforeMount(): Promise<void> {}
     private async mounted(): Promise<void> {}
     private async beforeDestroy(): Promise<void> {}
     private async destroyed(): Promise<void> {}
     //#endregion
 
-    //#region Init
-    private initData(): void {
-        this.formBuilderElementList = FormBuilderElements;
-    }
-    //#endregion
-
     //#region View Event
-    //#region right
-    private addFormBuilder(item: FormBuilderModel.IFormBuilderElementChildren): void {
-        this.dragId++;
-        item.id = `dragId${this.dragId}`;
-        this.drawingList.push(item);
-    }
-    private dragEndFormBuilder(): void {
-        this.dragId++;
-        this.drawingList.forEach((element) => {
-            if (!element.id) {
-                element.id = `dragId${this.dragId}`;
-            }
-        });
-    }
-    //#endregion
-
     //#region center
-    //#endregion
+    private dragChooseDrawingItem(item: any): void {
+        this.activeData = this.generateList[item.oldDraggableIndex];
+    }
 
+    // private isActived(): boolean {
+    //     console.log(`isActived => `, this.activeData?.id, this.activeId);
+    //     return this.activeId === this.activeData?.id;
+    // }
+
+    private generateListData(generateList: FormBuilderModel.IFormBuilderElement): void {}
+    //#endregion
     //#endregion
 
     //#region Other Function
-
     //#endregion
 }
 </script>
