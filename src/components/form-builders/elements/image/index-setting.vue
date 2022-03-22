@@ -64,7 +64,6 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Src
-import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
@@ -72,7 +71,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 @Component({
-    components: { DeleteCopy },
+    components: {},
 })
 export default class ComponentImageSetting extends Vue {
     //#region Prop
