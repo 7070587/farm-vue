@@ -71,12 +71,13 @@
                                         :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
                                         :sort="false"
                                         draggable=".form-builder--list__item"
+                                        @end="dragEndFormBuilder"
                                     >
                                         <div
                                             v-for="(item, index) in listItem.children"
                                             :key="index"
                                             class="form-builder--list__item"
-                                            @click="addComponent(item)"
+                                            @click="addFormBuilder(item)"
                                         >
                                             <div class="form-builder--body">
                                                 <i :class="item.icon"></i> {{ item.label }}
@@ -142,7 +143,9 @@ export default class VuePageClass extends Vue {
     //#region Variables
     private formBuilderElementList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private drawingList: FormBuilderModel.IFormBuilderElement[] = [];
+    private drawingList: FormBuilderModel.IFormBuilderElementChildren[] = [];
+
+    private dragId: number = 100;
     //#endregion
 
     //#region Computed
@@ -170,8 +173,18 @@ export default class VuePageClass extends Vue {
 
     //#region View Event
     //#region right
-    private addComponent(item: FormBuilderModel.IFormBuilderElement): void {
+    private addFormBuilder(item: FormBuilderModel.IFormBuilderElementChildren): void {
+        this.dragId++;
+        item.id = `dragId${this.dragId}`;
         this.drawingList.push(item);
+    }
+    private dragEndFormBuilder(): void {
+        this.dragId++;
+        this.drawingList.forEach((element) => {
+            if (!element.id) {
+                element.id = `dragId${this.dragId}`;
+            }
+        });
     }
     //#endregion
 
