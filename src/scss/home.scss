@@ -26,7 +26,6 @@ header {
         box-sizing: border-box;
         border-left: 1px solid $border-color;
         border-right: 1px solid $border-color;
-        overflow-y: auto;
     }
 
     .right {
@@ -34,4 +33,29 @@ header {
         height: 100%;
         overflow-y: auto;
     }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 0.6rem;
+}
+
+::-webkit-scrollbar {
+    height: 0.6rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 0.6rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 0.6rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #ddd;
 }
