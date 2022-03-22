@@ -1,11 +1,12 @@
 import { ElementType } from '@/components/form-builders/elements';
 
-export interface IFormBuilderElement {
+export interface IFormBuilder {
     label: string;
     icon: string;
-    children?: IFormBuilderElementChildren[];
+    children?: IFormBuilderElement[];
 }
-export interface IFormBuilderElementChildren extends IFormBuilderElement {
+
+export interface IFormBuilderElement extends IFormBuilder {
     type: ElementType;
     id: string;
 }

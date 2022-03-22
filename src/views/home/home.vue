@@ -141,9 +141,8 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Variables
-    private formBuilderElementList: FormBuilderModel.IFormBuilderElement[] = [];
+    private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private drawingList: FormBuilderModel.IFormBuilderElementChildren[] = [];
 
     private dragId: number = 100;
     //#endregion

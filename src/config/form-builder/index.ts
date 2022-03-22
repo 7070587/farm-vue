@@ -7,7 +7,7 @@ export { Model };
 /**
  *
  */
-export const FormBuilderElements: Model.IFormBuilderElement[] = [
+export const FormBuilderElements: Model.IFormBuilder[] = [
     {
         label: '顯示元件',
         icon: 'fas fa-puzzle-piece ',
