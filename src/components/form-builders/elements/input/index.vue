@@ -46,11 +46,6 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 })
 export default class ComponentInput extends Vue {
     //#region Prop
-    @Prop({
-        type: Boolean, // Boolean, Number, String, Array, Object
-        default: () => false,
-    })
-    private isActived: boolean;
     //#endregion
 
     //#region Variables

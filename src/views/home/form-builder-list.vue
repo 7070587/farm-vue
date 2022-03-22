@@ -61,7 +61,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -98,6 +98,11 @@ import draggable from 'vuedraggable';
 })
 export default class FormBuilderList extends Vue {
     //#region Prop
+    @Prop({
+        type: Array, // Boolean, Number, String, Array, Object
+        default: () => [],
+    })
+    private _generateList: FormBuilderModel.IFormBuilderElement[];
     //#endregion
 
     //#region Variables
@@ -105,16 +110,21 @@ export default class FormBuilderList extends Vue {
 
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private activeData: FormBuilderModel.IFormBuilderElement = undefined;
     private activeId: string = '';
 
-    private defaultIdNum: number = 100;
     //#endregion
 
     //#region Computed
     //#endregion
 
     //#region Watch
+    @Watch('_generateList', { immediate: true, deep: true })
+    private _generateListChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]) {
+        this.generateList = JSON.parse(JSON.stringify(newVal));
+        if (newVal.length === 0) {
+            this.activeId = '';
+        }
+    }
     //#endregion
 
     //#region Vue Life
@@ -138,29 +148,23 @@ export default class FormBuilderList extends Vue {
     //#region right
     private addFormBuilder(item: FormBuilderModel.IFormBuilderElement): void {
         let clone: FormBuilderModel.IFormBuilderElement = JSON.parse(JSON.stringify(item));
-        console.log(`clone => `, clone);
-        this.defaultIdNum++;
-        clone.id = `dragId${this.defaultIdNum}`;
-        clone.isActived = true;
+        clone.id = `form_element_${new Date().getTime()}`;
         this.generateList.push(clone);
-        this.$emit('generateList', this.generateList);
+
+        this.activeId = clone.id;
+
+        this.$emit('generateList', this.generateList, this.activeId);
     }
 
     private dragEndFormBuilder(): void {
-        this.defaultIdNum++;
-        console.log(`defaultIdNum => `, this.defaultIdNum, this.generateList);
         this.generateList.forEach((element) => {
             if (!element.id) {
-                console.log(`element => `, element);
-                element.id = `dragId${this.defaultIdNum}`;
-                element.isActived = true;
+                element.id = `form_element_${new Date().getTime()}`;
                 this.activeId = element.id;
-                this.activeData = element;
-            } else {
-                element.isActived = false;
             }
         });
-        this.$emit('generateList', this.generateList);
+
+        this.$emit('generateList', this.generateList, this.activeId);
     }
     //#endregion
     //#endregion
