@@ -12,7 +12,7 @@
                             :key="listIndex"
                         >
                             <div class="form-builder--title">
-                                <i :class="listItem.icon"></i> {{ listItem.label }}
+                                <img :src="listItem.icon" /> {{ listItem.label }}
                             </div>
 
                             <draggable
@@ -30,7 +30,7 @@
                                     @click="addFormBuilder(item)"
                                 >
                                     <div class="form-builder--body">
-                                        <i :class="item.icon"></i> {{ item.label }}
+                                        <img :src="item.icon" /> {{ item.label }}
                                     </div>
                                 </div>
                             </draggable>
