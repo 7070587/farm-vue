@@ -10,10 +10,10 @@
             <div class="center">
 
                 <div class="behavior">
-                    <div class="behavior--item"> <i class="fas fa-upload"></i> 匯入JSON</div>
-                    <div class="behavior--item"> <i class="far fa-trash-alt"></i> 清空</div>
                     <div class="behavior--item"><i class="far fa-eye"></i> 預覽</div>
+                    <div class="behavior--item"> <i class="far fa-trash-alt"></i> 清空</div>
                     <div class="behavior--item"><i class="fas fa-download"></i> 下載JSON</div>
+                    <div class="behavior--item"> <i class="fas fa-upload"></i> 匯入JSON</div>
                 </div>
 
                 <div class="generate">
