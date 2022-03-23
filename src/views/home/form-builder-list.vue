@@ -1,61 +1,83 @@
 <template>
-    <div>
-        <b-tabs fill>
-            <b-tab
-                title="選擇元件"
-                active
-            >
-                <div class="form-builder">
-                    <div class="compform-builderonents--list">
-                        <div
-                            v-for="(listItem, listIndex) in formBuilderElementList"
-                            :key="listIndex"
-                        >
-                            <div class="form-builder--title">
-                                <img :src="listItem.icon" /> {{ listItem.label }}
-                            </div>
 
-                            <draggable
-                                class="form-builder--draggable"
-                                :list="listItem.children"
-                                :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
-                                :sort="false"
-                                draggable=".form-builder--list__item"
-                                @end="dragEndFormBuilder"
-                            >
-                                <div
-                                    v-for="(item, index) in listItem.children"
-                                    :key="index"
-                                    class="form-builder--list__item"
-                                    @click="addFormBuilder(item)"
-                                >
-                                    <div class="form-builder--body">
-                                        <img :src="item.icon" /> {{ item.label }}
-                                    </div>
-                                </div>
-                            </draggable>
-                        </div>
+    <div>
+        <!-- title -->
+        <div class="tab-title">
+            <div
+                class="tab-title--item"
+                :class="{'tab-title--item__active': tabComponent }"
+                @click='clickTab(eTab.component)'
+            >
+                選擇元件
+            </div>
+
+            <div
+                class="tab-title--item"
+                :class="{'tab-title--item__active': tabForm }"
+                @click='clickTab(eTab.form)'
+            >
+                元件屬性
+            </div>
+        </div>
+
+        <!-- component -->
+        <div
+            v-show="tabComponent"
+            class="form-builder"
+            v-for="(listItem, listIndex) in formBuilderElementList"
+            :key="listIndex"
+        >
+            <div class="form-builder--title">
+                <img :src="listItem.icon" /> {{ listItem.label }}
+            </div>
+
+            <draggable
+                class="form-builder--draggable"
+                :list="listItem.children"
+                :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
+                :sort="false"
+                draggable=".form-builder--list__item"
+                @end="dragEndFormBuilder"
+            >
+                <div
+                    v-for="(item, index) in listItem.children"
+                    :key="index"
+                    class="form-builder--list__item"
+                    @click="addFormBuilder(item)"
+                >
+                    <div class="form-builder--body">
+                        <img :src="item.icon" /> {{ item.label }}
                     </div>
                 </div>
+            </draggable>
+        </div>
 
-            </b-tab>
+        <!-- form -->
+        <div v-show="tabForm">
+            <template v-if="activeData && activeData.type === eElementType.text">
+                <FormBuilderTextSetting />
+            </template>
 
-            <b-tab title="元件屬性">
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
-                <FormBuilderTextareaSetting />
+            <template v-else-if="activeData && activeData.type === eElementType.image">
+                <FormBuilderImageSetting />
+            </template>
+
+            <template v-else-if="activeData && activeData.type === eElementType.input">
+                <FormBuilderInputSetting />
+            </template>
+
+            <template v-else-if="activeData && activeData.type === eElementType.textarea">
                 <FormBuilderTextareaSetting />
 
-            </b-tab>
+            </template>
 
-        </b-tabs>
+            <template v-else-if="activeData && activeData.type === eElementType.divider">
+                <FormBuilderDividerSetting />
+            </template>
+
+        </div>
     </div>
+
 </template>
 
 <script lang="ts">
@@ -72,9 +94,11 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 
 //#region Src
 import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
+import { EElementType } from '@/components/form-builders/elements';
 //#endregion
 
 //#region Views
+import { Model } from './models';
 //#endregion
 
 //#region Components
@@ -103,6 +127,19 @@ export default class FormBuilderList extends Vue {
         default: () => [],
     })
     private _generateList: FormBuilderModel.IFormBuilderElement[];
+
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => {},
+    })
+    private _activeData: FormBuilderModel.IFormBuilderElement;
+    //#endregion
+
+    @Prop({
+        type: String, // Boolean, Number, String, Array, Object
+        default: () => Model.ETab.component,
+    })
+    private _currentTab: Model.ETab;
     //#endregion
 
     //#region Variables
@@ -110,20 +147,44 @@ export default class FormBuilderList extends Vue {
 
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
+    private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
 
+    private currentTab: Model.ETab = Model.ETab.component;
+
+    private eTab = Model.ETab;
+    private eElementType = EElementType;
     //#endregion
 
     //#region Computed
+    private get tabComponent(): boolean {
+        return this.currentTab === Model.ETab.component;
+    }
+
+    private get tabForm(): boolean {
+        return this.currentTab === Model.ETab.form;
+    }
     //#endregion
 
     //#region Watch
     @Watch('_generateList', { immediate: true, deep: true })
-    private _generateListChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]) {
+    private _generateListChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]): void {
         this.generateList = JSON.parse(JSON.stringify(newVal));
         if (newVal.length === 0) {
             this.activeId = '';
+            this.currentTab = Model.ETab.component;
+            this.activeData = undefined;
         }
+    }
+
+    @Watch('_activeData', { immediate: true, deep: true })
+    private _activeDataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {
+        this.activeData = newVal;
+    }
+
+    @Watch('_currentTab', { immediate: true, deep: true })
+    private _currentTabChanged(newVal: Model.ETab, oldVal: Model.ETab): void {
+        this.currentTab = newVal;
     }
     //#endregion
 
@@ -157,14 +218,20 @@ export default class FormBuilderList extends Vue {
     }
 
     private dragEndFormBuilder(): void {
+        let activeData: FormBuilderModel.IFormBuilderElement = undefined;
         this.generateList.forEach((element) => {
             if (!element.id) {
                 element.id = `form_element_${new Date().getTime()}`;
                 this.activeId = element.id;
+                activeData = element;
             }
         });
 
-        this.$emit('generateList', this.generateList, this.activeId);
+        this.$emit('generateList', this.generateList, this.activeId, activeData);
+    }
+
+    private clickTab(currentTab: Model.ETab): void {
+        this.currentTab = currentTab;
     }
     //#endregion
     //#endregion

@@ -31,7 +31,7 @@
                         :list="generateList"
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
-                        @choose="selectItem"
+                        @choose="selectIedtem"
                     >
                         <div
                             v-for="(element, index) in generateList"
@@ -96,6 +96,8 @@
             <div class="right">
                 <FormBuilderList
                     :_generateList="generateList"
+                    :_currentTab="currentTab"
+                    :_activeData="activeData"
                     @generateList="generateListData"
                 />
             </div>
@@ -122,6 +124,7 @@ import { EElementType } from '@/components/form-builders/elements';
 //#endregion
 
 //#region Views
+import { Model } from './models';
 //#endregion
 
 //#region Components
@@ -158,6 +161,7 @@ export default class VuePageClass extends Vue {
     private activeId: string = '';
 
     private eElementType = EElementType;
+    private currentTab: Model.ETab = Model.ETab.component;
     //#endregion
 
     //#region Computed
@@ -177,18 +181,32 @@ export default class VuePageClass extends Vue {
 
     //#region View Event
     //#region drag
-    private selectItem(item: any): void {
+    private selectIedtem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
         this.activeId = this.activeData.id;
+        this.currentTab = Model.ETab.form;
     }
 
     private isActived(elementId: string, activeId: string): boolean {
         return elementId === activeId;
     }
 
-    private generateListData(generateList: FormBuilderModel.IFormBuilderElement[], activeId: string): void {
+    private generateListData(
+        generateList: FormBuilderModel.IFormBuilderElement[],
+        activeId: string,
+        activeData: FormBuilderModel.IFormBuilderElement,
+    ): void {
         this.generateList = generateList;
         this.activeId = activeId;
+        this.activeData = activeData;
+
+        if (!this.activeData) {
+            for (const item of this.generateList) {
+                if (item.id === this.activeId) {
+                    this.activeData = item;
+                }
+            }
+        }
     }
     //#endregion
 
@@ -204,6 +222,7 @@ export default class VuePageClass extends Vue {
         clone.id = `form_element_${new Date().getTime()}`;
 
         this.activeId = clone.id;
+        this.activeData = clone;
         this.generateList.splice(index + 1, 0, clone);
     }
 
@@ -213,8 +232,10 @@ export default class VuePageClass extends Vue {
         if (this.generateList.length > 0) {
             if (index - 1 === -1) {
                 this.activeId = this.generateList[0].id;
+                this.activeData = this.generateList[0];
             } else {
                 this.activeId = this.generateList[index - 1].id;
+                this.activeData = this.generateList[index - 1];
             }
         }
     }
