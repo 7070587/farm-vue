@@ -58,6 +58,12 @@ export default class ComponentImage extends Vue {
     private isActived: boolean;
 
     @Prop({
+        type: Number, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private index: number;
+
+    @Prop({
         type: Object, // Boolean, Number, String, Array, Object
         default: () => {},
     })
@@ -89,11 +95,11 @@ export default class ComponentImage extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.data);
+        this.$emit('actionCopy', this.data, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.data);
+        this.$emit('actionDelete', this.data, this.index);
     }
     //#endregion
 

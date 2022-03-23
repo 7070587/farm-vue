@@ -35,12 +35,13 @@
                     >
 
                         <div
-                            v-for="element in generateList"
+                            v-for="(element, index) in generateList"
                             :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
                             <template v-if="element.type === 'divider'">
                                 <FormBuilderDivider
                                     :isActived="isActived(element.id, activeId)"
+                                    :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
@@ -50,6 +51,7 @@
                             <template v-else-if="element.type === 'image'">
                                 <FormBuilderImage
                                     :isActived="isActived(element.id, activeId)"
+                                    :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
@@ -59,6 +61,7 @@
                             <template v-else-if="element.type === 'input'">
                                 <FormBuilderInput
                                     :isActived="isActived(element.id, activeId)"
+                                    :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
@@ -68,6 +71,7 @@
                             <template v-else-if="element.type === 'text'">
                                 <FormBuilderText
                                     :isActived="isActived(element.id, activeId)"
+                                    :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
@@ -77,6 +81,7 @@
                             <template v-else-if="element.type === 'textarea'">
                                 <FormBuilderTextarea
                                     :isActived="isActived(element.id, activeId)"
+                                    :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
@@ -191,11 +196,15 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region action
-    private actionCopy(data: FormBuilderModel.IFormBuilderElement): void {
-        console.log(`actionCopy => `, data);
+    private actionCopy(data: FormBuilderModel.IFormBuilderElement, index: number): void {
+        let clone: FormBuilderModel.IFormBuilderElement = JSON.parse(JSON.stringify(data));
+        clone.id = `form_element_${new Date().getTime()}`;
+
+        this.activeId = clone.id;
+        this.generateList.splice(index + 1, 0, clone);
     }
 
-    private actionDelete(data: FormBuilderModel.IFormBuilderElement): void {
+    private actionDelete(data: FormBuilderModel.IFormBuilderElement, index: number): void {
         let selectedIndex: number = undefined;
         for (const i in this.generateList) {
             if (this.generateList[i].id === data.id) {
