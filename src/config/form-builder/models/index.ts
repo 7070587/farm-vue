@@ -1,4 +1,4 @@
-import { ElementType } from '@/components/form-builders/elements';
+import { EElementType } from '@/components/form-builders/elements';
 
 export interface IFormBuilder {
     label: string;
@@ -7,6 +7,6 @@ export interface IFormBuilder {
 }
 
 export interface IFormBuilderElement extends IFormBuilder {
-    type: ElementType;
+    type: EElementType;
     id?: string;
 }

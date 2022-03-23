@@ -9,7 +9,7 @@ import FormBuilderText from '@/components/form-builders/elements/text/index.vue'
 import FormBuilderTextareaSetting from '@/components/form-builders/elements/textarea/index-setting.vue';
 import FormBuilderTextarea from '@/components/form-builders/elements/textarea/index.vue';
 
-export enum ElementType {
+export enum EElementType {
     divider = 'divider',
     image = 'image',
     input = 'input',

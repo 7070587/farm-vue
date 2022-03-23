@@ -33,42 +33,11 @@
                         :group="{ name: 'formBuilderGroup' }"
                         @choose="selectItem"
                     >
-
                         <div
                             v-for="(element, index) in generateList"
                             :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
-                            <template v-if="element.type === 'divider'">
-                                <FormBuilderDivider
-                                    :isActived="isActived(element.id, activeId)"
-                                    :index="index"
-                                    :data="element"
-                                    @actionCopy="actionCopy"
-                                    @actionDelete="actionDelete"
-                                />
-                            </template>
-
-                            <template v-else-if="element.type === 'image'">
-                                <FormBuilderImage
-                                    :isActived="isActived(element.id, activeId)"
-                                    :index="index"
-                                    :data="element"
-                                    @actionCopy="actionCopy"
-                                    @actionDelete="actionDelete"
-                                />
-                            </template>
-
-                            <template v-else-if="element.type === 'input'">
-                                <FormBuilderInput
-                                    :isActived="isActived(element.id, activeId)"
-                                    :index="index"
-                                    :data="element"
-                                    @actionCopy="actionCopy"
-                                    @actionDelete="actionDelete"
-                                />
-                            </template>
-
-                            <template v-else-if="element.type === 'text'">
+                            <template v-if="element.type === eElementType.text">
                                 <FormBuilderText
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
@@ -78,7 +47,27 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === 'textarea'">
+                            <template v-else-if="element.type === eElementType.image">
+                                <FormBuilderImage
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.input">
+                                <FormBuilderInput
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.textarea">
                                 <FormBuilderTextarea
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
@@ -87,6 +76,17 @@
                                     @actionDelete="actionDelete"
                                 />
                             </template>
+
+                            <template v-else-if="element.type === eElementType.divider">
+                                <FormBuilderDivider
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
                         </div>
                     </draggable>
                 </div>
@@ -118,6 +118,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model as FormBuilderModel } from '@/config';
+import { EElementType } from '@/components/form-builders/elements';
 //#endregion
 
 //#region Views
@@ -153,8 +154,10 @@ export default class VuePageClass extends Vue {
     //#region Variables
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private activeData: FormBuilderModel.IFormBuilderElement = undefined;
+    private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
+
+    private eElementType = EElementType;
     //#endregion
 
     //#region Computed
