@@ -32,4 +32,14 @@
             background-color: $selected-color;
         }
     }
+
+    &--empty {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #aaa;
+        letter-spacing: 1rem;
+        font-size: 1.15rem;
+    }
 }

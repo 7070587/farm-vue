@@ -89,7 +89,15 @@
                             </template>
 
                         </div>
+
+                        <div
+                            class="generate--empty"
+                            v-if="generateList.length === 0"
+                        >
+                            請從左側拖曳添加元件
+                        </div>
                     </draggable>
+
                 </div>
 
             </div>
