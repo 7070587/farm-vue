@@ -31,6 +31,7 @@
                         :list="generateList"
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
+                        ghost-class="generate--ghost"
                         @choose="selectIedtem"
                     >
                         <div
