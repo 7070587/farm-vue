@@ -1,5 +1,5 @@
 .generate {
-    height: calc(100% - 42px);
+    height: calc(100% - #{$behavior-height});
 
     &--container {
         height: 100%;
@@ -16,6 +16,7 @@
             // border: none;
             background-color: $selected-color;
             border: 2px solid $lighter-blue-color;
+            cursor: all-scroll;
         }
 
         &:hover {

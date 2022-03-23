@@ -25,11 +25,11 @@
         right: 50px;
         border-color: $lighter-blue-color;
         color: $lighter-blue-color;
-        background: #fff;
+        background: $white-color;
 
         &:hover {
             background: $lighter-blue-color;
-            color: #fff;
+            color: $white-color;
         }
     }
 
@@ -37,11 +37,11 @@
         right: 18px;
         border-color: $lighter-red-color;
         color: $lighter-red-color;
-        background: #fff;
+        background: $white-color;
 
         &:hover {
             background: $lighter-red-color;
-            color: #fff;
+            color: $white-color;
         }
     }
 }

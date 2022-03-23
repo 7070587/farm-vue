@@ -1,3 +1,22 @@
+.tab-title {
+    display: flex;
+    height: $behavior-height;
+    line-height: $behavior-height;
+
+    &--item {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid $border-color;
+        cursor: pointer;
+
+        &__active {
+            border-bottom: 2px solid $lighter-blue-color;
+            color: $lighter-blue-color;
+        }
+    }
+}
+
 .setting {
     &--row {
         margin: 1rem;
