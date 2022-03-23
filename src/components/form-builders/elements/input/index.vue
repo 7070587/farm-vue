@@ -11,7 +11,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input></b-form-input>
+            <b-form-input disabled></b-form-input>
         </b-col>
     </b-row>
 </template>
@@ -108,4 +108,8 @@ export default class ComponentInput extends Vue {
 </script>
 
 <style scoped lang="scss">
+::v-deep .form-control:disabled {
+    background-color: #fff;
+    opacity: 1;
+}
 </style>

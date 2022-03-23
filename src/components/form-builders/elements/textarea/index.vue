@@ -10,7 +10,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-textarea></b-form-textarea>
+            <b-form-textarea disabled></b-form-textarea>
         </b-col>
     </b-row>
 </template>
@@ -108,4 +108,9 @@ export default class ComponentTextarea extends Vue {
 </script>
 
 <style scoped lang="scss">
+::v-deep .form-control:disabled {
+    background-color: #fff;
+    opacity: 1;
+}
 </style>
+
