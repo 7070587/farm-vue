@@ -5,7 +5,12 @@
         </b-col>
 
         <b-col cols="10">
-            <DeleteCopy />
+
+            <DeleteCopy
+                v-if="isActived"
+                @actionCopy="actionCopy"
+                @actionDelete="actionDelete"
+            />
             <div> value </div>
         </b-col>
     </b-row>
@@ -24,6 +29,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
+import { Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
@@ -45,6 +51,17 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 })
 export default class ComponentText extends Vue {
     //#region Prop
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => false,
+    })
+    private isActived: boolean;
+
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => {},
+    })
+    private data: object;
     //#endregion
 
     //#region Variables
@@ -55,6 +72,7 @@ export default class ComponentText extends Vue {
     //#endregion
 
     //#region Watch
+    private dataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {}
     //#endregion
 
     //#region Vue Life
@@ -70,6 +88,13 @@ export default class ComponentText extends Vue {
     //#endregion
 
     //#region View Event
+    private actionCopy(): void {
+        this.$emit('actionCopy', this.data);
+    }
+
+    private actionDelete(): void {
+        this.$emit('actionDelete', this.data);
+    }
     //#endregion
 
     //#region Other Function

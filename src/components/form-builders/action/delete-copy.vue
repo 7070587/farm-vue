@@ -75,11 +75,11 @@ export default class DeleteCopy extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('copy');
+        this.$emit('actionCopy');
     }
 
     private actionDelete(): void {
-        this.$emit('delete');
+        this.$emit('actionDelete');
     }
     //#endregion
 

@@ -39,23 +39,48 @@
                             :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
                             <template v-if="element.type === 'divider'">
-                                <FormBuilderDivider />
+                                <FormBuilderDivider
+                                    :isActived="isActived(element.id, activeId)"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
                             </template>
 
                             <template v-else-if="element.type === 'image'">
-                                <FormBuilderImage />
+                                <FormBuilderImage
+                                    :isActived="isActived(element.id, activeId)"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
                             </template>
 
                             <template v-else-if="element.type === 'input'">
-                                <FormBuilderInput />
+                                <FormBuilderInput
+                                    :isActived="isActived(element.id, activeId)"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
                             </template>
 
                             <template v-else-if="element.type === 'text'">
-                                <FormBuilderText />
+                                <FormBuilderText
+                                    :isActived="isActived(element.id, activeId)"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
                             </template>
 
                             <template v-else-if="element.type === 'textarea'">
-                                <FormBuilderTextarea />
+                                <FormBuilderTextarea
+                                    :isActived="isActived(element.id, activeId)"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
                             </template>
                         </div>
                     </draggable>
@@ -99,6 +124,7 @@ import { Model as FormBuilderModel } from '@/config';
 //#region Components Src
 import FormBuilderList from './form-builder-list.vue';
 import FormBuilderElement from '@/components/form-builders/elements';
+import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
@@ -111,6 +137,7 @@ import draggable from 'vuedraggable';
     components: {
         draggable,
         FormBuilderList,
+        DeleteCopy,
         ...FormBuilderElement,
     },
 })
@@ -160,6 +187,31 @@ export default class VuePageClass extends Vue {
     //#region behavior
     private behaviorClear(): void {
         this.generateList = [];
+    }
+    //#endregion
+
+    //#region action
+    private actionCopy(data: FormBuilderModel.IFormBuilderElement): void {
+        console.log(`actionCopy => `, data);
+    }
+
+    private actionDelete(data: FormBuilderModel.IFormBuilderElement): void {
+        let selectedIndex: number = undefined;
+        for (const i in this.generateList) {
+            if (this.generateList[i].id === data.id) {
+                selectedIndex = +i;
+                this.generateList.splice(+i, 1);
+                break;
+            }
+        }
+
+        if (this.generateList.length > 0) {
+            if (selectedIndex - 1 === -1) {
+                this.activeId = this.generateList[0].id;
+            } else {
+                this.activeId = this.generateList[selectedIndex - 1].id;
+            }
+        }
     }
     //#endregion
     //#endregion
