@@ -205,20 +205,13 @@ export default class VuePageClass extends Vue {
     }
 
     private actionDelete(data: FormBuilderModel.IFormBuilderElement, index: number): void {
-        let selectedIndex: number = undefined;
-        for (const i in this.generateList) {
-            if (this.generateList[i].id === data.id) {
-                selectedIndex = +i;
-                this.generateList.splice(+i, 1);
-                break;
-            }
-        }
+        this.generateList.splice(index, 1);
 
         if (this.generateList.length > 0) {
-            if (selectedIndex - 1 === -1) {
+            if (index - 1 === -1) {
                 this.activeId = this.generateList[0].id;
             } else {
-                this.activeId = this.generateList[selectedIndex - 1].id;
+                this.activeId = this.generateList[index - 1].id;
             }
         }
     }
