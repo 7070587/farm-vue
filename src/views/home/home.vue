@@ -38,7 +38,7 @@
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
                         ghost-class="generate--ghost"
-                        @choose="selectIedtem"
+                        @choose="selectedItem"
                     >
                         <div
                             v-for="(element, index) in generateList"
@@ -208,19 +208,41 @@
         </div>
 
         <ExportJson
-            :_modalShow="modalShow"
+            :_modalShow="showExportJSON"
             :generateList="generateList"
-            @hideModel="hideModel"
+            @hideModel="hideExportJSON"
         />
 
-        <!-- <b-modal
-            size="lg"
-            title="預覽JSON"
-            v-model="modalShow"
+        <ImportJson
+            :_modalShow="showImportJSON"
+            @hideModel="hideImportJSON"
+        />
+
+        <b-modal
+            size="md"
+            title="確認清空嘛？"
+            v-model="showDeleteConfirm"
             :hide-footer='true'
+            :no-close-on-backdrop='true'
+            @hide="cancelClear"
+            @close="cancelClear"
         >
-            Hello Large Modal!
-        </b-modal> -->
+
+            <div class="flex">
+                <b-button
+                    variant="danger"
+                    class="mr-3"
+                    @click="confirmClear"
+                >
+                    確認
+                </b-button>
+
+                <b-button @click="cancelClear">
+                    取消
+                </b-button>
+            </div>
+        </b-modal>
+
     </div>
 </template>
 
@@ -256,6 +278,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#region Components Views
 import FormBuilderList from './form-builder-list.vue';
 import ExportJson from './export-json.vue';
+import ImportJson from './import-json.vue';
 //#endregion
 //#endregion
 
@@ -267,6 +290,7 @@ import draggable from 'vuedraggable';
         FormBuilderList,
         DeleteCopy,
         ExportJson,
+        ImportJson,
         ...FormBuilderElement,
     },
 })
@@ -280,7 +304,9 @@ export default class VuePageClass extends Vue {
     private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
 
-    private modalShow: boolean = false;
+    private showDeleteConfirm: boolean = false;
+    private showExportJSON: boolean = false;
+    private showImportJSON: boolean = false;
 
     private eElementType = EElementType;
     private currentTab: Model.ETab = Model.ETab.component;
@@ -303,9 +329,9 @@ export default class VuePageClass extends Vue {
 
     //#region View Event
     //#region drag
-    private selectIedtem(item: any): void {
+    private selectedItem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
-        this.activeId = this.activeData.id;
+        this.activeId = this.activeData?.id ?? '';
         // this.currentTab = Model.ETab.form;
     }
 
@@ -334,17 +360,32 @@ export default class VuePageClass extends Vue {
 
     //#region behavior
     private behaviorClear(): void {
-        this.generateList = [];
+        this.showDeleteConfirm = true;
     }
 
     private behaviorExportJSON(): void {
-        this.modalShow = true;
+        this.showExportJSON = true;
     }
 
-    private behaviorImportJSON(): void {}
+    private behaviorImportJSON(): void {
+        this.showImportJSON = true;
+    }
 
-    private hideModel(modalShow: boolean): void {
-        this.modalShow = modalShow;
+    private cancelClear(): void {
+        this.showDeleteConfirm = false;
+    }
+
+    private confirmClear(): void {
+        this.showDeleteConfirm = false;
+        this.generateList = [];
+    }
+
+    private hideExportJSON(modalShow: boolean): void {
+        this.showExportJSON = modalShow;
+    }
+
+    private hideImportJSON(modalShow: boolean): void {
+        this.showImportJSON = modalShow;
     }
     //#endregion
 
@@ -382,4 +423,8 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
+.flex {
+    display: flex;
+    justify-content: center;
+}
 </style>
