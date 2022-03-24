@@ -118,19 +118,16 @@
         </div>
 
         <ExportJson
-            :_modalShow="modalShow"
+            :_modalShow="showExportJSON"
             :generateList="generateList"
-            @hideModel="hideModel"
+            @hideModel="hideExportJSON"
         />
 
-        <!-- <b-modal
-            size="lg"
-            title="預覽JSON"
-            v-model="modalShow"
-            :hide-footer='true'
-        >
-            Hello Large Modal!
-        </b-modal> -->
+        <ImportJson
+            :_modalShow="showImportJSON"
+            @hideModel="hideImportJSON"
+        />
+
     </div>
 </template>
 
@@ -166,6 +163,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#region Components Views
 import FormBuilderList from './form-builder-list.vue';
 import ExportJson from './export-json.vue';
+import ImportJson from './import-json.vue';
 //#endregion
 //#endregion
 
@@ -177,6 +175,7 @@ import draggable from 'vuedraggable';
         FormBuilderList,
         DeleteCopy,
         ExportJson,
+        ImportJson,
         ...FormBuilderElement,
     },
 })
@@ -190,7 +189,8 @@ export default class VuePageClass extends Vue {
     private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
 
-    private modalShow: boolean = false;
+    private showExportJSON: boolean = false;
+    private showImportJSON: boolean = false;
 
     private eElementType = EElementType;
     private currentTab: Model.ETab = Model.ETab.component;
@@ -248,13 +248,19 @@ export default class VuePageClass extends Vue {
     }
 
     private behaviorExportJSON(): void {
-        this.modalShow = true;
+        this.showExportJSON = true;
     }
 
-    private behaviorImportJSON(): void {}
+    private behaviorImportJSON(): void {
+        this.showImportJSON = true;
+    }
 
-    private hideModel(modalShow: boolean): void {
-        this.modalShow = modalShow;
+    private hideExportJSON(modalShow: boolean): void {
+        this.showExportJSON = modalShow;
+    }
+
+    private hideImportJSON(modalShow: boolean): void {
+        this.showImportJSON = modalShow;
     }
     //#endregion
 
