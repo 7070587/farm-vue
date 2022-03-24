@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">多行文字屬性</span>
+            <span class="setting--row__title">滑塊屬性</span>
             <hr />
         </div>
 
@@ -26,10 +26,10 @@
         <div class="setting--row">
             <div class="setting--row__lable"> value </div>
 
-            <b-form-textarea
+            <b-form-input
                 size="sm"
                 placeholder="value"
-            ></b-form-textarea>
+            ></b-form-input>
         </div>
     </div>
 </template>
