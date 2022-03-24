@@ -1,8 +1,8 @@
 <template>
     <div>
-        <header>
+        <div class="form-builder-header">
             <div>Form Builder</div>
-        </header>
+        </div>
 
         <div class="home">
             <div class="left"></div>
@@ -19,9 +19,15 @@
                         <i class="far fa-trash-alt"></i> 清空
                     </div>
 
-                    <div class="behavior--item"><i class="fas fa-download"></i> 下載JSON</div>
+                    <div
+                        class="behavior--item"
+                        @click="behaviorExportJSON"
+                    ><i class="fas fa-download"></i> 匯出JSON</div>
 
-                    <div class="behavior--item"> <i class="fas fa-upload"></i> 匯入JSON</div>
+                    <div
+                        class="behavior--item"
+                        @click="behaviorImportJSON"
+                    > <i class="fas fa-upload"></i> 匯入JSON</div>
 
                 </div>
 
@@ -112,6 +118,20 @@
             </div>
         </div>
 
+        <ExportJson
+            :_modalShow="modalShow"
+            :generateList="generateList"
+            @hideModel="hideModel"
+        />
+
+        <!-- <b-modal
+            size="lg"
+            title="預覽JSON"
+            v-model="modalShow"
+            :hide-footer='true'
+        >
+            Hello Large Modal!
+        </b-modal> -->
     </div>
 </template>
 
@@ -140,12 +160,13 @@ import { Model } from './models';
 //#endregion
 
 //#region Components Src
-import FormBuilderList from './form-builder-list.vue';
 import FormBuilderElement from '@/components/form-builders/elements';
 import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
+import FormBuilderList from './form-builder-list.vue';
+import ExportJson from './export-json.vue';
 //#endregion
 //#endregion
 
@@ -156,6 +177,7 @@ import draggable from 'vuedraggable';
         draggable,
         FormBuilderList,
         DeleteCopy,
+        ExportJson,
         ...FormBuilderElement,
     },
 })
@@ -168,6 +190,8 @@ export default class VuePageClass extends Vue {
 
     private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
+
+    private modalShow: boolean = false;
 
     private eElementType = EElementType;
     private currentTab: Model.ETab = Model.ETab.component;
@@ -222,6 +246,16 @@ export default class VuePageClass extends Vue {
     //#region behavior
     private behaviorClear(): void {
         this.generateList = [];
+    }
+
+    private behaviorExportJSON(): void {
+        this.modalShow = true;
+    }
+
+    private behaviorImportJSON(): void {}
+
+    private hideModel(modalShow: boolean): void {
+        this.modalShow = modalShow;
     }
     //#endregion
 
