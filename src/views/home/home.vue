@@ -99,7 +99,7 @@
                             class="generate--empty"
                             v-if="generateList.length === 0"
                         >
-                            請從左側拖曳或點擊添加元件
+                            請從右側拖曳或點擊添加元件
                         </div>
                     </draggable>
 
