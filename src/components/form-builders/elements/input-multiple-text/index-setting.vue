@@ -60,7 +60,7 @@ import { Vue, Component } from 'vue-property-decorator';
 @Component({
     components: {},
 })
-export default class ComponentTextSetting extends Vue {
+export default class ComponentElementSetting extends Vue {
     //#region Prop
     //#endregion
 

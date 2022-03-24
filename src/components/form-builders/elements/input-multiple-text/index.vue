@@ -1,8 +1,7 @@
 <template>
     <b-row>
-
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> input </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> textarea </div>
         </b-col>
 
         <b-col cols="10">
@@ -11,7 +10,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+            <b-form-textarea disabled></b-form-textarea>
         </b-col>
     </b-row>
 </template>
@@ -49,7 +48,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 @Component({
     components: { DeleteCopy },
 })
-export default class ComponentInput extends Vue {
+export default class ComponentElement extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
@@ -71,6 +70,7 @@ export default class ComponentInput extends Vue {
     //#endregion
 
     //#region Variables
+
     //#endregion
 
     //#region Computed
@@ -113,3 +113,4 @@ export default class ComponentInput extends Vue {
     opacity: 1;
 }
 </style>
+

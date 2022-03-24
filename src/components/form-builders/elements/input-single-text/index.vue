@@ -2,7 +2,7 @@
     <b-row>
 
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> image </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> input </div>
         </b-col>
 
         <b-col cols="10">
@@ -11,7 +11,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <img :src="DefaultImage"></img>
+            <b-form-input disabled></b-form-input>
         </b-col>
     </b-row>
 </template>
@@ -49,7 +49,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 @Component({
     components: { DeleteCopy },
 })
-export default class ComponentImage extends Vue {
+export default class ComponentElement extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
@@ -71,7 +71,6 @@ export default class ComponentImage extends Vue {
     //#endregion
 
     //#region Variables
-    private DefaultImage = require('@/assets/image-default.svg');
     //#endregion
 
     //#region Computed
@@ -109,4 +108,8 @@ export default class ComponentImage extends Vue {
 </script>
 
 <style scoped lang="scss">
+::v-deep .form-control:disabled {
+    background-color: #fff;
+    opacity: 1;
+}
 </style>

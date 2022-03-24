@@ -1,17 +1,17 @@
 <template>
     <b-row>
 
-        <b-col cols="12">
+        <b-col cols="2">
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> image </div>
+        </b-col>
+
+        <b-col cols="10">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <div class="divider">
-                <div class="divider-text">
-                    divider
-                </div>
-            </div>
+            <img :src="DefaultImage"></img>
         </b-col>
     </b-row>
 </template>
@@ -49,7 +49,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 @Component({
     components: { DeleteCopy },
 })
-export default class ComponentDivider extends Vue {
+export default class ComponentElement extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
@@ -71,6 +71,7 @@ export default class ComponentDivider extends Vue {
     //#endregion
 
     //#region Variables
+    private DefaultImage = require('@/assets/image-default.svg');
     //#endregion
 
     //#region Computed
@@ -108,27 +109,4 @@ export default class ComponentDivider extends Vue {
 </script>
 
 <style scoped lang="scss">
-.divider {
-    background-color: transparent;
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 0;
-    margin: 24px 0;
-    border: 0;
-    border-bottom: 1px;
-    border-style: solid;
-    border-color: #dcdfe6;
-}
-
-.divider-text {
-    position: absolute;
-    background-color: #fff;
-    padding: 0 20px;
-    font-weight: 500;
-    color: #303133;
-    font-size: 14px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
 </style>

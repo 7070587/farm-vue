@@ -9,35 +9,22 @@
             ></b-form-input>
         </div>
 
-        <b-row class="setting--row">
-            <div class="setting--row__lable"> upload </div>
-
-            <b-form-file
-                size="sm"
-                placeholder="upload image"
-            ></b-form-file>
-        </b-row>
-
         <div class="setting--row">
-            <div class="setting--row__lable"> width </div>
+            <div class="setting--row__lable"> placeholder </div>
 
             <b-form-input
                 size="sm"
-                type="number"
-                placeholder="width"
-                min="1"
+                placeholder="placeholder"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> height </div>
+            <div class="setting--row__lable"> value </div>
 
-            <b-form-input
+            <b-form-textarea
                 size="sm"
-                type="number"
-                placeholder="height"
-                min="1"
-            ></b-form-input>
+                placeholder="value"
+            ></b-form-textarea>
         </div>
     </div>
 </template>
@@ -73,7 +60,7 @@ import { Vue, Component } from 'vue-property-decorator';
 @Component({
     components: {},
 })
-export default class ComponentImageSetting extends Vue {
+export default class ComponentElementSetting extends Vue {
     //#region Prop
     //#endregion
 

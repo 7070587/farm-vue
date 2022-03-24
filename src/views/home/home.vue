@@ -44,8 +44,8 @@
                             v-for="(element, index) in generateList"
                             :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
-                            <template v-if="element.type === eElementType.text">
-                                <FormBuilderText
+                            <template v-if="element.type === eElementType.display_text">
+                                <FormBuilderDisplayText
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -54,8 +54,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.image">
-                                <FormBuilderImage
+                            <template v-else-if="element.type === eElementType.display_image">
+                                <FormBuilderDisplayImage
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -64,8 +64,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.input">
-                                <FormBuilderInput
+                            <template v-else-if="element.type === eElementType.input_single_text">
+                                <FormBuilderInputSingleText
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -74,8 +74,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.textarea">
-                                <FormBuilderTextarea
+                            <template v-else-if="element.type === eElementType.input_multiple_text">
+                                <FormBuilderInputMultipleText
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -84,8 +84,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.divider">
-                                <FormBuilderDivider
+                            <template v-else-if="element.type === eElementType.layout_divider">
+                                <FormBuilderLayoutDivider
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -93,14 +93,13 @@
                                     @actionDelete="actionDelete"
                                 />
                             </template>
-
                         </div>
 
                         <div
                             class="generate--empty"
                             v-if="generateList.length === 0"
                         >
-                            請從左側拖曳添加元件
+                            請從左側拖曳或點擊添加元件
                         </div>
                     </draggable>
 
