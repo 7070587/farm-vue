@@ -1,48 +1,69 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">圖片屬性</span>
+            <span class="setting--row__title"> 圖片屬性 </span>
+
             <hr />
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> label </div>
+            <div class="setting--row__lable"> 標題 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="label"
+                placeholder="標題"
             ></b-form-input>
         </div>
 
+        <div class="setting--row">
+            <div class="setting--row__lable"> 顯示標題 </div>
+
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
+        </div>
+
+        <div class="setting--row">
+            <hr />
+        </div>
+
         <b-row class="setting--row">
-            <div class="setting--row__lable"> upload </div>
+            <div class="setting--row__lable"> 上傳圖片 </div>
 
             <b-form-file
                 size="sm"
-                placeholder="upload image"
+                placeholder="上傳圖片"
+                accept="image/png, image/gif, image/jpeg, image/bmp, image/webp"
             ></b-form-file>
         </b-row>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> width </div>
+            <div class="setting--row__lable"> 圖片寬度 </div>
 
-            <b-form-input
+            <b-input-group
                 size="sm"
-                type="number"
-                placeholder="width"
-                min="1"
-            ></b-form-input>
+                append="px"
+            >
+                <b-form-input
+                    type="number"
+                    min="1"
+                ></b-form-input>
+            </b-input-group>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> height </div>
+            <div class="setting--row__lable"> 圖片高度 </div>
 
-            <b-form-input
+            <b-input-group
                 size="sm"
-                type="number"
-                placeholder="height"
-                min="1"
-            ></b-form-input>
+                append="px"
+            >
+                <b-form-input
+                    type="number"
+                    min="1"
+                ></b-form-input>
+            </b-input-group>
         </div>
     </div>
 </template>
