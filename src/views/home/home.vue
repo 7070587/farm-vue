@@ -78,6 +78,96 @@
                                 />
                             </template>
 
+                            <template v-else-if="element.type === eElementType.input_counter">
+                                <FormBuilderInputCounter
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.input_text_editor">
+                                <FormBuilderInputTextEditor
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_dropdown_list">
+                                <FormBuilderPickDropdownList
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_single">
+                                <FormBuilderPickSingle
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_multiple">
+                                <FormBuilderPickMultiple
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_switch">
+                                <FormBuilderPickSwitch
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_slider">
+                                <FormBuilderPickSlider
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_time">
+                                <FormBuilderPickTime
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
+                            <template v-else-if="element.type === eElementType.pick_date">
+                                <FormBuilderPickDate
+                                    :isActived="isActived(element.id, activeId)"
+                                    :index="index"
+                                    :data="element"
+                                    @actionCopy="actionCopy"
+                                    @actionDelete="actionDelete"
+                                />
+                            </template>
+
                             <template v-else-if="element.type === eElementType.layout_divider">
                                 <FormBuilderLayoutDivider
                                     :isActived="isActived(element.id, activeId)"

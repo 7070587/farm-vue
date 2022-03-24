@@ -1,7 +1,8 @@
 <template>
     <b-row>
+
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> multiple text </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> slider </div>
         </b-col>
 
         <b-col cols="10">
@@ -10,7 +11,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-textarea disabled></b-form-textarea>
+            <b-form-input disabled></b-form-input>
         </b-col>
     </b-row>
 </template>
@@ -70,7 +71,6 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
@@ -113,4 +113,3 @@ export default class ComponentElement extends Vue {
     opacity: 1;
 }
 </style>
-

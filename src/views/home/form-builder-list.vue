@@ -69,7 +69,42 @@
 
                 <template v-else-if="activeData.type === eElementType.input_multiple_text">
                     <FormBuilderInputMultipleTextSetting />
+                </template>
 
+                <template v-else-if="activeData.type === eElementType.input_counter">
+                    <FormBuilderInputCounterSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.input_text_editor">
+                    <FormBuilderInputTextEditorSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_dropdown_list">
+                    <FormBuilderPickDropdownListSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_single">
+                    <FormBuilderPickSingleSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_multiple">
+                    <FormBuilderPickMultipleSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_switch">
+                    <FormBuilderPickSwitchSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_slider">
+                    <FormBuilderPickSliderSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_time">
+                    <FormBuilderPickTimeSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.pick_date">
+                    <FormBuilderPickDateSetting />
                 </template>
 
                 <template v-else-if="activeData.type === eElementType.layout_divider">
