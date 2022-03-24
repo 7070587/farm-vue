@@ -1,34 +1,98 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">計數器屬性</span>
+            <span class="setting--row__title"> 計數器屬性 </span>
+
             <hr />
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> label </div>
+            <div class="setting--row__lable"> 標題 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="label"
+                placeholder="標題"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> placeholder </div>
+            <div class="setting--row__lable"> 顯示標題 </div>
+
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 是否必填 </div>
+
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
+        </div>
+
+        <div class="setting--row">
+            <hr />
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 輸入提示 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="placeholder"
+                placeholder="請輸入文字"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> value </div>
+            <div class="setting--row__lable"> 預設值 </div>
 
             <b-form-input
+                type="number"
                 size="sm"
-                placeholder="value"
+                placeholder="預設值"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 最小值 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                min="0"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 最大值 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                min="0"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 增減幅度 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                min="0"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 小數點位數 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                min="0"
             ></b-form-input>
         </div>
     </div>

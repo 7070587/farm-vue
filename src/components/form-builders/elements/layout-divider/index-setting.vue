@@ -1,27 +1,97 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">分隔線屬性</span>
+            <span class="setting--row__title"> 分隔線屬性 </span>
+
             <hr />
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> value </div>
+            <div class="setting--row__lable"> 文字 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="value"
+                placeholder="文字"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> font size </div>
+            <div class="setting--row__lable"> 文字位置 </div>
+
+            <b-form-select
+                v-model="textPositionSelected"
+                :options="textPositionOptions"
+                size="sm"
+            ></b-form-select>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 文字粗細 </div>
+
+            <b-form-select
+                v-model="textWeightSelected"
+                :options="textWeightOptions"
+                size="sm"
+            ></b-form-select>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 文字大小 </div>
+
+            <b-input-group
+                size="sm"
+                append="px"
+            >
+                <b-form-input
+                    type="number"
+                    min="1"
+                ></b-form-input>
+            </b-input-group>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 文字顏色 </div>
 
             <b-form-input
+                type="color"
                 size="sm"
-                type="number"
-                placeholder="font size"
-                min="1"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <hr />
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 分割線樣式 </div>
+
+            <b-form-select
+                v-model="dividerStyleSelected"
+                :options="dividerStyleOptions"
+                size="sm"
+            ></b-form-select>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 分割線高度 </div>
+
+            <b-input-group
+                size="sm"
+                append="px"
+            >
+                <b-form-input
+                    type="number"
+                    min="1"
+                ></b-form-input>
+            </b-input-group>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 分割線顏色 </div>
+
+            <b-form-input
+                type="color"
+                size="sm"
             ></b-form-input>
         </div>
     </div>
@@ -63,7 +133,14 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Variables
+    private textPositionSelected: string = undefined;
+    private textPositionOptions: string[] = ['Left', 'Center', 'Right'];
 
+    private textWeightSelected: string = undefined;
+    private textWeightOptions: string[] = ['Normal', 'Bold'];
+
+    private dividerStyleSelected: string = undefined;
+    private dividerStyleOptions: string[] = ['Solid', 'Dotted', 'Dashed', 'Double'];
     //#endregion
 
     //#region Computed

@@ -1,35 +1,77 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">多選框組屬性</span>
+            <span class="setting--row__title"> 多選框組屬性 </span>
+
             <hr />
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> label </div>
+            <div class="setting--row__lable"> 標題 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="label"
+                placeholder="標題"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> placeholder </div>
+            <div class="setting--row__lable"> 顯示標題 </div>
+
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 是否必填 </div>
+
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
+        </div>
+
+        <div class="setting--row">
+            <hr />
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 預設選項 </div>
 
             <b-form-input
                 size="sm"
-                placeholder="placeholder"
+                placeholder="預設選項"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> value </div>
+            <div class="setting--row__lable"> 最少應選 </div>
 
             <b-form-input
+                type="number"
                 size="sm"
-                placeholder="value"
+                placeholder="最少應選"
             ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 最多可選 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                placeholder="最多可選"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
+            <hr />
+        </div>
+
+        <div class="setting--row">
+            選項設置
         </div>
     </div>
 </template>
