@@ -184,7 +184,6 @@ export default class FormBuilderList extends Vue {
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
     private activeData: FormBuilderModel.IFormBuilderElement = null;
-    private activeId: string = '';
 
     private currentTab: Model.ETab = Model.ETab.component;
 
@@ -207,7 +206,6 @@ export default class FormBuilderList extends Vue {
     private _generateListChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]): void {
         this.generateList = JSON.parse(JSON.stringify(newVal));
         if (newVal.length === 0) {
-            this.activeId = '';
             this.currentTab = Model.ETab.component;
             this.activeData = undefined;
         }
@@ -248,9 +246,7 @@ export default class FormBuilderList extends Vue {
         clone.id = `form_element_${new Date().getTime()}`;
         this.generateList.push(clone);
 
-        this.activeId = clone.id;
-
-        this.$emit('generateList', this.generateList, this.activeId);
+        this.$emit('generateList', this.generateList, clone);
     }
 
     private dragEndFormBuilder(): void {
@@ -258,12 +254,11 @@ export default class FormBuilderList extends Vue {
         this.generateList.forEach((element) => {
             if (!element.id) {
                 element.id = `form_element_${new Date().getTime()}`;
-                this.activeId = element.id;
                 activeData = element;
             }
         });
 
-        this.$emit('generateList', this.generateList, this.activeId, activeData);
+        this.$emit('generateList', this.generateList, activeData);
     }
 
     private clickTab(currentTab: Model.ETab): void {

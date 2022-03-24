@@ -42,11 +42,11 @@
                     >
                         <div
                             v-for="(element, index) in generateList"
-                            :class="[isActived(element.id, activeId) ? 'generate--row generate--row__selected' : 'generate--row']"
+                            :class="[isActived(element.id) ? 'generate--row generate--row__selected' : 'generate--row']"
                         >
                             <template v-if="element.type === eElementType.display_text">
                                 <FormBuilderDisplayText
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -56,7 +56,7 @@
 
                             <template v-else-if="element.type === eElementType.display_image">
                                 <FormBuilderDisplayImage
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -66,7 +66,7 @@
 
                             <template v-else-if="element.type === eElementType.input_single_text">
                                 <FormBuilderInputSingleText
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -76,7 +76,7 @@
 
                             <template v-else-if="element.type === eElementType.input_multiple_text">
                                 <FormBuilderInputMultipleText
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -86,7 +86,7 @@
 
                             <template v-else-if="element.type === eElementType.input_counter">
                                 <FormBuilderInputCounter
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -96,7 +96,7 @@
 
                             <template v-else-if="element.type === eElementType.input_text_editor">
                                 <FormBuilderInputTextEditor
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -106,7 +106,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_dropdown_list">
                                 <FormBuilderPickDropdownList
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -116,7 +116,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_radio">
                                 <FormBuilderPickRadio
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -126,7 +126,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_checkbox">
                                 <FormBuilderPickCheckbox
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -136,7 +136,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_switch">
                                 <FormBuilderPickSwitch
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -146,7 +146,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_slider">
                                 <FormBuilderPickSlider
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -156,7 +156,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_time">
                                 <FormBuilderPickTime
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -166,7 +166,7 @@
 
                             <template v-else-if="element.type === eElementType.pick_date">
                                 <FormBuilderPickDate
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -176,7 +176,7 @@
 
                             <template v-else-if="element.type === eElementType.layout_divider">
                                 <FormBuilderLayoutDivider
-                                    :isActived="isActived(element.id, activeId)"
+                                    :isActived="isActived(element.id)"
                                     :index="index"
                                     :data="element"
                                     @actionCopy="actionCopy"
@@ -302,7 +302,6 @@ export default class VuePageClass extends Vue {
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
     private activeData: FormBuilderModel.IFormBuilderElement = null;
-    private activeId: string = '';
 
     private showDeleteConfirm: boolean = false;
     private showExportJSON: boolean = false;
@@ -331,26 +330,24 @@ export default class VuePageClass extends Vue {
     //#region drag
     private selectedItem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
-        this.activeId = this.activeData?.id ?? '';
         // this.currentTab = Model.ETab.form;
     }
 
-    private isActived(elementId: string, activeId: string): boolean {
-        return elementId === activeId;
+    private isActived(elementId: string): boolean {
+        if (!this.activeData) {
+            return false;
+        }
+
+        return elementId === this.activeData.id;
     }
 
-    private generateListData(
-        generateList: FormBuilderModel.IFormBuilderElement[],
-        activeId: string,
-        activeData: FormBuilderModel.IFormBuilderElement,
-    ): void {
+    private generateListData(generateList: FormBuilderModel.IFormBuilderElement[], activeData: FormBuilderModel.IFormBuilderElement): void {
         this.generateList = generateList;
-        this.activeId = activeId;
         this.activeData = activeData;
 
-        if (!this.activeData) {
+        if (!!this.activeData) {
             for (const item of this.generateList) {
-                if (item.id === this.activeId) {
+                if (item.id === this.activeData.id) {
                     this.activeData = item;
                 }
             }
@@ -394,14 +391,12 @@ export default class VuePageClass extends Vue {
         let clone: FormBuilderModel.IFormBuilderElement = JSON.parse(JSON.stringify(data));
         clone.id = `form_element_${new Date().getTime()}`;
 
-        this.activeId = clone.id;
         this.activeData = clone;
         this.generateList.splice(index + 1, 0, clone);
     }
 
     private actionDelete(data: FormBuilderModel.IFormBuilderElement, index: number): void {
         this.generateList.splice(index, 1);
-        this.activeId = '';
         this.activeData = null;
 
         // if (this.generateList.length > 0) {
