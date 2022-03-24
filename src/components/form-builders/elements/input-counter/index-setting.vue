@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">計數器屬性</span>
+            <span class="setting--row__title">數字屬性</span>
             <hr />
         </div>
 

@@ -114,8 +114,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.pick_single">
-                                <FormBuilderPickSingle
+                            <template v-else-if="element.type === eElementType.pick_radio">
+                                <FormBuilderPickRadio
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"
@@ -124,8 +124,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.pick_multiple">
-                                <FormBuilderPickMultiple
+                            <template v-else-if="element.type === eElementType.pick_checkbox">
+                                <FormBuilderPickCheckbox
                                     :isActived="isActived(element.id, activeId)"
                                     :index="index"
                                     :data="element"

@@ -1,6 +1,5 @@
 <template>
     <b-row>
-
         <b-col cols="2">
             <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> counter </div>
         </b-col>
@@ -11,7 +10,10 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+            <b-form-input
+                type="number"
+                disabled
+            ></b-form-input>
         </b-col>
     </b-row>
 </template>

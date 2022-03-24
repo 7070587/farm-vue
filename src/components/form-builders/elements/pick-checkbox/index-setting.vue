@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">多選框組屬性</span>
+            <span class="setting--row__title">多選屬性</span>
             <hr />
         </div>
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">時間選擇器屬性</span>
+            <span class="setting--row__title">時間屬性</span>
             <hr />
         </div>
 

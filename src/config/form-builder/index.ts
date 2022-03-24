@@ -29,17 +29,17 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
         icon: require('@/assets/icon/component.svg'),
         children: [
             {
-                label: '單行文字輸入',
+                label: '單行文字',
                 icon: require('@/assets/icon/input.svg'),
                 type: EElementType.input_single_text,
             },
             {
-                label: '多行文字輸入',
+                label: '多行文字',
                 icon: require('@/assets/icon/textarea.svg'),
                 type: EElementType.input_multiple_text,
             },
             {
-                label: '計數器',
+                label: '數字',
                 icon: require('@/assets/icon/number.svg'),
                 type: EElementType.input_counter,
             },
@@ -60,14 +60,14 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 type: EElementType.pick_dropdown_list,
             },
             {
-                label: '單選框組',
+                label: '單選',
                 icon: require('@/assets/icon/radio.svg'),
-                type: EElementType.pick_single,
+                type: EElementType.pick_radio,
             },
             {
-                label: '多選框組',
+                label: '多選',
                 icon: require('@/assets/icon/checkbox.svg'),
-                type: EElementType.pick_multiple,
+                type: EElementType.pick_checkbox,
             },
             {
                 label: '開關',
@@ -75,17 +75,17 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 type: EElementType.pick_switch,
             },
             {
-                label: '滑塊',
+                label: '範圍',
                 icon: require('@/assets/icon/slider.svg'),
                 type: EElementType.pick_slider,
             },
             {
-                label: '時間選擇器',
+                label: '時間',
                 icon: require('@/assets/icon/time.svg'),
                 type: EElementType.pick_time,
             },
             {
-                label: '日期選擇器',
+                label: '日期',
                 icon: require('@/assets/icon/date.svg'),
                 type: EElementType.pick_date,
             },

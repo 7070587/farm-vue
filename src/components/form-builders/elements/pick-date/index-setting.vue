@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title">日期選擇器屬性</span>
+            <span class="setting--row__title">日期屬性</span>
             <hr />
         </div>
 

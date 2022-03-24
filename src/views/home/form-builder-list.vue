@@ -83,12 +83,12 @@
                     <FormBuilderPickDropdownListSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_single">
-                    <FormBuilderPickSingleSetting />
+                <template v-else-if="activeData.type === eElementType.pick_radio">
+                    <FormBuilderPickRadioSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_multiple">
-                    <FormBuilderPickMultipleSetting />
+                <template v-else-if="activeData.type === eElementType.pick_checkbox">
+                    <FormBuilderPickCheckboxSetting />
                 </template>
 
                 <template v-else-if="activeData.type === eElementType.pick_switch">
