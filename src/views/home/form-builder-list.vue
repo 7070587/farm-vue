@@ -220,7 +220,7 @@ export default class FormBuilderList extends Vue {
 
     @Watch('_currentTab', { immediate: true, deep: true })
     private _currentTabChanged(newVal: Model.ETab, oldVal: Model.ETab): void {
-        this.currentTab = newVal;
+        // this.currentTab = newVal;
     }
     //#endregion
 
