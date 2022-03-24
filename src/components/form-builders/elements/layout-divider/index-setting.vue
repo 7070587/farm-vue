@@ -1,6 +1,11 @@
 <template>
     <div>
         <div class="setting--row">
+            <span class="setting--row__title">分隔線屬性</span>
+            <hr />
+        </div>
+
+        <div class="setting--row">
             <div class="setting--row__lable"> value </div>
 
             <b-form-input

@@ -21,6 +21,15 @@
     &--row {
         margin: 1rem;
 
+        &__title {
+            font-size: 1.3rem;
+
+            & + hr {
+                border: 1px solid #999;
+                margin-top: 5px;
+            }
+        }
+
         &__lable {
             margin-bottom: 0.5rem;
         }

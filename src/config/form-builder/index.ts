@@ -44,7 +44,7 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 type: EElementType.input_counter,
             },
             {
-                label: '編輯器',
+                label: '文字編輯器',
                 icon: require('@/assets/icon/rich-text.svg'),
                 type: EElementType.input_text_editor,
             },
@@ -80,12 +80,12 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 type: EElementType.pick_slider,
             },
             {
-                label: '時間選擇',
+                label: '時間選擇器',
                 icon: require('@/assets/icon/time.svg'),
                 type: EElementType.pick_time,
             },
             {
-                label: '日期選擇',
+                label: '日期選擇器',
                 icon: require('@/assets/icon/date.svg'),
                 type: EElementType.pick_date,
             },

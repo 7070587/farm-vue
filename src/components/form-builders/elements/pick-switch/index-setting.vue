@@ -1,6 +1,11 @@
 <template>
     <div>
         <div class="setting--row">
+            <span class="setting--row__title">開關屬性</span>
+            <hr />
+        </div>
+
+        <div class="setting--row">
             <div class="setting--row__lable"> label </div>
 
             <b-form-input
