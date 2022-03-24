@@ -237,16 +237,18 @@ export default class VuePageClass extends Vue {
 
     private actionDelete(data: FormBuilderModel.IFormBuilderElement, index: number): void {
         this.generateList.splice(index, 1);
+        this.activeId = '';
+        this.activeData = null;
 
-        if (this.generateList.length > 0) {
-            if (index - 1 === -1) {
-                this.activeId = this.generateList[0].id;
-                this.activeData = this.generateList[0];
-            } else {
-                this.activeId = this.generateList[index - 1].id;
-                this.activeData = this.generateList[index - 1];
-            }
-        }
+        // if (this.generateList.length > 0) {
+        //     if (index - 1 === -1) {
+        //         this.activeId = this.generateList[0].id;
+        //         this.activeData = this.generateList[0];
+        //     } else {
+        //         this.activeId = this.generateList[index - 1].id;
+        //         this.activeData = this.generateList[index - 1];
+        //     }
+        // }
     }
     //#endregion
     //#endregion
