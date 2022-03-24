@@ -218,6 +218,31 @@
             @hideModel="hideImportJSON"
         />
 
+        <b-modal
+            size="md"
+            title="確認清空嘛？"
+            v-model="showDeleteConfirm"
+            :hide-footer='true'
+            :no-close-on-backdrop='true'
+            @hide="cancelClear"
+            @close="cancelClear"
+        >
+
+            <div class="flex">
+                <b-button
+                    variant="danger"
+                    class="mr-3"
+                    @click="confirmClear"
+                >
+                    確認
+                </b-button>
+
+                <b-button @click="cancelClear">
+                    取消
+                </b-button>
+            </div>
+        </b-modal>
+
     </div>
 </template>
 
@@ -279,6 +304,7 @@ export default class VuePageClass extends Vue {
     private activeData: FormBuilderModel.IFormBuilderElement = null;
     private activeId: string = '';
 
+    private showDeleteConfirm: boolean = false;
     private showExportJSON: boolean = false;
     private showImportJSON: boolean = false;
 
@@ -334,7 +360,7 @@ export default class VuePageClass extends Vue {
 
     //#region behavior
     private behaviorClear(): void {
-        this.generateList = [];
+        this.showDeleteConfirm = true;
     }
 
     private behaviorExportJSON(): void {
@@ -343,6 +369,15 @@ export default class VuePageClass extends Vue {
 
     private behaviorImportJSON(): void {
         this.showImportJSON = true;
+    }
+
+    private cancelClear(): void {
+        this.showDeleteConfirm = false;
+    }
+
+    private confirmClear(): void {
+        this.showDeleteConfirm = false;
+        this.generateList = [];
     }
 
     private hideExportJSON(modalShow: boolean): void {
@@ -388,4 +423,8 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
+.flex {
+    display: flex;
+    justify-content: center;
+}
 </style>
