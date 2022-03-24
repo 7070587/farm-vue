@@ -37,7 +37,6 @@
                 :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
                 :sort="false"
                 draggable=".form-builder--list__item"
-                @end="dragEndFormBuilder"
             >
                 <div
                     v-for="(item, index) in listItem.children"
@@ -247,18 +246,6 @@ export default class FormBuilderList extends Vue {
         this.generateList.push(clone);
 
         this.$emit('generateList', this.generateList, clone);
-    }
-
-    private dragEndFormBuilder(): void {
-        let activeData: FormBuilderModel.IFormBuilderElement = undefined;
-        this.generateList.forEach((element) => {
-            if (!element.id) {
-                element.id = `form_element_${new Date().getTime()}`;
-                activeData = element;
-            }
-        });
-
-        this.$emit('generateList', this.generateList, activeData);
     }
 
     private clickTab(currentTab: Model.ETab): void {
