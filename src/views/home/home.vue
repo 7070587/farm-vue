@@ -38,7 +38,7 @@
                         :animation="340"
                         :group="{ name: 'formBuilderGroup' }"
                         ghost-class="generate--ghost"
-                        @choose="selectIedtem"
+                        @choose="selectedItem"
                     >
                         <div
                             v-for="(element, index) in generateList"
@@ -303,9 +303,9 @@ export default class VuePageClass extends Vue {
 
     //#region View Event
     //#region drag
-    private selectIedtem(item: any): void {
+    private selectedItem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
-        this.activeId = this.activeData.id;
+        this.activeId = this.activeData?.id ?? '';
         // this.currentTab = Model.ETab.form;
     }
 
