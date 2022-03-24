@@ -193,7 +193,7 @@ export default class VuePageClass extends Vue {
     private selectIedtem(item: any): void {
         this.activeData = this.generateList[item.oldDraggableIndex];
         this.activeId = this.activeData.id;
-        this.currentTab = Model.ETab.form;
+        // this.currentTab = Model.ETab.form;
     }
 
     private isActived(elementId: string, activeId: string): boolean {
