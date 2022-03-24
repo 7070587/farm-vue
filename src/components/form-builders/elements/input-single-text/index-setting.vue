@@ -21,10 +21,10 @@
         <div class="setting--row">
             <div class="setting--row__lable"> value </div>
 
-            <b-form-textarea
+            <b-form-input
                 size="sm"
                 placeholder="value"
-            ></b-form-textarea>
+            ></b-form-input>
         </div>
     </div>
 </template>
@@ -58,9 +58,9 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 @Component({
-    components: {  },
+    components: {},
 })
-export default class ComponentTextareaSetting extends Vue {
+export default class ComponentElementSetting extends Vue {
     //#region Prop
     //#endregion
 

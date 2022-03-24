@@ -1,16 +1,17 @@
 <template>
     <b-row>
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> textarea </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> text </div>
         </b-col>
 
         <b-col cols="10">
+
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-textarea disabled></b-form-textarea>
+            <div> value </div>
         </b-col>
     </b-row>
 </template>
@@ -18,7 +19,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -48,7 +49,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 @Component({
     components: { DeleteCopy },
 })
-export default class ComponentTextarea extends Vue {
+export default class ComponentElement extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
@@ -108,9 +109,4 @@ export default class ComponentTextarea extends Vue {
 </script>
 
 <style scoped lang="scss">
-::v-deep .form-control:disabled {
-    background-color: #fff;
-    opacity: 1;
-}
 </style>
-

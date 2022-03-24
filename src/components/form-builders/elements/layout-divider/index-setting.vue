@@ -51,9 +51,9 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 @Component({
-    components: {  },
+    components: {},
 })
-export default class ComponentDividerSetting extends Vue {
+export default class ComponentElementSetting extends Vue {
     //#region Prop
     //#endregion
 

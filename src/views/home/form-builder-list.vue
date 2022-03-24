@@ -54,27 +54,28 @@
 
         <!-- form -->
         <div v-show="tabForm">
-            <template v-if="activeData && activeData.type === eElementType.text">
-                <FormBuilderTextSetting />
+            <template v-if="activeData">
+                <template v-if="activeData.type === eElementType.display_text">
+                    <FormBuilderDisplayTextSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.display_image">
+                    <FormBuilderDisplayImageSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.input_single_text">
+                    <FormBuilderInputSingleTextSetting />
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.input_multiple_text">
+                    <FormBuilderInputMultipleTextSetting />
+
+                </template>
+
+                <template v-else-if="activeData.type === eElementType.layout_divider">
+                    <FormBuilderLayoutDividerSetting />
+                </template>
             </template>
-
-            <template v-else-if="activeData && activeData.type === eElementType.image">
-                <FormBuilderImageSetting />
-            </template>
-
-            <template v-else-if="activeData && activeData.type === eElementType.input">
-                <FormBuilderInputSetting />
-            </template>
-
-            <template v-else-if="activeData && activeData.type === eElementType.textarea">
-                <FormBuilderTextareaSetting />
-
-            </template>
-
-            <template v-else-if="activeData && activeData.type === eElementType.divider">
-                <FormBuilderDividerSetting />
-            </template>
-
         </div>
     </div>
 
