@@ -13,8 +13,8 @@ import FormBuilderInputSingleText from '@/components/form-builders/elements/inpu
 import FormBuilderInputMultipleTextSetting from '@/components/form-builders/elements/input-multiple-text/index-setting.vue';
 import FormBuilderInputMultipleText from '@/components/form-builders/elements/input-multiple-text/index.vue';
 
-import FormBuilderInputCounterSetting from '@/components/form-builders/elements/input-counter/index-setting.vue';
-import FormBuilderInputCounter from '@/components/form-builders/elements/input-counter/index.vue';
+import FormBuilderInputNumberSetting from '@/components/form-builders/elements/input-number/index-setting.vue';
+import FormBuilderInputNumber from '@/components/form-builders/elements/input-number/index.vue';
 
 import FormBuilderInputTextEditorSetting from '@/components/form-builders/elements/input-text-editor/index-setting.vue';
 import FormBuilderInputTextEditor from '@/components/form-builders/elements/input-text-editor/index.vue';
@@ -60,7 +60,7 @@ export enum EElementType {
      */
     input_single_text = 'input_single_text',
     input_multiple_text = 'input_multiple_text',
-    input_counter = 'input_counter',
+    input_number = 'input_number',
     input_text_editor = 'input_text_editor',
 
     /**
@@ -98,8 +98,8 @@ export default {
     FormBuilderInputMultipleTextSetting,
     FormBuilderInputMultipleText,
 
-    FormBuilderInputCounterSetting,
-    FormBuilderInputCounter,
+    FormBuilderInputNumberSetting,
+    FormBuilderInputNumber,
 
     FormBuilderInputTextEditorSetting,
     FormBuilderInputTextEditor,

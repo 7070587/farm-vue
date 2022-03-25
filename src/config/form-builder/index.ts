@@ -49,7 +49,7 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
             {
                 label: '數字',
                 icon: require('@/assets/icon/number.svg'),
-                type: EElementType.input_counter,
+                type: EElementType.input_number,
                 config: {},
             },
             {

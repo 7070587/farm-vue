@@ -71,8 +71,8 @@
                     <FormBuilderInputMultipleTextSetting />
                 </template>
 
-                <template v-else-if="activedItem.type === eElementType.input_counter">
-                    <FormBuilderInputCounterSetting />
+                <template v-else-if="activedItem.type === eElementType.input_number">
+                    <FormBuilderInputNumberSetting />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.input_text_editor">

@@ -84,8 +84,8 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.input_counter">
-                                <FormBuilderInputCounter
+                            <template v-else-if="element.type === eElementType.input_number">
+                                <FormBuilderInputNumber
                                     :isActived="isActived(element.id)"
                                     :index="index"
                                     :activedItemData="element"
