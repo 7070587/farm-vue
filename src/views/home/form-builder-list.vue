@@ -37,6 +37,7 @@
                 :group="{ name: 'formBuilderGroup', pull: 'clone', put: false }"
                 :sort="false"
                 draggable=".form-builder--list__item"
+                @end="dragEndFormBuilder"
             >
                 <div
                     v-for="(item, index) in listItem.children"
@@ -55,7 +56,7 @@
         <div v-show="tabForm">
             <template v-if="activeData">
                 <template v-if="activeData.type === eElementType.display_text">
-                    <FormBuilderDisplayTextSetting />
+                    <FormBuilderDisplayTextSetting :activeData="activeData" />
                 </template>
 
                 <template v-else-if="activeData.type === eElementType.display_image">
@@ -246,6 +247,18 @@ export default class FormBuilderList extends Vue {
         this.generateList.push(clone);
 
         this.$emit('generateList', this.generateList, clone);
+    }
+
+    private dragEndFormBuilder(): void {
+        let activeData: FormBuilderModel.IFormBuilderElement = undefined;
+        this.generateList.forEach((element) => {
+            if (!element.id) {
+                element.id = `form_element_${new Date().getTime()}`;
+                activeData = element;
+            }
+        });
+
+        this.$emit('generateList', this.generateList, activeData);
     }
 
     private clickTab(currentTab: Model.ETab): void {
