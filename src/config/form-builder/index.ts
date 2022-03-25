@@ -18,7 +18,7 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 type: EElementType.display_text,
                 config: {
                     label: '文字',
-                    showLabel: true,
+                    isShowLabel: true,
                     content: '文字內容',
                 },
             },

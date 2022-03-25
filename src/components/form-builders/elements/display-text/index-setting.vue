@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="activeItem.config.label"
             ></b-form-input>
         </div>
 
@@ -29,11 +30,23 @@
         </div>
 
         <div class="setting--row">
+            <div class="setting--row__lable"> 佔位提示 </div>
+
+            <b-form-input
+                size="sm"
+                placeholder="佔位提示"
+                v-model="activeItem.config.label"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
             <div class="setting--row__lable"> 內容 </div>
 
             <b-form-textarea
                 size="sm"
                 placeholder="內容"
+                rows="5"
+                v-model="activeItem.config.content"
             ></b-form-textarea>
         </div>
     </div>
@@ -42,7 +55,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -64,6 +77,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Views
+import { IConfig } from './models';
 //#endregion
 //#endregion
 
@@ -72,13 +86,20 @@ import { Vue, Component } from 'vue-property-decorator';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activeItemData: IConfig;
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
+    private get activeItem(): IConfig {
+        return this.activeItemData;
+    }
     //#endregion
 
     //#region Watch

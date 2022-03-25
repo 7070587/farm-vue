@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> text </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> {{ activeItem.config.label }} </div>
         </b-col>
 
         <b-col cols="10">
@@ -11,7 +11,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <div> value </div>
+            <div> {{ activeItem.config.content }} </div>
         </b-col>
     </b-row>
 </template>
@@ -29,7 +29,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
@@ -43,6 +42,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
+import { IConfig } from './models';
 //#endregion
 //#endregion
 
@@ -65,20 +65,21 @@ export default class ComponentElement extends Vue {
 
     @Prop({
         type: Object, // Boolean, Number, String, Array, Object
-        default: () => {},
+        default: () => undefined,
     })
-    private data: object;
+    private activeItemData: IConfig;
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
+    private get activeItem(): IConfig {
+        return this.activeItemData;
+    }
     //#endregion
 
     //#region Watch
-    private dataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {}
     //#endregion
 
     //#region Vue Life
@@ -95,11 +96,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.data, this.index);
+        this.$emit('actionCopy', this.activeItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.data, this.index);
+        this.$emit('actionDelete', this.activeItemData, this.index);
     }
     //#endregion
 
