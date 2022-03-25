@@ -113,6 +113,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -133,13 +134,13 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Variables
-    private textPositionSelected: string = undefined;
+    private textPositionSelected: string = null;
     private textPositionOptions: string[] = ['Left', 'Center', 'Right'];
 
-    private textWeightSelected: string = undefined;
+    private textWeightSelected: string = null;
     private textWeightOptions: string[] = ['Normal', 'Bold'];
 
-    private dividerStyleSelected: string = undefined;
+    private dividerStyleSelected: string = null;
     private dividerStyleOptions: string[] = ['Solid', 'Dotted', 'Dashed', 'Double'];
     //#endregion
 

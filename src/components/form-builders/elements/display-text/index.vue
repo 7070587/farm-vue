@@ -32,6 +32,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -42,7 +43,6 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
-import { IConfig } from './models';
 //#endregion
 //#endregion
 
@@ -96,11 +96,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItemData, this.index);
+        this.$emit('actionCopy', this.activedItem, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItemData, this.index);
+        this.$emit('actionDelete', this.activedItem, this.index);
     }
     //#endregion
 

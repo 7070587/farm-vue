@@ -60,55 +60,55 @@
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.display_image">
-                    <FormBuilderDisplayImageSetting />
+                    <FormBuilderDisplayImageSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.input_single_text">
-                    <FormBuilderInputSingleTextSetting />
+                    <FormBuilderInputSingleTextSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.input_multiple_text">
-                    <FormBuilderInputMultipleTextSetting />
+                    <FormBuilderInputMultipleTextSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.input_number">
-                    <FormBuilderInputNumberSetting />
+                    <FormBuilderInputNumberSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.input_text_editor">
-                    <FormBuilderInputTextEditorSetting />
+                    <FormBuilderInputTextEditorSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_dropdown_list">
-                    <FormBuilderPickDropdownListSetting />
+                    <FormBuilderPickDropdownListSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_radio">
-                    <FormBuilderPickRadioSetting />
+                    <FormBuilderPickRadioSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_checkbox">
-                    <FormBuilderPickCheckboxSetting />
+                    <FormBuilderPickCheckboxSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_switch">
-                    <FormBuilderPickSwitchSetting />
+                    <FormBuilderPickSwitchSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_slider">
-                    <FormBuilderPickSliderSetting />
+                    <FormBuilderPickSliderSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_time">
-                    <FormBuilderPickTimeSetting />
+                    <FormBuilderPickTimeSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.pick_date">
-                    <FormBuilderPickDateSetting />
+                    <FormBuilderPickDateSetting :activedItemData="activedItem" />
                 </template>
 
                 <template v-else-if="activedItem.type === eElementType.layout_divider">
-                    <FormBuilderLayoutDividerSetting />
+                    <FormBuilderLayoutDividerSetting :activedItemData="activedItem" />
                 </template>
             </template>
         </div>

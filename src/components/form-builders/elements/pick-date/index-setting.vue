@@ -76,6 +76,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -96,7 +97,7 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Variables
-    private dateModeSelected: string = undefined;
+    private dateModeSelected: string = null;
     private dateModeOptions: string[] = ['Date', 'Week', 'Month', 'Year', 'DateTime'];
     //#endregion
 

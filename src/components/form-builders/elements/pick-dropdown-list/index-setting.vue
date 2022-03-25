@@ -90,6 +90,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components

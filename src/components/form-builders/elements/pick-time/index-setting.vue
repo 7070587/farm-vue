@@ -2,7 +2,7 @@
     <div>
         <div class="setting--row">
             <span class="setting--row__title"> 時間屬性 </span>
-            
+
             <hr />
         </div>
 
@@ -66,6 +66,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components

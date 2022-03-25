@@ -47,6 +47,7 @@
             >
                 <b-form-input
                     type="number"
+                    placeholder="圖片寬度"
                     min="1"
                 ></b-form-input>
             </b-input-group>
@@ -61,6 +62,7 @@
             >
                 <b-form-input
                     type="number"
+                    placeholder="圖片高度"
                     min="1"
                 ></b-form-input>
             </b-input-group>
@@ -84,6 +86,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components

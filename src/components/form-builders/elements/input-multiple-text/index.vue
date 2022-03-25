@@ -32,6 +32,7 @@ import { Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -64,9 +65,9 @@ export default class ComponentElement extends Vue {
 
     @Prop({
         type: Object, // Boolean, Number, String, Array, Object
-        default: () => {},
+        default: () => undefined,
     })
-    private data: object;
+    private activedItemData: IConfig;
     //#endregion
 
     //#region Variables
@@ -74,10 +75,12 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Computed
+    private get activedItem(): IConfig {
+        return this.activedItemData;
+    }
     //#endregion
 
     //#region Watch
-    private dataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {}
     //#endregion
 
     //#region Vue Life
@@ -94,11 +97,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.data, this.index);
+        this.$emit('actionCopy', this.activedItem, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.data, this.index);
+        this.$emit('actionDelete', this.activedItem, this.index);
     }
     //#endregion
 

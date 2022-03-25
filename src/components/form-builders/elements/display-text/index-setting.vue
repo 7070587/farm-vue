@@ -58,6 +58,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Views
+import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -67,7 +68,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Views
-import { IConfig } from './models';
 //#endregion
 //#endregion
 
