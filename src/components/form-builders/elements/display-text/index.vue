@@ -1,7 +1,7 @@
 <template>
     <b-row>
         <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> {{ activeItem.config.label }} </div>
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> {{ activedItem.config.label }} </div>
         </b-col>
 
         <b-col cols="10">
@@ -11,7 +11,7 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <div> {{ activeItem.config.content }} </div>
+            <div> {{ activedItem.config.content }} </div>
         </b-col>
     </b-row>
 </template>
@@ -67,15 +67,15 @@ export default class ComponentElement extends Vue {
         type: Object, // Boolean, Number, String, Array, Object
         default: () => undefined,
     })
-    private activeItemData: IConfig;
+    private activedItemData: IConfig;
     //#endregion
 
     //#region Variables
     //#endregion
 
     //#region Computed
-    private get activeItem(): IConfig {
-        return this.activeItemData;
+    private get activedItem(): IConfig {
+        return this.activedItemData;
     }
     //#endregion
 
@@ -96,11 +96,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activeItemData, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activeItemData, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 

@@ -60,7 +60,7 @@ export default class ExportJson extends Vue {
         type: Boolean, // Boolean, Number, String, Array, Object
         default: () => false,
     })
-    private _modalShow: boolean;
+    private showExportJSON: boolean;
 
     @Prop({
         type: Array, // Boolean, Number, String, Array, Object
@@ -77,8 +77,8 @@ export default class ExportJson extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('_modalShow', { immediate: true, deep: true })
-    private _modalShowChanged(newVal: boolean, oldVal: boolean): void {
+    @Watch('showExportJSON', { immediate: true, deep: true })
+    private showExportJSONChanged(newVal: boolean, oldVal: boolean): void {
         this.modalShow = newVal;
     }
     //#endregion

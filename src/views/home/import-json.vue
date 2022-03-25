@@ -54,7 +54,7 @@ export default class ImportJson extends Vue {
         type: Boolean, // Boolean, Number, String, Array, Object
         default: () => false,
     })
-    private _modalShow: boolean;
+    private showImportJSON: boolean;
     //#endregion
 
     //#region Variables
@@ -65,8 +65,8 @@ export default class ImportJson extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('_modalShow', { immediate: true, deep: true })
-    private _modalShowChanged(newVal: boolean, oldVal: boolean): void {
+    @Watch('showImportJSON', { immediate: true, deep: true })
+    private showImportJSONChanged(newVal: boolean, oldVal: boolean): void {
         this.modalShow = newVal;
     }
     //#endregion
