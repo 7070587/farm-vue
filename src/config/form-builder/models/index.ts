@@ -9,4 +9,5 @@ export interface IFormBuilder {
 export interface IFormBuilderElement extends IFormBuilder {
     type: EElementType;
     id?: string;
+    config: object;
 }

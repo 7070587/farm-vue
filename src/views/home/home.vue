@@ -48,7 +48,7 @@
                                 <FormBuilderDisplayText
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -58,7 +58,7 @@
                                 <FormBuilderDisplayImage
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -68,7 +68,7 @@
                                 <FormBuilderInputSingleText
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -78,7 +78,7 @@
                                 <FormBuilderInputMultipleText
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -88,7 +88,7 @@
                                 <FormBuilderInputCounter
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -98,7 +98,7 @@
                                 <FormBuilderInputTextEditor
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -108,7 +108,7 @@
                                 <FormBuilderPickDropdownList
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -118,7 +118,7 @@
                                 <FormBuilderPickRadio
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -128,7 +128,7 @@
                                 <FormBuilderPickCheckbox
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -138,7 +138,7 @@
                                 <FormBuilderPickSwitch
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -148,7 +148,7 @@
                                 <FormBuilderPickSlider
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -158,7 +158,7 @@
                                 <FormBuilderPickTime
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -168,7 +168,7 @@
                                 <FormBuilderPickDate
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -178,7 +178,7 @@
                                 <FormBuilderLayoutDivider
                                     :isActived="isActived(element.id)"
                                     :index="index"
-                                    :data="element"
+                                    :activeItemData="element"
                                     @actionCopy="actionCopy"
                                     @actionDelete="actionDelete"
                                 />
@@ -199,10 +199,10 @@
 
             <div class="right">
                 <FormBuilderList
-                    :_generateList="generateList"
-                    :_currentTab="currentTab"
-                    :_activeData="activeData"
-                    @generateList="generateListData"
+                    :generateListData="generateList"
+                    :activeItemData="activeData"
+                    :currentTabData="currentTab"
+                    @generateList="updateGenerateList"
                 />
             </div>
         </div>
@@ -341,7 +341,7 @@ export default class VuePageClass extends Vue {
         return elementId === this.activeData.id;
     }
 
-    private generateListData(generateList: FormBuilderModel.IFormBuilderElement[], activeData: FormBuilderModel.IFormBuilderElement): void {
+    private updateGenerateList(generateList: FormBuilderModel.IFormBuilderElement[], activeData: FormBuilderModel.IFormBuilderElement): void {
         this.generateList = generateList;
         this.activeData = activeData;
 

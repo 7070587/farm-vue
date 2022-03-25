@@ -54,60 +54,60 @@
 
         <!-- form -->
         <div v-show="tabForm">
-            <template v-if="activeData">
-                <template v-if="activeData.type === eElementType.display_text">
-                    <FormBuilderDisplayTextSetting :activeData="activeData" />
+            <template v-if="activeItem">
+                <template v-if="activeItem.type === eElementType.display_text">
+                    <FormBuilderDisplayTextSetting :activeItemData="activeItem" />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.display_image">
+                <template v-else-if="activeItem.type === eElementType.display_image">
                     <FormBuilderDisplayImageSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.input_single_text">
+                <template v-else-if="activeItem.type === eElementType.input_single_text">
                     <FormBuilderInputSingleTextSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.input_multiple_text">
+                <template v-else-if="activeItem.type === eElementType.input_multiple_text">
                     <FormBuilderInputMultipleTextSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.input_counter">
+                <template v-else-if="activeItem.type === eElementType.input_counter">
                     <FormBuilderInputCounterSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.input_text_editor">
+                <template v-else-if="activeItem.type === eElementType.input_text_editor">
                     <FormBuilderInputTextEditorSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_dropdown_list">
+                <template v-else-if="activeItem.type === eElementType.pick_dropdown_list">
                     <FormBuilderPickDropdownListSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_radio">
+                <template v-else-if="activeItem.type === eElementType.pick_radio">
                     <FormBuilderPickRadioSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_checkbox">
+                <template v-else-if="activeItem.type === eElementType.pick_checkbox">
                     <FormBuilderPickCheckboxSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_switch">
+                <template v-else-if="activeItem.type === eElementType.pick_switch">
                     <FormBuilderPickSwitchSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_slider">
+                <template v-else-if="activeItem.type === eElementType.pick_slider">
                     <FormBuilderPickSliderSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_time">
+                <template v-else-if="activeItem.type === eElementType.pick_time">
                     <FormBuilderPickTimeSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.pick_date">
+                <template v-else-if="activeItem.type === eElementType.pick_date">
                     <FormBuilderPickDateSetting />
                 </template>
 
-                <template v-else-if="activeData.type === eElementType.layout_divider">
+                <template v-else-if="activeItem.type === eElementType.layout_divider">
                     <FormBuilderLayoutDividerSetting />
                 </template>
             </template>
@@ -162,20 +162,20 @@ export default class FormBuilderList extends Vue {
         type: Array, // Boolean, Number, String, Array, Object
         default: () => [],
     })
-    private _generateList: FormBuilderModel.IFormBuilderElement[];
+    private generateListData: FormBuilderModel.IFormBuilderElement[];
 
     @Prop({
         type: Object, // Boolean, Number, String, Array, Object
         default: () => {},
     })
-    private _activeData: FormBuilderModel.IFormBuilderElement;
+    private activeItemData: FormBuilderModel.IFormBuilderElement;
     //#endregion
 
     @Prop({
         type: String, // Boolean, Number, String, Array, Object
         default: () => Model.ETab.component,
     })
-    private _currentTab: Model.ETab;
+    private currentTabData: Model.ETab;
     //#endregion
 
     //#region Variables
@@ -183,7 +183,7 @@ export default class FormBuilderList extends Vue {
 
     private generateList: FormBuilderModel.IFormBuilderElement[] = [];
 
-    private activeData: FormBuilderModel.IFormBuilderElement = null;
+    private activeItem: FormBuilderModel.IFormBuilderElement = null;
 
     private currentTab: Model.ETab = Model.ETab.component;
 
@@ -202,22 +202,22 @@ export default class FormBuilderList extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('_generateList', { immediate: true, deep: true })
-    private _generateListChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]): void {
+    @Watch('generateListData', { immediate: true, deep: true })
+    private generateListDataChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]): void {
         this.generateList = JSON.parse(JSON.stringify(newVal));
         if (newVal.length === 0) {
             this.currentTab = Model.ETab.component;
-            this.activeData = undefined;
+            this.activeItem = undefined;
         }
     }
 
-    @Watch('_activeData', { immediate: true, deep: true })
-    private _activeDataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {
-        this.activeData = newVal;
+    @Watch('activeItemData', { immediate: true, deep: true })
+    private activeItemDataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {
+        this.activeItem = newVal;
     }
 
-    @Watch('_currentTab', { immediate: true, deep: true })
-    private _currentTabChanged(newVal: Model.ETab, oldVal: Model.ETab): void {
+    @Watch('currentTabData', { immediate: true, deep: true })
+    private currentTabDataChanged(newVal: Model.ETab, oldVal: Model.ETab): void {
         // this.currentTab = newVal;
     }
     //#endregion
@@ -250,15 +250,15 @@ export default class FormBuilderList extends Vue {
     }
 
     private dragEndFormBuilder(): void {
-        let activeData: FormBuilderModel.IFormBuilderElement = undefined;
+        let activeItem: FormBuilderModel.IFormBuilderElement = undefined;
         this.generateList.forEach((element) => {
             if (!element.id) {
                 element.id = `form_element_${new Date().getTime()}`;
-                activeData = element;
+                activeItem = element;
             }
         });
 
-        this.$emit('generateList', this.generateList, activeData);
+        this.$emit('generateList', this.generateList, activeItem);
     }
 
     private clickTab(currentTab: Model.ETab): void {
