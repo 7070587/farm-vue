@@ -28,11 +28,10 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { Model as FormBuilderModel } from '@/config';
+import { Model } from '@/config/index';
 //#endregion
 
 //#region Views
-import { IConfig } from './models';
 //#endregion
 
 //#region Components
@@ -67,7 +66,7 @@ export default class ComponentElement extends Vue {
         type: Object, // Boolean, Number, String, Array, Object
         default: () => undefined,
     })
-    private activedItemData: IConfig;
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
@@ -75,7 +74,7 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Computed
-    private get activedItem(): IConfig {
+    private get activedItem(): Model.IFormBuilderElement {
         return this.activedItemData;
     }
     //#endregion
