@@ -129,8 +129,7 @@ export default class ComponentElement extends Vue {
 </script>
 
 <style scoped lang="scss">
-::v-deep .form-control:disabled {
-    background-color: #fff;
-    opacity: 1;
+::v-deep .vue-js-switch {
+    margin: 0;
 }
 </style>

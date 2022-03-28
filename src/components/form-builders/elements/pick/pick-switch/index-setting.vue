@@ -81,6 +81,16 @@
                 size="sm"
             ></b-form-input>
         </div>
+
+        <div class="setting--row">
+            <div class="setting--row__lable"> 開關長度 </div>
+
+            <b-form-input
+                type="number"
+                size="sm"
+                min="10"
+            ></b-form-input>
+        </div>
     </div>
 </template>
 
