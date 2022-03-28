@@ -98,7 +98,7 @@
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> 輸入統計 </div>
+            <div class="setting--row__lable"> 顯示輸入統計 </div>
 
             <b-form-checkbox
                 size="lg"
