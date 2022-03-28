@@ -101,12 +101,6 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                 config: {},
             },
             {
-                label: '時間',
-                icon: require('@/assets/icon/time.svg'),
-                type: EElementType.pick_time,
-                config: {},
-            },
-            {
                 label: '日期',
                 icon: require('@/assets/icon/date.svg'),
                 type: EElementType.pick_date,

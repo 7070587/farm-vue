@@ -154,16 +154,6 @@
                                 />
                             </template>
 
-                            <template v-else-if="element.type === eElementType.pick_time">
-                                <FormBuilderPickTime
-                                    :isActived="isActived(element.id)"
-                                    :index="index"
-                                    :activedItemData="element"
-                                    @actionCopy="actionCopy"
-                                    @actionDelete="actionDelete"
-                                />
-                            </template>
-
                             <template v-else-if="element.type === eElementType.pick_date">
                                 <FormBuilderPickDate
                                     :isActived="isActived(element.id)"

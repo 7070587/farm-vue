@@ -36,9 +36,6 @@ import FormBuilderPickSwitch from '@/components/form-builders/elements/pick/pick
 import FormBuilderPickSliderSetting from '@/components/form-builders/elements/pick/pick-slider/index-setting.vue';
 import FormBuilderPickSlider from '@/components/form-builders/elements/pick/pick-slider/index.vue';
 
-import FormBuilderPickTimeSetting from '@/components/form-builders/elements/pick/pick-time/index-setting.vue';
-import FormBuilderPickTime from '@/components/form-builders/elements/pick/pick-time/index.vue';
-
 import FormBuilderPickDateSetting from '@/components/form-builders/elements/pick/pick-date/index-setting.vue';
 import FormBuilderPickDate from '@/components/form-builders/elements/pick/pick-date/index.vue';
 //#endregion
@@ -121,9 +118,6 @@ export default {
 
     FormBuilderPickSliderSetting,
     FormBuilderPickSlider,
-
-    FormBuilderPickTimeSetting,
-    FormBuilderPickTime,
 
     FormBuilderPickDateSetting,
     FormBuilderPickDate,

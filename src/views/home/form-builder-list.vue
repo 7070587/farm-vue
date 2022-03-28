@@ -99,10 +99,6 @@
                     <FormBuilderPickSliderSetting :activedItemData="activedItem" />
                 </template>
 
-                <template v-else-if="activedItem.type === eElementType.pick_time">
-                    <FormBuilderPickTimeSetting :activedItemData="activedItem" />
-                </template>
-
                 <template v-else-if="activedItem.type === eElementType.pick_date">
                     <FormBuilderPickDateSetting :activedItemData="activedItem" />
                 </template>
