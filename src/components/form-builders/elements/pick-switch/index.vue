@@ -11,7 +11,17 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='210'
+                :font-size='16'
+                :labels="{checked: 'open', unchecked: 'close'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
+
         </b-col>
     </b-row>
 </template>
@@ -44,10 +54,14 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 
 //#region Components Views
 //#endregion
+
+//#region toggle-button
+import { ToggleButton } from 'vue-js-toggle-button';
+//#endregion
 //#endregion
 
 @Component({
-    components: { DeleteCopy },
+    components: { DeleteCopy, ToggleButton },
 })
 export default class ComponentElement extends Vue {
     //#region Prop
@@ -71,6 +85,11 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: { value: string; text: string } = null;
+    options: { value: string; text: string }[] = [
+        { value: '1', text: 'one' },
+        { value: '2', text: 'two' },
+    ];
     //#endregion
 
     //#region Computed

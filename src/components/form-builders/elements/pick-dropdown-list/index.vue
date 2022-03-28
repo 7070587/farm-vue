@@ -11,7 +11,12 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <multiselect
+                v-model="model"
+                :options="options"
+            >
+            </multiselect>
         </b-col>
     </b-row>
 </template>
@@ -44,10 +49,15 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 
 //#region Components Views
 //#endregion
+
+//#region vue-multiselect
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+//#endregion
 //#endregion
 
 @Component({
-    components: { DeleteCopy },
+    components: { DeleteCopy, Multiselect },
 })
 export default class ComponentElement extends Vue {
     //#region Prop
@@ -71,6 +81,8 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: string | string[] = null;
+    options: string[] = ['aaa', 'bbb'];
     //#endregion
 
     //#region Computed

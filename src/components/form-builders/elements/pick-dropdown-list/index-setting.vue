@@ -38,6 +38,15 @@
         </div>
 
         <div class="setting--row">
+            <div class="setting--row__lable"> 輸入提示 </div>
+
+            <b-form-input
+                size="sm"
+                placeholder="請輸入文字"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
             <div class="setting--row__lable"> 預設選項 </div>
 
             <b-form-input
@@ -69,7 +78,13 @@
         </div>
 
         <div class="setting--row">
-            選項設置
+            <div class="setting--row__lable"> 選項配置 </div>
+
+            <b-form-textarea
+                size="sm"
+                placeholder="鍵入要從中選擇的選項。 將每一個分開一個新行。"
+                rows="5"
+            ></b-form-textarea>
         </div>
     </div>
 </template>

@@ -11,7 +11,17 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100">
+                <b-form-input
+                    v-model="model"
+                    type="range"
+                    min="0"
+                    max="5"
+                    step="0.5"
+                ></b-form-input>
+            </div>
+
         </b-col>
     </b-row>
 </template>
@@ -71,6 +81,7 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: number = null;
     //#endregion
 
     //#region Computed

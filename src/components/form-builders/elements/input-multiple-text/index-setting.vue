@@ -70,34 +70,6 @@
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> 輸入最小行數 </div>
-
-            <b-input-group
-                size="sm"
-                append="行"
-            >
-                <b-form-input
-                    type="number"
-                    min="0"
-                ></b-form-input>
-            </b-input-group>
-        </div>
-
-        <div class="setting--row">
-            <div class="setting--row__lable"> 輸入最大行數 </div>
-
-            <b-input-group
-                size="sm"
-                append="行"
-            >
-                <b-form-input
-                    type="number"
-                    min="0"
-                ></b-form-input>
-            </b-input-group>
-        </div>
-
-        <div class="setting--row">
             <div class="setting--row__lable"> 顯示輸入統計 </div>
 
             <b-form-checkbox

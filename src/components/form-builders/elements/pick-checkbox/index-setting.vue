@@ -47,23 +47,12 @@
         </div>
 
         <div class="setting--row">
-            <div class="setting--row__lable"> 最少應選 </div>
+            <div class="setting--row__lable"> 水平顯示 </div>
 
-            <b-form-input
-                type="number"
-                size="sm"
-                placeholder="最少應選"
-            ></b-form-input>
-        </div>
-
-        <div class="setting--row">
-            <div class="setting--row__lable"> 最多可選 </div>
-
-            <b-form-input
-                type="number"
-                size="sm"
-                placeholder="最多可選"
-            ></b-form-input>
+            <b-form-checkbox
+                size="lg"
+                switch
+            ></b-form-checkbox>
         </div>
 
         <div class="setting--row">
@@ -71,7 +60,13 @@
         </div>
 
         <div class="setting--row">
-            選項設置
+            <div class="setting--row__lable"> 選項配置 </div>
+
+            <b-form-textarea
+                size="sm"
+                placeholder="鍵入要從中選擇的選項。 將每一個分開一個新行。"
+                rows="5"
+            ></b-form-textarea>
         </div>
     </div>
 </template>

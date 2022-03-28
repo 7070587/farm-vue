@@ -38,6 +38,15 @@
         </div>
 
         <div class="setting--row">
+            <div class="setting--row__lable"> 輸入提示 </div>
+
+            <b-form-input
+                size="sm"
+                placeholder="請輸入文字"
+            ></b-form-input>
+        </div>
+
+        <div class="setting--row">
             <div class="setting--row__lable"> 預設日期 </div>
 
             <b-form-datepicker
@@ -98,7 +107,7 @@ export default class ComponentElementSetting extends Vue {
 
     //#region Variables
     private dateModeSelected: string = null;
-    private dateModeOptions: string[] = ['Date', 'Week', 'Month', 'Year', 'DateTime'];
+    private dateModeOptions: string[] = ['Time', 'Date', 'Month', 'Year', 'DateTime'];
     //#endregion
 
     //#region Computed

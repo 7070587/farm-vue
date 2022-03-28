@@ -54,20 +54,6 @@
                 placeholder="預設內容"
             ></b-form-input>
         </div>
-
-        <div class="setting--row">
-            <div class="setting--row__lable"> 預設編輯器高度 </div>
-
-            <b-input-group
-                size="sm"
-                append="px"
-            >
-                <b-form-input
-                    type="number"
-                    min="0"
-                ></b-form-input>
-            </b-input-group>
-        </div>
     </div>
 </template>
 

@@ -11,7 +11,11 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <date-picker
+                v-model="model"
+                type="datetime"
+            ></date-picker>
         </b-col>
     </b-row>
 </template>
@@ -44,10 +48,15 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 
 //#region Components Views
 //#endregion
+
+//#region DatePicker
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+//#endregion
 //#endregion
 
 @Component({
-    components: { DeleteCopy },
+    components: { DeleteCopy, DatePicker },
 })
 export default class ComponentElement extends Vue {
     //#region Prop
@@ -71,6 +80,7 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: Date = new Date();
     //#endregion
 
     //#region Computed

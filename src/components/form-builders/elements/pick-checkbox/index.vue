@@ -11,7 +11,11 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <b-form-checkbox-group
+                v-model="model"
+                :options="options"
+            ></b-form-checkbox-group>
         </b-col>
     </b-row>
 </template>
@@ -71,6 +75,13 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: { value: string; text: string }[] = [];
+    options: { value: string; text: string }[] = [
+        { value: '1', text: 'one' },
+        { value: '2', text: 'two' },
+        { value: '3', text: 'three' },
+        { value: '4', text: 'four' },
+    ];
     //#endregion
 
     //#region Computed

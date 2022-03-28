@@ -11,7 +11,12 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <b-form-radio-group
+                v-model="model"
+                :options="options"
+                stacked
+            ></b-form-radio-group>
         </b-col>
     </b-row>
 </template>
@@ -71,6 +76,11 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: { value: string; text: string } = null;
+    options: { value: string; text: string }[] = [
+        { value: '1', text: 'one' },
+        { value: '2', text: 'two' },
+    ];
     //#endregion
 
     //#region Computed

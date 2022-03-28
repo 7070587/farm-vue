@@ -11,7 +11,11 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <b-form-input disabled></b-form-input>
+
+            <quill-editor
+                ref="myQuillEditor"
+                v-model="model"
+            />
         </b-col>
     </b-row>
 </template>
@@ -43,11 +47,17 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#endregion
 
 //#region Components Views
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
+import { quillEditor } from 'vue-quill-editor';
 //#endregion
+
 //#endregion
 
 @Component({
-    components: { DeleteCopy },
+    components: { DeleteCopy, quillEditor },
 })
 export default class ComponentElement extends Vue {
     //#region Prop
@@ -71,6 +81,7 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
+    model: string = '';
     //#endregion
 
     //#region Computed
