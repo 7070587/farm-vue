@@ -19,7 +19,7 @@
             <div class="setting--row__lable"> 文字位置 </div>
 
             <multiselect
-                v-model="textPositionSelected"
+                v-model="textPosition"
                 :options="textPositionOptions"
                 :allowEmpty="false"
                 track-by="value"
@@ -33,7 +33,7 @@
             <div class="setting--row__lable"> 文字粗細 </div>
 
             <multiselect
-                v-model="textWeightSelected"
+                v-model="textWeight"
                 :options="textWeightOptions"
                 :allowEmpty="false"
                 track-by="value"
@@ -74,7 +74,7 @@
             <div class="setting--row__lable"> 分割線樣式 </div>
 
             <multiselect
-                v-model="dividerStyleSelected"
+                v-model="dividerStyle"
                 :options="dividerStyleOptions"
                 :allowEmpty="false"
                 track-by="value"
@@ -124,7 +124,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { ETextPosition, ETextWeight, EDividerStyle } from '@/components/form-builders/elements';
+import { ETextPosition, ETextWeight, EDividerStyle, ITextPosition, ITextWeight, IDividerStyle } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -158,21 +158,21 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Variables
-    private textPositionSelected: { value: ETextPosition; text: string } = null;
-    private textPositionOptions: { value: ETextPosition; text: string }[] = [
+    private textPosition: ITextPosition = null;
+    private textPositionOptions: ITextPosition[] = [
         { value: ETextPosition.left, text: 'Left' },
         { value: ETextPosition.center, text: 'Center' },
         { value: ETextPosition.right, text: 'Right' },
     ];
 
-    private textWeightSelected: { value: ETextWeight; text: string } = null;
-    private textWeightOptions: { value: ETextWeight; text: string }[] = [
+    private textWeight: ITextWeight = null;
+    private textWeightOptions: ITextWeight[] = [
         { value: ETextWeight.normal, text: 'Normal' },
         { value: ETextWeight.bold, text: 'Bold' },
     ];
 
-    private dividerStyleSelected: { value: EDividerStyle; text: string } = null;
-    private dividerStyleOptions: { value: EDividerStyle; text: string }[] = [
+    private dividerStyle: IDividerStyle = null;
+    private dividerStyleOptions: IDividerStyle[] = [
         { value: EDividerStyle.solid, text: 'Solid' },
         { value: EDividerStyle.dotted, text: 'Dotted' },
         { value: EDividerStyle.dashed, text: 'Dashed' },

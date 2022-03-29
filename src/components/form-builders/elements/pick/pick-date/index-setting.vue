@@ -97,7 +97,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { EDateType } from '@/components/form-builders/elements';
+import { EDateType, IDateType } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -135,8 +135,8 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Variables
-    date: { value: EDateType; text: string } = { value: EDateType.date, text: 'Date' };
-    dateTypeOptions: { value: EDateType; text: string }[] = [
+    date: IDateType = { value: EDateType.date, text: 'Date' };
+    dateTypeOptions: IDateType[] = [
         { value: EDateType.time, text: 'Time' },
         { value: EDateType.date, text: 'Date' },
         { value: EDateType.month, text: 'Month' },
