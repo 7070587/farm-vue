@@ -15,6 +15,7 @@
             <b-form-checkbox-group
                 v-model="model"
                 :options="options"
+                :stacked="true"
             ></b-form-checkbox-group>
         </b-col>
     </b-row>

@@ -15,7 +15,7 @@
             <b-form-radio-group
                 v-model="model"
                 :options="options"
-                stacked
+                :stacked="true"
             ></b-form-radio-group>
         </b-col>
     </b-row>
