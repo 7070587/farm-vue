@@ -24,7 +24,7 @@
                 :height='34'
                 :width='318'
                 :font-size='16'
-                :labels="{checked: '顯示標題', unchecked: '不顯示標題'}"
+                :labels="{checked: '顯示', unchecked: '隱藏'}"
                 :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
                 :sync='true'
             />
