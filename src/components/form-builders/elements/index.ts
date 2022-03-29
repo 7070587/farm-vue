@@ -68,13 +68,38 @@ export enum EElementType {
     pick_checkbox = 'pick_checkbox',
     pick_switch = 'pick_switch',
     pick_slider = 'pick_slider',
-    pick_time = 'pick_time',
     pick_date = 'pick_date',
 
     /**
      * 布局型元件
      */
     layout_divider = 'layout_divider',
+}
+
+export enum EDateType {
+    time = 'time',
+    date = 'date',
+    month = 'month',
+    year = 'year',
+    datetime = 'datetime',
+}
+
+export enum ETextPosition {
+    left = 'left',
+    center = 'center',
+    right = 'right',
+}
+
+export enum ETextWeight {
+    normal = 'normal',
+    bold = 'bold',
+}
+
+export enum EDividerStyle {
+    solid = 'solid',
+    dotted = 'dotted',
+    dashed = 'dashed',
+    double = 'double',
 }
 
 export default {
