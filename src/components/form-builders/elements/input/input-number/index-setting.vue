@@ -18,19 +18,29 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 顯示標題 </div>
 
-            <b-form-checkbox
-                size="lg"
-                switch
-            ></b-form-checkbox>
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :labels="{checked: '顯示標題', unchecked: '不顯示標題'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
         </div>
 
         <div class="setting--row">
             <div class="setting--row__lable"> 是否必填 </div>
 
-            <b-form-checkbox
-                size="lg"
-                switch
-            ></b-form-checkbox>
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :labels="{checked: '必填', unchecked: '非必填'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
         </div>
 
         <div class="setting--row">
@@ -125,10 +135,14 @@ import { Model } from '@/config/index';
 
 //#region Components Views
 //#endregion
+
+//#region toggle-button
+import { ToggleButton } from 'vue-js-toggle-button';
+//#endregion
 //#endregion
 
 @Component({
-    components: {},
+    components: { ToggleButton },
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop

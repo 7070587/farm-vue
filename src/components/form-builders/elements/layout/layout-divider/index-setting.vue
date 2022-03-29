@@ -18,21 +18,29 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 文字位置 </div>
 
-            <b-form-select
+            <multiselect
                 v-model="textPositionSelected"
                 :options="textPositionOptions"
-                size="sm"
-            ></b-form-select>
+                :allowEmpty="false"
+                track-by="value"
+                label="text"
+                @input="updateTextPosition"
+            >
+            </multiselect>
         </div>
 
         <div class="setting--row">
             <div class="setting--row__lable"> 文字粗細 </div>
 
-            <b-form-select
+            <multiselect
                 v-model="textWeightSelected"
                 :options="textWeightOptions"
-                size="sm"
-            ></b-form-select>
+                :allowEmpty="false"
+                track-by="value"
+                label="text"
+                @input="updateTextWeight"
+            >
+            </multiselect>
         </div>
 
         <div class="setting--row">
@@ -65,11 +73,16 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 分割線樣式 </div>
 
-            <b-form-select
+            <multiselect
                 v-model="dividerStyleSelected"
                 :options="dividerStyleOptions"
-                size="sm"
-            ></b-form-select>
+                :allowEmpty="false"
+                track-by="value"
+                label="text"
+                @input="updateDividerStyle"
+            >
+            </multiselect>
+
         </div>
 
         <div class="setting--row">
@@ -111,6 +124,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { ETextPosition, ETextWeight, EDividerStyle } from '@/components/form-builders/elements';
 //#endregion
 
 //#region Views
@@ -124,24 +138,46 @@ import { Model } from '@/config/index';
 
 //#region Components Views
 //#endregion
+
+//#region vue-multiselect
+import Multiselect from 'vue-multiselect';
+import 'vue-multiselect/dist/vue-multiselect.min.css';
+//#endregion
+
+//#region DatePicker
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+//#endregion
 //#endregion
 
 @Component({
-    components: {},
+    components: { DatePicker, Multiselect },
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
     //#endregion
 
     //#region Variables
-    private textPositionSelected: string = null;
-    private textPositionOptions: string[] = ['Left', 'Center', 'Right'];
+    private textPositionSelected: { value: ETextPosition; text: string } = null;
+    private textPositionOptions: { value: ETextPosition; text: string }[] = [
+        { value: ETextPosition.left, text: 'Left' },
+        { value: ETextPosition.center, text: 'Center' },
+        { value: ETextPosition.right, text: 'Right' },
+    ];
 
-    private textWeightSelected: string = null;
-    private textWeightOptions: string[] = ['Normal', 'Bold'];
+    private textWeightSelected: { value: ETextWeight; text: string } = null;
+    private textWeightOptions: { value: ETextWeight; text: string }[] = [
+        { value: ETextWeight.normal, text: 'Normal' },
+        { value: ETextWeight.bold, text: 'Bold' },
+    ];
 
-    private dividerStyleSelected: string = null;
-    private dividerStyleOptions: string[] = ['Solid', 'Dotted', 'Dashed', 'Double'];
+    private dividerStyleSelected: { value: EDividerStyle; text: string } = null;
+    private dividerStyleOptions: { value: EDividerStyle; text: string }[] = [
+        { value: EDividerStyle.solid, text: 'Solid' },
+        { value: EDividerStyle.dotted, text: 'Dotted' },
+        { value: EDividerStyle.dashed, text: 'Dashed' },
+        { value: EDividerStyle.double, text: 'Double' },
+    ];
     //#endregion
 
     //#region Computed
@@ -163,6 +199,9 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private updateTextPosition(): void {}
+    private updateTextWeight(): void {}
+    private updateDividerStyle(): void {}
     //#endregion
 
     //#region Other Function

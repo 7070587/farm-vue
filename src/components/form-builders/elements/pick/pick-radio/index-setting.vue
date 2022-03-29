@@ -18,19 +18,29 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 顯示標題 </div>
 
-            <b-form-checkbox
-                size="lg"
-                switch
-            ></b-form-checkbox>
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :labels="{checked: '顯示標題', unchecked: '不顯示標題'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
         </div>
 
         <div class="setting--row">
             <div class="setting--row__lable"> 是否必填 </div>
 
-            <b-form-checkbox
-                size="lg"
-                switch
-            ></b-form-checkbox>
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :labels="{checked: '必填', unchecked: '非必填'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
         </div>
 
         <div class="setting--row">
@@ -49,10 +59,15 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 水平顯示 </div>
 
-            <b-form-checkbox
-                size="lg"
-                switch
-            ></b-form-checkbox>
+            <toggle-button
+                v-model="model"
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :labels="{checked: '水平顯示', unchecked: '垂直顯示'}"
+                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :sync='true'
+            />
         </div>
 
         <div class="setting--row">
@@ -64,9 +79,10 @@
 
             <b-form-textarea
                 size="sm"
-                placeholder="鍵入要從中選擇的選項。 將每一個分開一個新行。"
+                placeholder="請輸入選項，一行為一個選項，多個選項請輸入多行"
                 rows="5"
             ></b-form-textarea>
+            <div class="option-tip">一行為一個選項，多個選項請輸入多行</div>
         </div>
     </div>
 </template>
@@ -98,10 +114,14 @@ import { Model } from '@/config/index';
 
 //#region Components Views
 //#endregion
+
+//#region toggle-button
+import { ToggleButton } from 'vue-js-toggle-button';
+//#endregion
 //#endregion
 
 @Component({
-    components: {},
+    components: { ToggleButton },
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop

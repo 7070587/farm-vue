@@ -15,6 +15,8 @@
             <multiselect
                 v-model="model"
                 :options="options"
+                :searchable="true"
+                :multiple="true"
             >
             </multiselect>
         </b-col>
