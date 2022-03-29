@@ -1,4 +1,4 @@
-//#region
+//#region Display
 import FormBuilderDisplayTextSetting from '@/components/form-builders/elements/display/display-text/index-setting.vue';
 import FormBuilderDisplayText from '@/components/form-builders/elements/display/display-text/index.vue';
 
@@ -6,7 +6,7 @@ import FormBuilderDisplayImageSetting from '@/components/form-builders/elements/
 import FormBuilderDisplayImage from '@/components/form-builders/elements/display/display-image/index.vue';
 //#endregion
 
-//#region
+//#region Input
 import FormBuilderInputSingleTextSetting from '@/components/form-builders/elements/input/input-single-text/index-setting.vue';
 import FormBuilderInputSingleText from '@/components/form-builders/elements/input/input-single-text/index.vue';
 
@@ -20,7 +20,7 @@ import FormBuilderInputTextEditorSetting from '@/components/form-builders/elemen
 import FormBuilderInputTextEditor from '@/components/form-builders/elements/input/input-text-editor/index.vue';
 //#endregion
 
-//#region
+//#region Pick
 import FormBuilderPickDropdownListSetting from '@/components/form-builders/elements/pick/pick-dropdown-list/index-setting.vue';
 import FormBuilderPickDropdownList from '@/components/form-builders/elements/pick/pick-dropdown-list/index.vue';
 
@@ -40,41 +40,12 @@ import FormBuilderPickDateSetting from '@/components/form-builders/elements/pick
 import FormBuilderPickDate from '@/components/form-builders/elements/pick/pick-date/index.vue';
 //#endregion
 
-//#region
+//#region Layout
 import FormBuilderLayoutDividerSetting from '@/components/form-builders/elements/layout/layout-divider/index-setting.vue';
 import FormBuilderLayoutDivider from '@/components/form-builders/elements/layout/layout-divider/index.vue';
 //#endregion
 
-export enum EElementType {
-    /**
-     * 顯示型元件
-     */
-    display_text = 'display_text',
-    display_image = 'display_image',
-
-    /**
-     * 輸入型元件
-     */
-    input_single_text = 'input_single_text',
-    input_multiple_text = 'input_multiple_text',
-    input_number = 'input_number',
-    input_text_editor = 'input_text_editor',
-
-    /**
-     * 選擇型元件
-     */
-    pick_dropdown_list = 'pick_dropdown_list',
-    pick_radio = 'pick_radio',
-    pick_checkbox = 'pick_checkbox',
-    pick_switch = 'pick_switch',
-    pick_slider = 'pick_slider',
-    pick_date = 'pick_date',
-
-    /**
-     * 布局型元件
-     */
-    layout_divider = 'layout_divider',
-}
+export { EElementType, TFormBuilderElement } from '@/components/form-builders/elements/models';
 
 export default {
     /**

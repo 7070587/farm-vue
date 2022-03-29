@@ -1,13 +1,11 @@
-import { EElementType } from '@/components/form-builders/elements';
+import { TFormBuilderElement } from '@/components/form-builders/elements';
+
+export interface IFormBuilderElement extends IFormBuilder {
+    id?: string;
+}
 
 export interface IFormBuilder {
     label: string;
     icon: string;
-    children?: IFormBuilderElement[];
-}
-
-export interface IFormBuilderElement extends IFormBuilder {
-    type: EElementType;
-    id?: string;
-    config: object;
+    children?: (IFormBuilderElement & TFormBuilderElement)[];
 }
