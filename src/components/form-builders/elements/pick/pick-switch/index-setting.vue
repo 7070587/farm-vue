@@ -102,7 +102,8 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="10"
+                min="50"
+                max="1010"
             ></b-form-input>
         </div>
     </div>

@@ -15,7 +15,7 @@
             <toggle-button
                 v-model="model"
                 :height='34'
-                :width='210'
+                :width='100'
                 :font-size='16'
                 :labels="{checked: 'open', unchecked: 'close'}"
                 :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
