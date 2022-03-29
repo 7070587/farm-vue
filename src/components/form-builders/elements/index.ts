@@ -76,32 +76,6 @@ export enum EElementType {
     layout_divider = 'layout_divider',
 }
 
-export enum EDateType {
-    time = 'time',
-    date = 'date',
-    month = 'month',
-    year = 'year',
-    datetime = 'datetime',
-}
-
-export enum ETextPosition {
-    left = 'left',
-    center = 'center',
-    right = 'right',
-}
-
-export enum ETextWeight {
-    normal = 'normal',
-    bold = 'bold',
-}
-
-export enum EDividerStyle {
-    solid = 'solid',
-    dotted = 'dotted',
-    dashed = 'dashed',
-    double = 'double',
-}
-
 export default {
     /**
      * 顯示型元件
