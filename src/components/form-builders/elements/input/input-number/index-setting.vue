@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -53,6 +54,8 @@
             <b-form-input
                 size="sm"
                 placeholder="請輸入文字"
+                trim
+                v-model="config.placeholder"
             ></b-form-input>
         </div>
 
@@ -62,7 +65,13 @@
             <b-form-input
                 type="number"
                 size="sm"
+                trim
                 placeholder="預設值"
+                v-model="config.content"
+                :max="config.max"
+                :min="config.min"
+                :step="config.step"
+                @input="updateContent"
             ></b-form-input>
         </div>
 
@@ -72,7 +81,9 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                placeholder="最小值"
+                v-model="config.min"
+                @input="updateMin"
             ></b-form-input>
         </div>
 
@@ -82,7 +93,9 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                placeholder="最大值"
+                v-model="config.max"
+                @input="updateMax"
             ></b-form-input>
         </div>
 
@@ -92,26 +105,20 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                min="1"
+                placeholder="最大值"
+                v-model="config.step"
+                @input="updateStep"
             ></b-form-input>
         </div>
 
-        <div class="setting--row">
-            <div class="setting--row__lable"> 小數點位數 </div>
-
-            <b-form-input
-                type="number"
-                size="sm"
-                min="0"
-            ></b-form-input>
-        </div>
     </div>
 </template>
 
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -122,6 +129,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigInputNumber } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -146,6 +154,11 @@ import { ToggleButton } from 'vue-js-toggle-button';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
@@ -153,6 +166,11 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Computed
+    private get config(): IConfigInputNumber {
+        let config = this.activedItemData['config'] as IConfigInputNumber;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -171,6 +189,34 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private updateContent(value: string): void {
+        this.config.content = +value;
+
+        this.$nextTick(() => {
+            if (!this.config.content || this.config.content === null) {
+            } else {
+                if (this.config.content > this.config.max) {
+                    this.config.content = this.config.max;
+                }
+
+                if (this.config.content < this.config.min) {
+                    this.config.content = this.config.min;
+                }
+            }
+        });
+    }
+
+    private updateMin(value: string): void {
+        this.config.min = +value;
+    }
+
+    private updateMax(value: string): void {
+        this.config.max = +value;
+    }
+
+    private updateStep(value: string): void {
+        this.config.step = +value;
+    }
     //#endregion
 
     //#region Other Function

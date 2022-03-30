@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title"> 多行文字屬性 </span>
+            <span class="setting--row__title"> 單行文字屬性 </span>
 
             <hr />
         </div>
@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -53,16 +54,22 @@
             <b-form-input
                 size="sm"
                 placeholder="請輸入文字"
+                trim
+                v-model="config.placeholder"
             ></b-form-input>
         </div>
 
         <div class="setting--row">
             <div class="setting--row__lable"> 預設內容 </div>
 
-            <b-form-input
+            <b-form-textarea
                 size="sm"
                 placeholder="預設內容"
-            ></b-form-input>
+                trim
+                rows="5"
+                v-model="config.content"
+                :maxlength="config.wordLimit"
+            ></b-form-textarea>
         </div>
 
         <div class="setting--row">
@@ -74,31 +81,21 @@
             >
                 <b-form-input
                     type="number"
-                    min="0"
+                    min="1"
+                    placeholder="輸入字數上限"
+                    v-model="config.wordLimit"
+                    @input="updateWordLimit"
                 ></b-form-input>
             </b-input-group>
         </div>
 
-        <div class="setting--row">
-            <div class="setting--row__lable"> 顯示輸入統計 </div>
-
-            <toggle-button
-                v-model="model"
-                :height='34'
-                :width='318'
-                :font-size='16'
-                :labels="{checked: '顯示', unchecked: '不顯示'}"
-                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
-                :sync='true'
-            />
-        </div>
     </div>
 </template>
 
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -109,6 +106,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigInputMultipleText } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -133,13 +131,22 @@ import { ToggleButton } from 'vue-js-toggle-button';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
+    private get config(): IConfigInputMultipleText {
+        let config = this.activedItemData['config'] as IConfigInputMultipleText;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -158,6 +165,13 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private updateWordLimit(value: string): void {
+        if (+value <= 0) {
+            this.config.wordLimit = null;
+        } else {
+            this.config.wordLimit = +value;
+        }
+    }
     //#endregion
 
     //#region Other Function

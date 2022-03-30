@@ -101,6 +101,8 @@ export interface IConfigDisplayImage {
     content: string;
     width: number;
     height: number;
+    widthOriginal: number;
+    heightOriginal: number;
 }
 
 export interface IConfigInputSingleText {
@@ -135,7 +137,6 @@ export interface IConfigInputNumber {
     max: number;
     min: number;
     step: number;
-    decimalPoint: number;
 }
 
 export interface IConfigInputTextEditor {

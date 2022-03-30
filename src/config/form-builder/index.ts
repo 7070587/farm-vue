@@ -91,22 +91,21 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     max: null,
                     min: null,
                     step: null,
-                    decimalPoint: null,
                 },
             },
-            {
-                label: '文字編輯器',
-                icon: require('@/assets/icon/rich-text.svg'),
-                type: EElementType.input_text_editor,
-                config: {
-                    label: '文字編輯器',
-                    isShowLabel: true,
-                    isRequired: false,
+            // {
+            //     label: '文字編輯器',
+            //     icon: require('@/assets/icon/rich-text.svg'),
+            //     type: EElementType.input_text_editor,
+            //     config: {
+            //         label: '文字編輯器',
+            //         isShowLabel: true,
+            //         isRequired: false,
 
-                    placeholder: '請輸入內容',
-                    content: '文字編輯器',
-                },
-            },
+            //         placeholder: '請輸入內容',
+            //         content: '文字編輯器',
+            //     },
+            // },
         ],
     },
     {
