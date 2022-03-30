@@ -1,17 +1,23 @@
 <template>
     <b-row>
-
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> image </div>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label"> {{ config.label }} </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <img :src="DefaultImage"></img>
+
+            <img
+                :src="config.content"
+                :style="styleList"
+            ></img>
         </b-col>
     </b-row>
 </template>
@@ -19,7 +25,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -30,6 +36,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigDisplayImage } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -45,6 +52,11 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 //#region Components Views
 //#endregion
 //#endregion
+
+interface IStyleList {
+    width: string;
+    height: string;
+}
 
 @Component({
     components: { DeleteCopy },
@@ -71,16 +83,30 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-    private DefaultImage = require('@/assets/image-default.svg');
+    private styleList: IStyleList = {
+        width: '',
+        height: '',
+    };
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigDisplayImage {
+        let config = this.activedItemData['config'] as IConfigDisplayImage;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
     //#region Watch
+    @Watch('activedItemData', { deep: true, immediate: false })
+    private activedItemDataChange(newval: Model.IFormBuilderElement, oldval: Model.IFormBuilderElement): void {
+        this.styleList.width = `${this.config.width}px`;
+        this.styleList.height = `${this.config.height}px`;
+    }
     //#endregion
 
     //#region Vue Life
@@ -97,11 +123,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 

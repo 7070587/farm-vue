@@ -12,7 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
-                v-model="activedItem.config.label"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -20,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -41,7 +41,7 @@
                 size="sm"
                 placeholder="內容"
                 rows="5"
-                v-model="activedItem.config.content"
+                v-model="config.content"
             ></b-form-textarea>
         </div>
     </div>
@@ -61,6 +61,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigDisplayText } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -96,8 +97,10 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigDisplayText {
+        let config = this.activedItemData['config'] as IConfigDisplayText;
+
+        return config;
     }
     //#endregion
 

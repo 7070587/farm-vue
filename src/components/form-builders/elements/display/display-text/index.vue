@@ -1,17 +1,21 @@
 <template>
     <b-row>
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> {{ activedItem.config.label }} </div>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label"> {{ config.label }} </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
 
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
-            <div> {{ activedItem.config.content }} </div>
+
+            <div> {{ config.content }} </div>
         </b-col>
     </b-row>
 </template>
@@ -30,6 +34,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigDisplayText } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -74,8 +79,14 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigDisplayText {
+        let config = this.activedItemData['config'] as IConfigDisplayText;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
@@ -96,11 +107,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 

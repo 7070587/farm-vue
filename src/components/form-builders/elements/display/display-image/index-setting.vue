@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -40,6 +41,7 @@
                 size="sm"
                 placeholder="上傳圖片"
                 accept="image/png, image/gif, image/jpeg, image/bmp, image/webp"
+                @input="uploadImage"
             ></b-form-file>
         </b-row>
 
@@ -54,6 +56,8 @@
                     type="number"
                     placeholder="圖片寬度"
                     min="1"
+                    v-model="config.width"
+                    @input="updateWidth"
                 ></b-form-input>
             </b-input-group>
         </div>
@@ -69,6 +73,8 @@
                     type="number"
                     placeholder="圖片高度"
                     min="1"
+                    v-model="config.height"
+                    @input="updateHeight"
                 ></b-form-input>
             </b-input-group>
         </div>
@@ -78,10 +84,11 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
+import { ServiceBase64 } from 'web-service-base64';
 //#endregion
 
 //#region Framework
@@ -89,6 +96,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigDisplayImage } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -113,16 +121,39 @@ import { ToggleButton } from 'vue-js-toggle-button';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
+    private get config(): IConfigDisplayImage {
+        let config = this.activedItemData['config'] as IConfigDisplayImage;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
+    @Watch('activedItemData', { immediate: true, deep: false })
+    private activedItemDataChange(newval: Model.IFormBuilderElement, oldval: Model.IFormBuilderElement): void {
+        const img = new Image();
+        img.onload = () => {
+            this.config.widthOriginal = img.width;
+            this.config.heightOriginal = img.height;
+
+            if (!this.config.width || !this.config.height) {
+                this.config.width = img.width;
+                this.config.height = img.height;
+            }
+        };
+        img.src = this.config.content;
+    }
     //#endregion
 
     //#region Vue Life
@@ -138,6 +169,34 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private async uploadImage(file: File): Promise<void> {
+        let base64: any = null;
+        base64 = await ServiceBase64.getBase64(file);
+
+        const img = new Image();
+        img.onload = () => {
+            this.config.width = img.width;
+            this.config.height = img.height;
+
+            this.config.widthOriginal = img.width;
+            this.config.heightOriginal = img.height;
+        };
+        img.src = base64.result;
+
+        if (base64.result) this.config.content = base64.result;
+    }
+
+    private updateWidth(value: string): void {
+        this.config.width = +value;
+        let proportionWidth: number = +(+value / this.config.widthOriginal).toFixed(2);
+        this.config.height = Math.round(this.config.heightOriginal * proportionWidth);
+    }
+    private updateHeight(value: string): void {
+        this.config.height = +value;
+        let proportionHeight: number = +(+value / this.config.heightOriginal).toFixed(2);
+        this.config.width = Math.round(this.config.widthOriginal * proportionHeight);
+    }
+
     //#endregion
 
     //#region Other Function

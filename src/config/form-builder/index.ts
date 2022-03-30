@@ -5,6 +5,8 @@ import * as Model from './models';
 
 export { Model };
 
+const DefaultImage = require('@/assets/image-default.svg');
+
 /**
  *
  */
@@ -32,9 +34,11 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     label: '圖片',
                     isShowLabel: true,
 
-                    content: '',
+                    content: DefaultImage,
                     width: null,
                     height: null,
+                    widthOriginal: null,
+                    heightOriginal: null,
                 },
             },
         ],
