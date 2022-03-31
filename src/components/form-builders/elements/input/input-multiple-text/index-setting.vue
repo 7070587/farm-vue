@@ -171,6 +171,10 @@ export default class ComponentElementSetting extends Vue {
         } else {
             this.config.wordLimit = +value;
         }
+
+        if (this.config.content.length > +this.config.wordLimit) {
+            this.config.content = this.config.content.substring(0, this.config.wordLimit);
+        }
     }
     //#endregion
 
