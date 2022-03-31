@@ -1,23 +1,24 @@
 <template>
-    <b-modal
-        size="lg"
-        title="匯出JSON"
-        v-model="modalShow"
-        :hide-footer='true'
-        :no-close-on-backdrop='true'
-        @hide="hideModel"
-        @close="hideModel"
-    >
-        <json-viewer
-            :value="generateList"
-            :expand-depth=5
-            :show-double-quotes="true"
-            copyable
-            boxed
-            sort
-        ></json-viewer>
-    </b-modal>
-
+    <div>
+        <b-modal
+            size="lg"
+            title="匯出設定"
+            v-model="modalShow"
+            :hide-footer='true'
+            :no-close-on-backdrop='true'
+            @hide="hideModel"
+            @close="hideModel"
+        >
+            <json-viewer
+                :value="configs"
+                :expand-depth=5
+                :show-double-quotes="true"
+                copyable
+                boxed
+                sort
+            ></json-viewer>
+        </b-modal>
+    </div>
 </template>
 
 <script lang="ts">
@@ -33,7 +34,6 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { Model as FormBuilderModel } from '@/config';
 //#endregion
 
 //#region Views
@@ -54,19 +54,19 @@ import JsonViewer from 'vue-json-viewer';
 @Component({
     components: { JsonViewer },
 })
-export default class ExportJson extends Vue {
+export default class ExportConfig extends Vue {
     //#region Prop
     @Prop({
         type: Boolean, // Boolean, Number, String, Array, Object
         default: () => false,
     })
-    private showExportJSON: boolean;
+    private showConfig: boolean;
 
     @Prop({
         type: Array, // Boolean, Number, String, Array, Object
         default: () => [],
     })
-    private generateList: FormBuilderModel.IFormBuilderElement[];
+    private configs: object[];
     //#endregion
 
     //#region Variables
@@ -77,8 +77,8 @@ export default class ExportJson extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('showExportJSON', { immediate: true, deep: true })
-    private showExportJSONChanged(newVal: boolean, oldVal: boolean): void {
+    @Watch('showConfig', { immediate: true, deep: true })
+    private showConfigChanged(newVal: boolean, oldVal: boolean): void {
         this.modalShow = newVal;
     }
     //#endregion

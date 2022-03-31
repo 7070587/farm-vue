@@ -21,13 +21,13 @@
 
                     <div
                         class="behavior--item"
-                        @click="behaviorExportJSON"
-                    ><i class="fas fa-download"></i> 匯出JSON</div>
+                        @click="behaviorExportConfig"
+                    ><i class="fas fa-download"></i> 匯出設定</div>
 
                     <div
                         class="behavior--item"
-                        @click="behaviorImportJSON"
-                    > <i class="fas fa-upload"></i> 匯入JSON</div>
+                        @click="behaviorImportConfig"
+                    > <i class="fas fa-upload"></i> 匯入設定</div>
 
                 </div>
 
@@ -197,15 +197,16 @@
             </div>
         </div>
 
-        <ExportJson
-            :showExportJSON="showExportJSON"
-            :generateList="generateList"
-            @hideModel="hideExportJSON"
+        <ExportConfig
+            :showConfig="showExportConfig"
+            :configs="exportConfigs"
+            @hideModel="hideExportConfig"
         />
 
-        <ImportJson
-            :showImportJSON="showImportJSON"
-            @hideModel="hideImportJSON"
+        <ImportConfig
+            :showConfig="showImportConfig"
+            @hideModel="hideImportConfig"
+            @importConfigs="importConfigs"
         />
 
         <b-modal
@@ -249,7 +250,7 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { Model as FormBuilderModel } from '@/config';
+import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
 import { EElementType } from '@/components/form-builders/elements';
 //#endregion
 
@@ -267,8 +268,8 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 
 //#region Components Views
 import FormBuilderList from './form-builder-list.vue';
-import ExportJson from './export-json.vue';
-import ImportJson from './import-json.vue';
+import ExportConfig from './export-config.vue';
+import ImportConfig from './import-config.vue';
 //#endregion
 //#endregion
 
@@ -279,8 +280,8 @@ import draggable from 'vuedraggable';
         draggable,
         FormBuilderList,
         DeleteCopy,
-        ExportJson,
-        ImportJson,
+        ExportConfig,
+        ImportConfig,
         ...FormBuilderElement,
     },
 })
@@ -294,14 +295,23 @@ export default class VuePageClass extends Vue {
     private activedItem: FormBuilderModel.IFormBuilderElement = null;
 
     private showDeleteConfirm: boolean = false;
-    private showExportJSON: boolean = false;
-    private showImportJSON: boolean = false;
+    private showExportConfig: boolean = false;
+    private showImportConfig: boolean = false;
 
     private eElementType = EElementType;
     private currentTab: Model.ETab = Model.ETab.component;
     //#endregion
 
     //#region Computed
+    private get exportConfigs(): object[] {
+        let configs: FormBuilderModel.IFormBuilderElement[] = JSON.parse(JSON.stringify(this.generateList));
+        for (let config of configs) {
+            delete config.label;
+            delete config.icon;
+        }
+
+        return configs;
+    }
     //#endregion
 
     //#region Watch
@@ -350,12 +360,12 @@ export default class VuePageClass extends Vue {
         this.showDeleteConfirm = true;
     }
 
-    private behaviorExportJSON(): void {
-        this.showExportJSON = true;
+    private behaviorExportConfig(): void {
+        this.showExportConfig = true;
     }
 
-    private behaviorImportJSON(): void {
-        this.showImportJSON = true;
+    private behaviorImportConfig(): void {
+        this.showImportConfig = true;
     }
 
     private cancelClear(): void {
@@ -367,12 +377,36 @@ export default class VuePageClass extends Vue {
         this.generateList = [];
     }
 
-    private hideExportJSON(modalShow: boolean): void {
-        this.showExportJSON = modalShow;
+    private hideExportConfig(modalShow: boolean): void {
+        this.showExportConfig = modalShow;
     }
 
-    private hideImportJSON(modalShow: boolean): void {
-        this.showImportJSON = modalShow;
+    private hideImportConfig(modalShow: boolean): void {
+        this.showImportConfig = modalShow;
+    }
+
+    private importConfigs(configs: object[]): void {
+        let elementTypeDirectory: object = {};
+        for (let element of FormBuilderElements) {
+            if (!!element.children) {
+                for (let children of element.children) {
+                    elementTypeDirectory[children.type] = children;
+                }
+            }
+        }
+
+        this.generateList = [];
+        for (let config of configs) {
+            let element = elementTypeDirectory[config['type']];
+            if (!element) {
+                continue;
+            }
+
+            config['label'] = element.label;
+            config['icon'] = element.icon;
+
+            this.generateList.push(config as FormBuilderModel.IFormBuilderElement);
+        }
     }
     //#endregion
 
