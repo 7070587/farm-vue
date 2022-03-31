@@ -151,6 +151,18 @@ export default class ComponentElementSetting extends Vue {
                 this.config.width = img.width;
                 this.config.height = img.height;
             }
+
+            if (!ServiceBase64.isBase64Image(this.config.content)) {
+                let canvas = document.createElement('canvas');
+                let ctx = canvas.getContext('2d');
+
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                ctx.drawImage(img, 0, 0);
+
+                this.config.content = canvas.toDataURL();
+            }
         };
         img.src = this.config.content;
     }

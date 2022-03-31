@@ -93,6 +93,9 @@ export default class ComponentElement extends Vue {
     private get config(): IConfigDisplayImage {
         let config = this.activedItemData['config'] as IConfigDisplayImage;
 
+        this.styleList.width = `${config.width}px`;
+        this.styleList.height = `${config.height}px`;
+
         return config;
     }
 
