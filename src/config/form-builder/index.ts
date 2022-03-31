@@ -1,5 +1,5 @@
 import { EElementType } from '@/components/form-builders/elements';
-import { EDateType, ETextPosition, ETextWeight, EDividerStyle } from '@/components/form-builders/elements/models';
+import { EDateType, ETextPosition, EFontWeight, EDividerStyle } from '@/components/form-builders/elements/models';
 
 import * as Model from './models';
 
@@ -216,12 +216,12 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     content: 'divider',
 
                     textPosition: { value: ETextPosition.center, text: 'Center' },
-                    textWeight: { value: ETextWeight.normal, text: 'Normal' },
+                    fontWeight: { value: EFontWeight.normal, text: 'Normal' },
                     fontSize: 14,
-                    fontColor: null,
+                    fontColor: '#303133',
                     dividerStyle: { value: EDividerStyle.solid, text: 'Solid' },
-                    dividerHeight: null,
-                    dividerColor: null,
+                    dividerHeight: 1,
+                    dividerColor: '#dcdfe6',
                 },
             },
         ],

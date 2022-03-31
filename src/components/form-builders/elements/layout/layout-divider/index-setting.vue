@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="文字"
+                v-model="config.content"
             ></b-form-input>
         </div>
 
@@ -19,12 +20,14 @@
             <div class="setting--row__lable"> 文字位置 </div>
 
             <multiselect
-                v-model="textPosition"
+                v-model="config.textPosition"
                 :options="textPositionOptions"
                 :allowEmpty="false"
+                :selectLabel="''"
+                :deselectLabel="''"
+                placeholder="文字位置"
                 track-by="value"
                 label="text"
-                @input="updateTextPosition"
             >
             </multiselect>
         </div>
@@ -33,12 +36,14 @@
             <div class="setting--row__lable"> 文字粗細 </div>
 
             <multiselect
-                v-model="textWeight"
-                :options="textWeightOptions"
+                v-model="config.fontWeight"
+                :options="fontWeightOptions"
                 :allowEmpty="false"
+                :selectLabel="''"
+                :deselectLabel="''"
+                placeholder="文字粗細"
                 track-by="value"
                 label="text"
-                @input="updateTextWeight"
             >
             </multiselect>
         </div>
@@ -52,7 +57,10 @@
             >
                 <b-form-input
                     type="number"
-                    min="1"
+                    min="12"
+                    placeholder="文字大小"
+                    v-model="config.fontSize"
+                    @input="updateFontSize"
                 ></b-form-input>
             </b-input-group>
         </div>
@@ -63,6 +71,7 @@
             <b-form-input
                 type="color"
                 size="sm"
+                v-model="config.fontColor"
             ></b-form-input>
         </div>
 
@@ -74,12 +83,14 @@
             <div class="setting--row__lable"> 分割線樣式 </div>
 
             <multiselect
-                v-model="dividerStyle"
+                v-model="config.dividerStyle"
                 :options="dividerStyleOptions"
                 :allowEmpty="false"
+                :selectLabel="''"
+                :deselectLabel="''"
+                placeholder="分割線樣式"
                 track-by="value"
                 label="text"
-                @input="updateDividerStyle"
             >
             </multiselect>
 
@@ -95,6 +106,9 @@
                 <b-form-input
                     type="number"
                     min="1"
+                    placeholder="分割線高度"
+                    v-model="config.dividerHeight"
+                    @input="updateDividerHeight"
                 ></b-form-input>
             </b-input-group>
         </div>
@@ -105,6 +119,7 @@
             <b-form-input
                 type="color"
                 size="sm"
+                v-model="config.dividerColor"
             ></b-form-input>
         </div>
     </div>
@@ -113,7 +128,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -124,7 +139,15 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { ETextPosition, ETextWeight, EDividerStyle, ITextPosition, ITextWeight, IDividerStyle } from '@/components/form-builders/elements/models';
+import {
+    IConfigLayoutDivider,
+    ETextPosition,
+    EFontWeight,
+    EDividerStyle,
+    ITextPosition,
+    IFontWeight,
+    IDividerStyle,
+} from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -155,23 +178,25 @@ import 'vue2-datepicker/index.css';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
-    private textPosition: ITextPosition = null;
     private textPositionOptions: ITextPosition[] = [
         { value: ETextPosition.left, text: 'Left' },
         { value: ETextPosition.center, text: 'Center' },
         { value: ETextPosition.right, text: 'Right' },
     ];
 
-    private textWeight: ITextWeight = null;
-    private textWeightOptions: ITextWeight[] = [
-        { value: ETextWeight.normal, text: 'Normal' },
-        { value: ETextWeight.bold, text: 'Bold' },
+    private fontWeightOptions: IFontWeight[] = [
+        { value: EFontWeight.normal, text: 'Normal' },
+        { value: EFontWeight.bold, text: 'Bold' },
     ];
 
-    private dividerStyle: IDividerStyle = null;
     private dividerStyleOptions: IDividerStyle[] = [
         { value: EDividerStyle.solid, text: 'Solid' },
         { value: EDividerStyle.dotted, text: 'Dotted' },
@@ -181,6 +206,11 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Computed
+    private get config(): IConfigLayoutDivider {
+        let config = this.activedItemData['config'] as IConfigLayoutDivider;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -199,9 +229,18 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
-    private updateTextPosition(): void {}
-    private updateTextWeight(): void {}
-    private updateDividerStyle(): void {}
+    private updateFontSize(value: string): void {
+        this.config.fontSize = +value;
+
+        if (this.config.fontSize < 12) {
+            this.config.fontSize = 12;
+        }
+    }
+
+    private updateDividerHeight(value: string): void {
+        this.config.dividerHeight = +value;
+    }
+
     //#endregion
 
     //#region Other Function

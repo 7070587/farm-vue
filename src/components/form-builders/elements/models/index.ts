@@ -46,7 +46,7 @@ export enum ETextPosition {
     right = 'right',
 }
 
-export enum ETextWeight {
+export enum EFontWeight {
     normal = 'normal',
     bold = 'bold',
 }
@@ -70,8 +70,8 @@ export interface ITextPosition {
     text: string;
 }
 
-export interface ITextWeight {
-    value: ETextWeight;
+export interface IFontWeight {
+    value: EFontWeight;
     text: string;
 }
 
@@ -218,7 +218,7 @@ export interface IConfigLayoutDivider {
     content: string;
 
     textPosition: ITextPosition;
-    textWeight: ITextWeight;
+    fontWeight: IFontWeight;
     fontSize: number;
     fontColor: string;
     dividerStyle: IDividerStyle;
