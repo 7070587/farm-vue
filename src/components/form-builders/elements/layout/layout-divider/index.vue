@@ -135,10 +135,6 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('activedItemData', { deep: true, immediate: false })
-    private activedItemDataChange(newval: Model.IFormBuilderElement, oldval: Model.IFormBuilderElement): void {
-        this.updateStyle(this.config);
-    }
     //#endregion
 
     //#region Vue Life
@@ -175,20 +171,14 @@ export default class ComponentElement extends Vue {
 
         let count = dividerHeight / 2;
 
-        console.log(` => `, textPosition);
-
         switch (textPosition.value) {
             case ETextPosition.left:
-                console.log(`left => `);
                 this.styleListDividerText.left = '20px';
                 this.styleListDividerText.right = 'unset';
                 this.styleListDividerText.transform = `translateY(calc(-50% + ${count}px))`;
-
-                console.log(` => `, JSON.parse(JSON.stringify(this.styleListDividerText)));
                 break;
 
             case ETextPosition.right:
-                console.log(`right => `);
                 this.styleListDividerText.left = 'unset';
                 this.styleListDividerText.right = '20px';
                 this.styleListDividerText.transform = `translateY(calc(-50% + ${count}px))`;
@@ -196,7 +186,6 @@ export default class ComponentElement extends Vue {
 
             case ETextPosition.center:
             default:
-                console.log(`center => `);
                 this.styleListDividerText.left = '50%';
                 this.styleListDividerText.right = 'unset';
                 this.styleListDividerText.transform = `translateX(-50%) translateY(calc(-50% + ${count}px))`;

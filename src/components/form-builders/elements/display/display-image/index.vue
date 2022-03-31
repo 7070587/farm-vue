@@ -105,11 +105,6 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Watch
-    @Watch('activedItemData', { deep: true, immediate: false })
-    private activedItemDataChange(newval: Model.IFormBuilderElement, oldval: Model.IFormBuilderElement): void {
-        this.styleList.width = `${this.config.width}px`;
-        this.styleList.height = `${this.config.height}px`;
-    }
     //#endregion
 
     //#region Vue Life
