@@ -63,6 +63,7 @@
             <div class="setting--row__lable"> 預設值 </div>
 
             <b-form-input
+                :id="activedItemData.id"
                 type="number"
                 size="sm"
                 trim
@@ -192,18 +193,33 @@ export default class ComponentElementSetting extends Vue {
     private updateContent(value: string): void {
         this.config.content = +value;
 
-        this.$nextTick(() => {
-            if (!this.config.content || this.config.content === null) {
-            } else {
-                if (this.config.content > this.config.max) {
-                    this.config.content = this.config.max;
-                }
+        if (this.config.content > this.config.max) {
+            this.config.content = this.config.max;
+        }
 
-                if (this.config.content < this.config.min) {
-                    this.config.content = this.config.min;
-                }
-            }
-        });
+        if (this.config.content < this.config.min) {
+            this.config.content = this.config.min;
+        }
+
+        // this.$nextTick(() => {
+        //     if (max !== undefined || max !== null || min !== undefined || min !== null) {
+        //         if (content !== undefined || content !== null) {
+        //             if (this.config.content > this.config.max) {
+        //                 this.config.content = this.config.max;
+        //             }
+
+        //             if (this.config.content < this.config.min) {
+        //                 this.config.content = this.config.min;
+        //             }
+        //         }
+        //     } else {
+        //         this.config.content = +value;
+        //     }
+
+        //     // if (!this.config.content || this.config.content === null) {
+        //     // } else {
+        //     // }
+        // });
     }
 
     private updateMin(value: string): void {
