@@ -109,12 +109,15 @@ export default class ImportConfig extends Vue {
     private async created(): Promise<void> {}
     private async beforeMount(): Promise<void> {}
     private async mounted(): Promise<void> {}
-    private async beforeDestroy(): Promise<void> {}
+    private async beforeDestroy(): Promise<void> {
+        this.configs = '';
+    }
     private async destroyed(): Promise<void> {}
     //#endregion
 
     //#region View Event
     private hideModel(): void {
+        this.configs = '';
         this.modalShow = false;
         this.$emit('hideModel', this.modalShow);
     }
