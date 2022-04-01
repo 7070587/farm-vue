@@ -1,11 +1,26 @@
 <template>
     <b-row>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label">
+                <span
+                    v-if="config.isRequired"
+                    class="label--required"
+                >
+                    *
+                    <span class="label--required__content"> {{ config.label }}</span>
+                </span>
 
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> date </div>
+                <span v-else>
+                    {{ config.label }}
+                </span>
+
+            </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
@@ -13,8 +28,13 @@
             />
 
             <date-picker
-                v-model="model"
-                type="datetime"
+                v-model="config.content"
+                :placeholder="config.placeholder"
+                :type="config.type.value"
+                :format="config.format"
+                :title-format="config.format"
+                :disabled="true"
+                @clear="clearDate"
             ></date-picker>
         </b-col>
     </b-row>
@@ -34,6 +54,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickDate, EDateFormat } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -80,12 +101,23 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-    model: Date = new Date();
+    private format: EDateFormat = EDateFormat.date_slash_YYYYMMDD;
+    private eDateFormat = EDateFormat;
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigPickDate {
+        let config = this.activedItemData['config'] as IConfigPickDate;
+
+        if (!!config) {
+            config.content = new Date(config.content);
+        }
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
@@ -106,11 +138,15 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
+    }
+
+    private clearDate(): void {
+        this.config.content = new Date();
     }
     //#endregion
 
@@ -120,8 +156,10 @@ export default class ComponentElement extends Vue {
 </script>
 
 <style scoped lang="scss">
-::v-deep .form-control:disabled {
+::v-deep .mx-input:disabled {
+    color: #000;
     background-color: #fff;
-    opacity: 1;
+    border-color: #ccc;
+    cursor: default;
 }
 </style>

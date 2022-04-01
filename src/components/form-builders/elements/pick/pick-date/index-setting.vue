@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -53,6 +54,7 @@
             <b-form-input
                 size="sm"
                 placeholder="請輸入文字"
+                v-model="config.placeholder"
             ></b-form-input>
         </div>
 
@@ -60,9 +62,12 @@
             <div class="setting--row__lable"> 日期類型 </div>
 
             <multiselect
-                v-model="date"
+                v-model="config.type"
                 :options="dateTypeOptions"
                 :allowEmpty="false"
+                :selectLabel="''"
+                :deselectLabel="''"
+                placeholder="日期類型"
                 track-by="value"
                 label="text"
                 @input="updateDateType"
@@ -74,9 +79,13 @@
             <div class="setting--row__lable"> {{ defaultValueLabel }} </div>
 
             <date-picker
-                v-model="model"
+                v-model="config.content"
                 :append-to-body="false"
-                :type="date.value"
+                :type="config.type.value"
+                :format="config.format"
+                :title-format="config.format"
+                :placeholder="defaultValueLabel"
+                @clear="clearDate"
             ></date-picker>
         </div>
 
@@ -86,7 +95,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -97,7 +106,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { EDateType, IDateType } from '@/components/form-builders/elements/models';
+import { EDateType, EDateFormat, IDateType, IConfigPickDate } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -132,10 +141,13 @@ import 'vue2-datepicker/index.css';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
-    //#endregion
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement; //#endregion
 
     //#region Variables
-    date: IDateType = { value: EDateType.date, text: 'Date' };
     dateTypeOptions: IDateType[] = [
         { value: EDateType.time, text: 'Time' },
         { value: EDateType.date, text: 'Date' },
@@ -148,6 +160,11 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Computed
+    private get config(): IConfigPickDate {
+        let config = this.activedItemData['config'] as IConfigPickDate;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -167,23 +184,34 @@ export default class ComponentElementSetting extends Vue {
 
     //#region View Event
     private updateDateType(date: { value: EDateType; text: string }): void {
+        this.config.content = new Date();
+
         switch (date.value) {
             case EDateType.time:
                 this.defaultValueLabel = '預設時間';
+                this.config.format = EDateFormat.timeHHmmss;
                 break;
             case EDateType.date:
                 this.defaultValueLabel = '預設日期';
+                this.config.format = EDateFormat.date_slash_YYYYMMDD;
                 break;
             case EDateType.month:
                 this.defaultValueLabel = '預設月份';
+                this.config.format = EDateFormat.month;
                 break;
             case EDateType.year:
                 this.defaultValueLabel = '預設年份';
+                this.config.format = EDateFormat.year;
                 break;
             case EDateType.datetime:
                 this.defaultValueLabel = '預設日期時間';
+                this.config.format = EDateFormat.datetime_slash_YYYYMMDDHHmmss;
                 break;
         }
+    }
+
+    private clearDate(): void {
+        this.config.content = new Date();
     }
     //#endregion
 

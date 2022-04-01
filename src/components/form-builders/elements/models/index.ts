@@ -40,6 +40,14 @@ export enum EDateType {
     datetime = 'datetime',
 }
 
+export enum EDateFormat {
+    datetime_slash_YYYYMMDDHHmmss = 'YYYY/MM/DD HH:mm:ss',
+    date_slash_YYYYMMDD = 'YYYY/MM/DD',
+    timeHHmmss = 'HH:mm:ss',
+    year = 'YYYY',
+    month = 'MM',
+}
+
 export enum ETextPosition {
     left = 'left',
     center = 'center',
@@ -210,7 +218,8 @@ export interface IConfigPickDate {
     isRequired: boolean;
 
     placeholder: string;
-    type: EDateType;
+    type: IDateType;
+    format: EDateFormat;
     content: Date;
 }
 

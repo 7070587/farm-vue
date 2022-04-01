@@ -198,7 +198,8 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     isRequired: false,
 
                     placeholder: '請選擇日期',
-                    type: EDateType.date,
+                    type: { value: EDateType.date, text: 'Date' },
+                    format: EDateFormat.date_slash_YYYYMMDD,
                     content: new Date(),
                 },
             },
