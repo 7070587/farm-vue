@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -51,11 +52,23 @@
             <div class="setting--row__lable"> 預設選項 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.content"
+                v-if="showLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
-                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :labels="labels"
+                :color="color"
+                :sync='true'
+            />
+
+            <toggle-button
+                v-model="config.content"
+                v-else
+                :height='34'
+                :width='318'
+                :font-size='16'
+                :color="color"
                 :sync='true'
             />
         </div>
@@ -66,6 +79,7 @@
             <b-form-input
                 size="sm"
                 placeholder="開啟文字"
+                v-model="config.trueText"
             ></b-form-input>
         </div>
 
@@ -75,6 +89,7 @@
             <b-form-input
                 type="color"
                 size="sm"
+                v-model="config.trueColor"
             ></b-form-input>
         </div>
 
@@ -84,6 +99,7 @@
             <b-form-input
                 size="sm"
                 placeholder="關閉文字"
+                v-model="config.falseText"
             ></b-form-input>
         </div>
 
@@ -93,6 +109,7 @@
             <b-form-input
                 type="color"
                 size="sm"
+                v-model="config.falseColor"
             ></b-form-input>
         </div>
 
@@ -104,6 +121,8 @@
                 size="sm"
                 min="50"
                 max="1010"
+                v-model="config.width"
+                @input="updateWidth"
             ></b-form-input>
         </div>
     </div>
@@ -112,7 +131,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -123,6 +142,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickSwitch } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -142,18 +162,50 @@ import { ToggleButton } from 'vue-js-toggle-button';
 //#endregion
 //#endregion
 
+interface ISwitchOption {
+    checked: string;
+    unchecked: string;
+}
+
 @Component({
     components: { ToggleButton },
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
+    private labels: ISwitchOption = {
+        checked: '',
+        unchecked: '',
+    };
 
+    private color: ISwitchOption = {
+        checked: '',
+        unchecked: '',
+    };
     //#endregion
 
     //#region Computed
+    private get config(): IConfigPickSwitch {
+        let config = this.activedItemData['config'] as IConfigPickSwitch;
+
+        this.labels.checked = config.trueText;
+        this.labels.unchecked = config.falseText;
+        this.color.checked = config.trueColor;
+        this.color.unchecked = config.falseColor;
+
+        return config;
+    }
+
+    private get showLabel(): boolean {
+        return !!this.config.trueText || !!this.config.falseText;
+    }
     //#endregion
 
     //#region Watch
@@ -172,6 +224,9 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private updateWidth(value: string): void {
+        this.config.width = +value;
+    }
     //#endregion
 
     //#region Other Function

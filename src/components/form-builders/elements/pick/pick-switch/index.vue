@@ -1,11 +1,26 @@
 <template>
     <b-row>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label">
+                <span
+                    v-if="config.isRequired"
+                    class="label--required"
+                >
+                    *
+                    <span class="label--required__content"> {{ config.label }}</span>
+                </span>
 
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> switch </div>
+                <span v-else>
+                    {{ config.label }}
+                </span>
+
+            </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
@@ -13,12 +28,25 @@
             />
 
             <toggle-button
-                v-model="model"
+                v-model="config.content"
+                v-if="showLabel"
+                :disabled="true"
                 :height='34'
-                :width='100'
+                :width='config.width'
                 :font-size='16'
-                :labels="{checked: 'open', unchecked: 'close'}"
-                :color=" {checked: '#82C7EB', unchecked: '#BFCBD9'}"
+                :labels="labels"
+                :color="color"
+                :sync='true'
+            />
+
+            <toggle-button
+                v-model="config.content"
+                v-else
+                :disabled="true"
+                :height='34'
+                :width='config.width'
+                :font-size='16'
+                :color="color"
                 :sync='true'
             />
 
@@ -40,6 +68,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickSwitch } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -59,6 +88,11 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 import { ToggleButton } from 'vue-js-toggle-button';
 //#endregion
 //#endregion
+
+interface ISwitchOption {
+    checked: string;
+    unchecked: string;
+}
 
 @Component({
     components: { DeleteCopy, ToggleButton },
@@ -85,16 +119,35 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-    model: { value: string; text: string } = null;
-    options: { value: string; text: string }[] = [
-        { value: '1', text: 'one' },
-        { value: '2', text: 'two' },
-    ];
+    private labels: ISwitchOption = {
+        checked: '',
+        unchecked: '',
+    };
+
+    private color: ISwitchOption = {
+        checked: '',
+        unchecked: '',
+    };
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigPickSwitch {
+        let config = this.activedItemData['config'] as IConfigPickSwitch;
+
+        this.labels.checked = config.trueText;
+        this.labels.unchecked = config.falseText;
+        this.color.checked = config.trueColor;
+        this.color.unchecked = config.falseColor;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
+    }
+
+    private get showLabel(): boolean {
+        return !!this.config.trueText || !!this.config.falseText;
     }
     //#endregion
 
@@ -115,11 +168,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 

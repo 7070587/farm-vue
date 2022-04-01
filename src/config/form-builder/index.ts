@@ -166,11 +166,11 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     isRequired: false,
 
                     content: false,
-                    trueText: '#82C7EB',
-                    trueColor: null,
-                    falseText: '#BFCBD9',
-                    falseColor: null,
-                    length: 100,
+                    trueText: '',
+                    trueColor: '#82C7EB',
+                    falseText: '',
+                    falseColor: '#BFCBD9',
+                    width: 100,
                 },
             },
             {

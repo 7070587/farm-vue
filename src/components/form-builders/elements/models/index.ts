@@ -198,7 +198,7 @@ export interface IConfigPickSwitch {
     trueColor: string;
     falseText: string;
     falseColor: string;
-    length: number;
+    width: number;
 }
 
 export interface IConfigPickSlider {
