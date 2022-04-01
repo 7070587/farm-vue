@@ -29,10 +29,8 @@
 
             <div
                 v-for="(item, index) in config.options"
-                class=" cursor-pointer"
                 :key="'option-' + index"
                 :class="{'stacked__row': config.isStacked }"
-                @click="clickContent(item, index)"
             >
                 <i
                     v-if="item.unchecked"
@@ -44,8 +42,7 @@
                     class="fas fa-dot-circle radio"
                 ></i>
 
-                <span class="mb-1"> {{ item.text }} </span>
-                </input>
+                <span> {{ item.text }} </span>
             </div>
         </b-col>
     </b-row>
@@ -65,7 +62,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { IConfigPickRadio, IValueTextRadio } from '@/components/form-builders/elements/models';
+import { IConfigPickRadio, IValueTextRadioCheckbox } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -137,7 +134,7 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region View Event
-    private clickContent(item: IValueTextRadio, index: number): void {
+    private clickContent(item: IValueTextRadioCheckbox, index: number): void {
         if (item.checked) {
             this.config.content.checked = false;
             this.config.content.unchecked = true;
@@ -151,7 +148,7 @@ export default class ComponentElement extends Vue {
         }
     }
 
-    private checkedContent(item: IValueTextRadio, index: number): void {
+    private checkedContent(item: IValueTextRadioCheckbox, index: number): void {
         this.config.content = item;
         this.config.content.checked = true;
         this.config.content.unchecked = false;
@@ -167,7 +164,7 @@ export default class ComponentElement extends Vue {
         });
     }
 
-    private uncheckedContent(item: IValueTextRadio, index: number): void {
+    private uncheckedContent(item: IValueTextRadioCheckbox, index: number): void {
         this.config.content.checked = false;
         this.config.content.unchecked = true;
 
