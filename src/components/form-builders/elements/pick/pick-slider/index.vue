@@ -1,25 +1,45 @@
 <template>
     <b-row>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label">
+                <span
+                    v-if="config.isRequired"
+                    class="label--required"
+                >
+                    *
+                    <span class="label--required__content"> {{ config.label }}</span>
+                </span>
 
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> slider </div>
+                <span v-else>
+                    {{ config.label }}
+                </span>
+
+            </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
 
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100">
-                <b-form-input
-                    v-model="model"
-                    type="range"
-                    min="0"
-                    max="5"
-                    step="0.5"
-                ></b-form-input>
+            <div class="flex">
+                <div class="range">
+                    <b-form-input
+                        v-model="config.content"
+                        type="range"
+                        disabled
+                        :max="config.max"
+                        :min="config.min"
+                        :step="config.step"
+                    ></b-form-input>
+                </div>
+
+                <div class="content"> {{ config.content }} </div>
             </div>
 
         </b-col>
@@ -40,6 +60,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickSlider } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -85,8 +106,14 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigPickSlider {
+        let config = this.activedItemData['config'] as IConfigPickSlider;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
@@ -107,11 +134,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 
@@ -124,5 +151,31 @@ export default class ComponentElement extends Vue {
 ::v-deep .form-control:disabled {
     background-color: #fff;
     opacity: 1;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.range {
+    width: 100%;
+    margin-top: 3px;
+}
+
+.content {
+    margin-left: 8px;
+    margin-bottom: 5px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative; /* 設為相對位置，為了前後區塊的絕對位置而設定 */
+    width: 16px;
+    height: 16px;
+    background: #409eff;
+    border-radius: 50%;
+    transition: 0.2s; /* 點選放大時候的漸變時間 */
 }
 </style>

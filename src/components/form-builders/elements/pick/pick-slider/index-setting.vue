@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -54,6 +55,7 @@
                 type="number"
                 size="sm"
                 placeholder="預設值"
+                v-model="config.content"
             ></b-form-input>
         </div>
 
@@ -63,7 +65,9 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                placeholder="最小值"
+                v-model="config.min"
+                @input="updateMin"
             ></b-form-input>
         </div>
 
@@ -73,7 +77,9 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                placeholder="最大值"
+                v-model="config.max"
+                @input="updateMax"
             ></b-form-input>
         </div>
 
@@ -83,7 +89,9 @@
             <b-form-input
                 type="number"
                 size="sm"
-                min="0"
+                placeholder="增減幅度"
+                v-model="config.step"
+                @input="updateStep"
             ></b-form-input>
         </div>
     </div>
@@ -92,7 +100,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -103,6 +111,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickSlider } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -127,6 +136,11 @@ import { ToggleButton } from 'vue-js-toggle-button';
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
@@ -134,6 +148,11 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region Computed
+    private get config(): IConfigPickSlider {
+        let config = this.activedItemData['config'] as IConfigPickSlider;
+
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -152,6 +171,17 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private updateMin(value: string): void {
+        this.config.min = +value;
+    }
+
+    private updateMax(value: string): void {
+        this.config.max = +value;
+    }
+
+    private updateStep(value: string): void {
+        this.config.step = +value;
+    }
     //#endregion
 
     //#region Other Function
