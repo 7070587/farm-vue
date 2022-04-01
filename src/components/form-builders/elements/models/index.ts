@@ -93,7 +93,7 @@ export interface IValueText {
     text: string;
 }
 
-export interface IValueTextRadio {
+export interface IValueTextRadioCheckbox {
     value: string;
     text: string;
     checked: boolean;
@@ -180,9 +180,9 @@ export interface IConfigPickRadio {
     isShowLabel: boolean;
     isRequired: boolean;
 
-    content: IValueTextRadio;
+    content: IValueTextRadioCheckbox;
     isStacked: boolean;
-    options: IValueTextRadio[];
+    options: IValueTextRadioCheckbox[];
 }
 
 export interface IConfigPickCheckbox {
@@ -190,9 +190,9 @@ export interface IConfigPickCheckbox {
     isShowLabel: boolean;
     isRequired: boolean;
 
-    content: string;
+    content: IValueTextRadioCheckbox[];
     isStacked: boolean;
-    options: string;
+    options: IValueTextRadioCheckbox[];
 }
 
 export interface IConfigPickSwitch {

@@ -1,22 +1,50 @@
 <template>
     <b-row>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label">
+                <span
+                    v-if="config.isRequired"
+                    class="label--required"
+                >
+                    *
+                    <span class="label--required__content"> {{ config.label }}</span>
+                </span>
 
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> multiple </div>
+                <span v-else>
+                    {{ config.label }}
+                </span>
+
+            </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
 
-            <b-form-checkbox-group
-                v-model="model"
-                :options="options"
-                :stacked="true"
-            ></b-form-checkbox-group>
+            <div
+                v-for="(item, index) in config.options"
+                :key="'option-' + index"
+                :class="{'stacked__row': config.isStacked }"
+            >
+
+                <i
+                    v-if="item.unchecked"
+                    class="far fa-square checkbox"
+                ></i>
+
+                <i
+                    v-if="item.checked"
+                    class="fas fa-check-square checkbox"
+                ></i>
+
+                <span class="mb-1"> {{ item.text }} </span>
+            </div>
         </b-col>
     </b-row>
 </template>
@@ -35,6 +63,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickCheckbox } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -76,18 +105,17 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-    model: { value: string; text: string }[] = [];
-    options: { value: string; text: string }[] = [
-        { value: '1', text: 'one' },
-        { value: '2', text: 'two' },
-        { value: '3', text: 'three' },
-        { value: '4', text: 'four' },
-    ];
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigPickCheckbox {
+        let config = this.activedItemData['config'] as IConfigPickCheckbox;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
@@ -108,11 +136,11 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 
@@ -122,8 +150,4 @@ export default class ComponentElement extends Vue {
 </script>
 
 <style scoped lang="scss">
-::v-deep .form-control:disabled {
-    background-color: #fff;
-    opacity: 1;
-}
 </style>
