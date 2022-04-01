@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="setting--row">
-            <span class="setting--row__title"> 單選屬性 </span>
+            <span class="setting--row__title"> 多選屬性 </span>
 
             <hr />
         </div>
@@ -12,6 +12,7 @@
             <b-form-input
                 size="sm"
                 placeholder="標題"
+                v-model="config.label"
             ></b-form-input>
         </div>
 
@@ -19,7 +20,7 @@
             <div class="setting--row__lable"> 顯示標題 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isShowLabel"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -33,7 +34,7 @@
             <div class="setting--row__lable"> 是否必填 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isRequired"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -49,18 +50,13 @@
 
         <div class="setting--row">
             <div class="setting--row__lable"> 預設選項 </div>
-
-            <b-form-input
-                size="sm"
-                placeholder="預設選項"
-            ></b-form-input>
         </div>
 
         <div class="setting--row">
             <div class="setting--row__lable"> 水平顯示 </div>
 
             <toggle-button
-                v-model="model"
+                v-model="config.isStacked"
                 :height='34'
                 :width='318'
                 :font-size='16'
@@ -77,12 +73,55 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 選項配置 </div>
 
-            <b-form-textarea
-                size="sm"
-                placeholder="請輸入選項，一行為一個選項，多個選項請輸入多行"
-                rows="5"
-            ></b-form-textarea>
-            <div class="option-tip">一行為一個選項，多個選項請輸入多行</div>
+            <draggable
+                :list="config.options"
+                ghost-class="ghost-option"
+            >
+                <div
+                    v-for="(item, index) in config.options"
+                    :key="'option-' + index"
+                    class="flex-option"
+                >
+
+                    <div class="flex-option">
+                        <i class="fas fa-align-justify fa-lg drag-item value-text__drag"></i>
+
+                        <i
+                            v-if="item.unchecked"
+                            class="far fa-circle cursor-pointer radio"
+                            @click="checkedContent(item, index)"
+                        ></i>
+
+                        <i
+                            v-if="item.checked"
+                            class="fas fa-dot-circle cursor-pointer radio"
+                            @click="uncheckedContent(item, index)"
+                        ></i>
+
+                        <b-form-input
+                            class="value-text"
+                            size="sm"
+                            v-model="item.text"
+                            @input="updateOption(index)"
+                        ></b-form-input>
+
+                    </div>
+
+                    <i
+                        class="fas fa-minus-circle fa-lg value-text__delete"
+                        @click="optionRemove(index)"
+                    ></i>
+
+                </div>
+            </draggable>
+
+            <div
+                class="add-option"
+                @click="optionAdd"
+            >
+                <i class="fas fa-plus-circle"></i>
+                新增選項
+            </div>
         </div>
     </div>
 </template>
@@ -90,7 +129,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -101,6 +140,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickRadio, IValueTextRadio } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -120,18 +160,28 @@ import { ToggleButton } from 'vue-js-toggle-button';
 //#endregion
 //#endregion
 
+import draggable from 'vuedraggable';
+
 @Component({
-    components: { ToggleButton },
+    components: { ToggleButton, draggable },
 })
 export default class ComponentElementSetting extends Vue {
     //#region Prop
+    @Prop({
+        type: Object, // Boolean, Number, String, Array, Object
+        default: () => undefined,
+    })
+    private activedItemData: Model.IFormBuilderElement;
     //#endregion
 
     //#region Variables
-
     //#endregion
 
     //#region Computed
+    private get config(): IConfigPickRadio {
+        let config = this.activedItemData['config'] as IConfigPickRadio;
+        return config;
+    }
     //#endregion
 
     //#region Watch
@@ -150,6 +200,48 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
+    private checkedContent(item: IValueTextRadio, index: number): void {
+        this.config.content = item;
+        this.config.content.checked = true;
+        this.config.content.unchecked = false;
+
+        this.config.options.forEach((element, elImdex) => {
+            element.checked = false;
+            element.unchecked = true;
+
+            if (index === elImdex) {
+                element.checked = true;
+                element.unchecked = false;
+            }
+        });
+    }
+
+    private uncheckedContent(item: IValueTextRadio, index: number): void {
+        this.config.content.checked = false;
+        this.config.content.unchecked = true;
+
+        this.config.options.forEach((element, elImdex) => {
+            element.checked = false;
+            element.unchecked = true;
+
+            if (index === elImdex) {
+                element.checked = false;
+                element.unchecked = true;
+            }
+        });
+    }
+
+    private updateOption(index: number): void {
+        this.config.options[index].value = this.config.options[index].text;
+    }
+
+    private optionRemove(index: number): void {
+        this.config.options.splice(index, 1);
+    }
+
+    private optionAdd(): void {
+        this.config.options.push({ value: '新選項', text: '新選項', checked: false, unchecked: true });
+    }
     //#endregion
 
     //#region Other Function
@@ -158,4 +250,8 @@ export default class ComponentElementSetting extends Vue {
 </script>
 
 <style scoped lang="scss">
+::v-deep .custom-control {
+    padding-left: 1.6rem;
+    padding-right: 2px;
+}
 </style>

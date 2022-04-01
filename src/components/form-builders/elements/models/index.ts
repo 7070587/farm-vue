@@ -88,9 +88,16 @@ export interface IDividerStyle {
     text: string;
 }
 
-interface IValueText {
+export interface IValueText {
     value: string;
     text: string;
+}
+
+export interface IValueTextRadio {
+    value: string;
+    text: string;
+    checked: boolean;
+    unchecked: boolean;
 }
 //#endregion
 
@@ -173,9 +180,9 @@ export interface IConfigPickRadio {
     isShowLabel: boolean;
     isRequired: boolean;
 
-    content: string;
+    content: IValueTextRadio;
     isStacked: boolean;
-    options: string;
+    options: IValueTextRadio[];
 }
 
 export interface IConfigPickCheckbox {

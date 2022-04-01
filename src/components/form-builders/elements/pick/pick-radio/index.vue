@@ -1,22 +1,52 @@
 <template>
     <b-row>
+        <b-col
+            cols="2"
+            v-if="config.isShowLabel"
+        >
+            <div class="label">
+                <span
+                    v-if="config.isRequired"
+                    class="label--required"
+                >
+                    *
+                    <span class="label--required__content"> {{ config.label }}</span>
+                </span>
 
-        <b-col cols="2">
-            <div class="d-flex flex-column justify-content-center align-items-end w-100 h-100"> single </div>
+                <span v-else>
+                    {{ config.label }}
+                </span>
+
+            </div>
         </b-col>
 
-        <b-col cols="10">
+        <b-col :cols="contentCols">
             <DeleteCopy
                 v-if="isActived"
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
 
-            <b-form-radio-group
-                v-model="model"
-                :options="options"
-                :stacked="true"
-            ></b-form-radio-group>
+            <div
+                v-for="(item, index) in config.options"
+                class=" cursor-pointer"
+                :key="'option-' + index"
+                :class="{'stacked__row': config.isStacked }"
+                @click="clickContent(item, index)"
+            >
+                <i
+                    v-if="item.unchecked"
+                    class="far fa-circle radio"
+                ></i>
+
+                <i
+                    v-if="item.checked"
+                    class="fas fa-dot-circle radio"
+                ></i>
+
+                <span class="mb-1"> {{ item.text }} </span>
+                </input>
+            </div>
         </b-col>
     </b-row>
 </template>
@@ -35,6 +65,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
+import { IConfigPickRadio, IValueTextRadio } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -76,16 +107,17 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region Variables
-    model: { value: string; text: string } = null;
-    options: { value: string; text: string }[] = [
-        { value: '1', text: 'one' },
-        { value: '2', text: 'two' },
-    ];
     //#endregion
 
     //#region Computed
-    private get activedItem(): Model.IFormBuilderElement {
-        return this.activedItemData;
+    private get config(): IConfigPickRadio {
+        let config = this.activedItemData['config'] as IConfigPickRadio;
+
+        return config;
+    }
+
+    private get contentCols(): number {
+        return this.config.isShowLabel ? 10 : 12;
     }
     //#endregion
 
@@ -105,12 +137,57 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region View Event
+    private clickContent(item: IValueTextRadio, index: number): void {
+        if (item.checked) {
+            this.config.content.checked = false;
+            this.config.content.unchecked = true;
+
+            this.uncheckedContent(item, index);
+        } else {
+            this.config.content.checked = true;
+            this.config.content.unchecked = false;
+
+            this.checkedContent(item, index);
+        }
+    }
+
+    private checkedContent(item: IValueTextRadio, index: number): void {
+        this.config.content = item;
+        this.config.content.checked = true;
+        this.config.content.unchecked = false;
+
+        this.config.options.forEach((element, elImdex) => {
+            element.checked = false;
+            element.unchecked = true;
+
+            if (index === elImdex) {
+                element.checked = true;
+                element.unchecked = false;
+            }
+        });
+    }
+
+    private uncheckedContent(item: IValueTextRadio, index: number): void {
+        this.config.content.checked = false;
+        this.config.content.unchecked = true;
+
+        this.config.options.forEach((element, elImdex) => {
+            element.checked = false;
+            element.unchecked = true;
+
+            if (index === elImdex) {
+                element.checked = false;
+                element.unchecked = true;
+            }
+        });
+    }
+
     private actionCopy(): void {
-        this.$emit('actionCopy', this.activedItem, this.index);
+        this.$emit('actionCopy', this.activedItemData, this.index);
     }
 
     private actionDelete(): void {
-        this.$emit('actionDelete', this.activedItem, this.index);
+        this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
 

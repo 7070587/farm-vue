@@ -137,9 +137,13 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     isShowLabel: true,
                     isRequired: false,
 
-                    content: '',
+                    content: { value: '', text: '', checked: false, unchecked: true },
                     isStacked: false,
-                    options: '',
+                    options: [
+                        { value: 'option1', text: 'option 1', checked: false, unchecked: true },
+                        { value: 'option2', text: 'option 2', checked: false, unchecked: true },
+                        { value: 'option3', text: 'option 3', checked: false, unchecked: true },
+                    ],
                 },
             },
             {
