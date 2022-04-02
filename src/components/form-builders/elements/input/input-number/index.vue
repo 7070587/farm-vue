@@ -27,15 +27,17 @@
                 @actionDelete="actionDelete"
             />
 
-            <b-form-input
+            <input
                 type="number"
                 v-model="config.content"
+                class="form-control"
                 :placeholder="config.placeholder"
                 :max="config.max"
                 :min="config.min"
                 :step="config.step"
                 :disabled="isDisabled"
-            ></b-form-input>
+                @input="updateContent"
+            >
         </b-col>
     </b-row>
 </template>
@@ -55,6 +57,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#region Src
 import { Model } from '@/config/index';
 import { IConfigInputNumber } from '@/components/form-builders/elements/models';
+import { delay } from '@/components/form-builders/elements/models/function';
 //#endregion
 
 //#region Views
@@ -132,6 +135,28 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region View Event
+
+    private async updateContent(): Promise<void> {
+        this.config.content = +this.config.content;
+        let isMax: boolean = this.config.max !== null && this.config.max !== undefined;
+        let isMin: boolean = this.config.min !== null && this.config.min !== undefined;
+        let isContent: boolean = this.config.content !== null && this.config.content !== undefined;
+
+        await delay();
+
+        if (isMin && isContent) {
+            if (this.config.content < this.config.min) {
+                this.config.content = this.config.min;
+            }
+        }
+
+        if (isMax && isContent) {
+            if (this.config.content > this.config.max) {
+                this.config.content = this.config.max;
+            }
+        }
+    }
+
     private actionCopy(): void {
         this.$emit('actionCopy', this.activedItemData, this.index);
     }
@@ -140,6 +165,8 @@ export default class ComponentElement extends Vue {
         this.$emit('actionDelete', this.activedItemData, this.index);
     }
     //#endregion
+
+    //#region Other Function
 
     //#region Other Function
     //#endregion

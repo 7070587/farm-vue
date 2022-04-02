@@ -62,9 +62,7 @@
         <div class="setting--row">
             <div class="setting--row__lable"> 預設值 </div>
 
-            <b-form-input
-                :id="activedItemData.id"
-                type="number"
+            <!-- <b-form-input
                 size="sm"
                 trim
                 placeholder="預設值"
@@ -73,7 +71,20 @@
                 :min="config.min"
                 :step="config.step"
                 @input="updateContent"
-            ></b-form-input>
+            ></b-form-input> -->
+
+            <input
+                type="number"
+                v-model="config.content"
+                class="form-control form-control-sm"
+                placeholder="預設值"
+                :max="config.max"
+                :min="config.min"
+                :step="config.step"
+                :disabled="false"
+                @input="updateContent"
+            >
+
         </div>
 
         <div class="setting--row">
@@ -131,6 +142,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#region Src
 import { Model } from '@/config/index';
 import { IConfigInputNumber } from '@/components/form-builders/elements/models';
+import { delay } from '@/components/form-builders/elements/models/function';
 //#endregion
 
 //#region Views
@@ -190,44 +202,56 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
-    private updateContent(value: string): void {
-        this.config.content = +value;
 
-        if (this.config.content > this.config.max) {
-            this.config.content = this.config.max;
+    private async updateContent(): Promise<void> {
+        this.config.content = +this.config.content;
+        let isMax: boolean = this.config.max !== null && this.config.max !== undefined;
+        let isMin: boolean = this.config.min !== null && this.config.min !== undefined;
+        let isContent: boolean = this.config.content !== null && this.config.content !== undefined;
+
+        await delay();
+
+        if (isMin && isContent) {
+            if (this.config.content < this.config.min) {
+                this.config.content = this.config.min;
+            }
         }
 
-        if (this.config.content < this.config.min) {
-            this.config.content = this.config.min;
+        if (isMax && isContent) {
+            if (this.config.content > this.config.max) {
+                this.config.content = this.config.max;
+            }
         }
-
-        // this.$nextTick(() => {
-        //     if (max !== undefined || max !== null || min !== undefined || min !== null) {
-        //         if (content !== undefined || content !== null) {
-        //             if (this.config.content > this.config.max) {
-        //                 this.config.content = this.config.max;
-        //             }
-
-        //             if (this.config.content < this.config.min) {
-        //                 this.config.content = this.config.min;
-        //             }
-        //         }
-        //     } else {
-        //         this.config.content = +value;
-        //     }
-
-        //     // if (!this.config.content || this.config.content === null) {
-        //     // } else {
-        //     // }
-        // });
     }
 
-    private updateMin(value: string): void {
+    private async updateMin(value: string): Promise<void> {
         this.config.min = +value;
+
+        let isMin: boolean = this.config.min !== null && this.config.min !== undefined;
+        let isContent: boolean = this.config.content !== null && this.config.content !== undefined;
+
+        await delay();
+
+        if (isMin && isContent) {
+            if (this.config.content < this.config.min) {
+                this.config.content = this.config.min;
+            }
+        }
     }
 
-    private updateMax(value: string): void {
+    private async updateMax(value: string): Promise<void> {
         this.config.max = +value;
+
+        let isMax: boolean = this.config.max !== null && this.config.max !== undefined;
+        let isContent: boolean = this.config.content !== null && this.config.content !== undefined;
+
+        await delay();
+
+        if (isMax && isContent) {
+            if (this.config.content > this.config.max) {
+                this.config.content = this.config.max;
+            }
+        }
     }
 
     private updateStep(value: string): void {
