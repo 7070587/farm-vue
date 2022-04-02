@@ -29,8 +29,10 @@
 
             <div
                 v-for="(item, index) in config.options"
+                class=" cursor-pointer"
                 :key="'option-' + index"
                 :class="{'stacked__row': config.isStacked }"
+                @click="clickContent(item, index)"
             >
 
                 <i
@@ -63,7 +65,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 
 //#region Src
 import { Model } from '@/config/index';
-import { IConfigPickCheckbox } from '@/components/form-builders/elements/models';
+import { IConfigPickCheckbox, IValueTextRadioCheckbox } from '@/components/form-builders/elements/models';
 //#endregion
 
 //#region Views
@@ -135,6 +137,30 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region View Event
+    private clickContent(item: IValueTextRadioCheckbox, index: number): void {
+        if (item.checked) {
+            this.uncheckedContent(item, index);
+        } else {
+            this.checkedContent(item, index);
+        }
+    }
+
+    private checkedContent(item: IValueTextRadioCheckbox, index: number): void {
+        this.config.options[index].checked = true;
+        this.config.options[index].unchecked = false;
+
+        this.config.content[index].checked = true;
+        this.config.content[index].unchecked = false;
+    }
+
+    private uncheckedContent(item: IValueTextRadioCheckbox, index: number): void {
+        this.config.options[index].checked = false;
+        this.config.options[index].unchecked = true;
+
+        this.config.content[index].checked = false;
+        this.config.content[index].unchecked = true;
+    }
+
     private actionCopy(): void {
         this.$emit('actionCopy', this.activedItemData, this.index);
     }

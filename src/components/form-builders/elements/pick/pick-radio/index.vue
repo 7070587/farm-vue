@@ -29,8 +29,10 @@
 
             <div
                 v-for="(item, index) in config.options"
+                class=" cursor-pointer"
                 :key="'option-' + index"
                 :class="{'stacked__row': config.isStacked }"
+                @click="clickContent(item, index)"
             >
                 <i
                     v-if="item.unchecked"

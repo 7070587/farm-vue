@@ -180,6 +180,7 @@ export default class ComponentElementSetting extends Vue {
     //#region Computed
     private get config(): IConfigPickCheckbox {
         let config = this.activedItemData['config'] as IConfigPickCheckbox;
+        
         return config;
     }
     //#endregion
