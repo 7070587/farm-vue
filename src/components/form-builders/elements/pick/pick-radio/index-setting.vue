@@ -240,7 +240,12 @@ export default class ComponentElementSetting extends Vue {
     }
 
     private optionAdd(): void {
-        this.config.options.push({ value: '新選項', text: '新選項', checked: false, unchecked: true });
+        this.config.options.push({
+            value: `${new Date().getTime()}_新選項`,
+            text: `${new Date().getTime()}_新選項`,
+            checked: false,
+            unchecked: true,
+        });
     }
     //#endregion
 

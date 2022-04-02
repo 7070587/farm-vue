@@ -180,7 +180,7 @@ export default class ComponentElementSetting extends Vue {
     //#region Computed
     private get config(): IConfigPickCheckbox {
         let config = this.activedItemData['config'] as IConfigPickCheckbox;
-        
+
         return config;
     }
     //#endregion
@@ -227,8 +227,18 @@ export default class ComponentElementSetting extends Vue {
     }
 
     private optionAdd(): void {
-        this.config.options.push({ value: '新選項', text: '新選項', checked: false, unchecked: true });
-        this.config.content.push({ value: '新選項', text: '新選項', checked: false, unchecked: true });
+        this.config.options.push({
+            value: `${new Date().getTime()}_新選項`,
+            text: `${new Date().getTime()}_新選項`,
+            checked: false,
+            unchecked: true,
+        });
+        this.config.content.push({
+            value: `${new Date().getTime()}_新選項`,
+            text: `${new Date().getTime()}_新選項`,
+            checked: false,
+            unchecked: true,
+        });
     }
     //#endregion
 
