@@ -32,7 +32,7 @@
                     <b-form-input
                         v-model="config.content"
                         type="range"
-                        disabled
+                        :disabled="isDisabled"
                         :max="config.max"
                         :min="config.min"
                         :step="config.step"
@@ -87,6 +87,12 @@ export default class ComponentElement extends Vue {
         default: () => false,
     })
     private isActived: boolean;
+
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
 
     @Prop({
         type: Number, // Boolean, Number, String, Array, Object

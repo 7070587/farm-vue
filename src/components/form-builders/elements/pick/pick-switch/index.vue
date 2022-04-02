@@ -30,24 +30,26 @@
             <toggle-button
                 v-model="config.content"
                 v-if="showLabel"
-                :disabled="true"
+                :disabled="isDisabled"
                 :height='34'
                 :width='config.width'
                 :font-size='16'
                 :labels="labels"
                 :color="color"
                 :sync='true'
+                @input="updateContent"
             />
 
             <toggle-button
                 v-model="config.content"
                 v-else
-                :disabled="true"
+                :disabled="isDisabled"
                 :height='34'
                 :width='config.width'
                 :font-size='16'
                 :color="color"
                 :sync='true'
+                @input="updateContent"
             />
 
         </b-col>
@@ -104,6 +106,12 @@ export default class ComponentElement extends Vue {
         default: () => false,
     })
     private isActived: boolean;
+
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
 
     @Prop({
         type: Number, // Boolean, Number, String, Array, Object
@@ -167,6 +175,11 @@ export default class ComponentElement extends Vue {
     //#endregion
 
     //#region View Event
+    private updateContent(): void {
+        // 數據有更新，元件沒更新
+        this.$forceUpdate();
+    }
+
     private actionCopy(): void {
         this.$emit('actionCopy', this.activedItemData, this.index);
     }

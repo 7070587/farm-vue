@@ -33,7 +33,7 @@
                 :type="config.type.value"
                 :format="config.format"
                 :title-format="config.format"
-                :disabled="true"
+                :disabled="isDisabled"
                 @clear="clearDate"
             ></date-picker>
         </b-col>
@@ -86,6 +86,12 @@ export default class ComponentElement extends Vue {
         default: () => false,
     })
     private isActived: boolean;
+
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
 
     @Prop({
         type: Number, // Boolean, Number, String, Array, Object

@@ -10,7 +10,12 @@
             <div class="center">
 
                 <div class="behavior">
-                    <div class="behavior--item"><i class="far fa-eye"></i> 預覽</div>
+                    <div
+                        class="behavior--item"
+                        @click="behaviorView"
+                    >
+                        <i class="far fa-eye"></i> 預覽
+                    </div>
 
                     <div
                         class="behavior--item"
@@ -197,6 +202,12 @@
             </div>
         </div>
 
+        <Preview
+            :showPreview="showPreview"
+            :configs="exportConfigs"
+            @hideModel="hidePreView"
+        />
+
         <ExportConfig
             :showConfig="showExportConfig"
             :configs="exportConfigs"
@@ -270,6 +281,7 @@ import DeleteCopy from '@/components/form-builders/action/delete-copy.vue';
 import FormBuilderList from './form-builder-list.vue';
 import ExportConfig from './export-config.vue';
 import ImportConfig from './import-config.vue';
+import Preview from './preview.vue';
 //#endregion
 //#endregion
 
@@ -282,6 +294,7 @@ import draggable from 'vuedraggable';
         DeleteCopy,
         ExportConfig,
         ImportConfig,
+        Preview,
         ...FormBuilderElement,
     },
 })
@@ -297,6 +310,7 @@ export default class VuePageClass extends Vue {
     private showDeleteConfirm: boolean = false;
     private showExportConfig: boolean = false;
     private showImportConfig: boolean = false;
+    private showPreview: boolean = false;
 
     private eElementType = EElementType;
     private currentTab: Model.ETab = Model.ETab.component;
@@ -356,6 +370,10 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region behavior
+    private behaviorView(): void {
+        this.showPreview = true;
+    }
+
     private behaviorClear(): void {
         this.showDeleteConfirm = true;
     }
@@ -375,6 +393,10 @@ export default class VuePageClass extends Vue {
     private confirmClear(): void {
         this.showDeleteConfirm = false;
         this.generateList = [];
+    }
+
+    private hidePreView(modalShow: boolean): void {
+        this.showPreview = modalShow;
     }
 
     private hideExportConfig(modalShow: boolean): void {

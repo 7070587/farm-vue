@@ -33,6 +33,11 @@
         }
     }
 
+    &--view {
+        padding: 1rem;
+        margin: 1.15rem;
+    }
+
     &--empty {
         height: 100%;
         display: flex;

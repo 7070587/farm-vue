@@ -29,9 +29,8 @@
 
             <div
                 v-for="(item, index) in config.options"
-                class=" cursor-pointer"
                 :key="'option-' + index"
-                :class="{'stacked__row': config.isStacked }"
+                :class="[{'stacked__row': config.isStacked}, {'cursor-pointer' : !isDisabled }]"
                 @click="clickContent(item, index)"
             >
 
@@ -94,6 +93,12 @@ export default class ComponentElement extends Vue {
     private isActived: boolean;
 
     @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
+
+    @Prop({
         type: Number, // Boolean, Number, String, Array, Object
         default: () => undefined,
     })
@@ -138,11 +143,16 @@ export default class ComponentElement extends Vue {
 
     //#region View Event
     private clickContent(item: IValueTextRadioCheckbox, index: number): void {
+        if (this.isDisabled) return null;
+
         if (item.checked) {
             this.uncheckedContent(item, index);
         } else {
             this.checkedContent(item, index);
         }
+
+        // 數據有更新，元件沒更新
+        this.$forceUpdate();
     }
 
     private checkedContent(item: IValueTextRadioCheckbox, index: number): void {

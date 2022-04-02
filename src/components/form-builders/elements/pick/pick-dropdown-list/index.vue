@@ -37,7 +37,7 @@
                 :deselectLabel="'X'"
                 track-by="value"
                 label="text"
-                :disabled="true"
+                :disabled="false"
                 @input="updateContent"
             >
             </multiselect>
@@ -91,6 +91,12 @@ export default class ComponentElement extends Vue {
         default: () => false,
     })
     private isActived: boolean;
+
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
 
     @Prop({
         type: Number, // Boolean, Number, String, Array, Object
@@ -190,6 +196,9 @@ export default class ComponentElement extends Vue {
                 this.config.content = null;
             }
         }
+
+        // 數據有更新，元件沒更新
+        this.$forceUpdate();
     }
 
     private actionCopy(): void {

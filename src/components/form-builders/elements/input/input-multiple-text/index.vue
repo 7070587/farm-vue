@@ -26,11 +26,12 @@
                 @actionCopy="actionCopy"
                 @actionDelete="actionDelete"
             />
+
             <b-form-textarea
-                disabled
                 v-model="config.content"
                 rows="4"
                 :placeholder="config.placeholder"
+                :disabled="isDisabled"
             ></b-form-textarea>
         </b-col>
     </b-row>
@@ -77,6 +78,12 @@ export default class ComponentElement extends Vue {
         default: () => false,
     })
     private isActived: boolean;
+
+    @Prop({
+        type: Boolean, // Boolean, Number, String, Array, Object
+        default: () => true,
+    })
+    private isDisabled: boolean;
 
     @Prop({
         type: Number, // Boolean, Number, String, Array, Object

@@ -20,7 +20,7 @@
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
