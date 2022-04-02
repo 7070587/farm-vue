@@ -30,6 +30,7 @@
             <b-form-input
                 v-model="config.content"
                 :placeholder="config.placeholder"
+                :maxlength="config.wordLimit"
                 :disabled="isDisabled"
             ></b-form-input>
         </b-col>

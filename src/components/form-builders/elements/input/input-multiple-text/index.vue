@@ -31,6 +31,7 @@
                 v-model="config.content"
                 rows="4"
                 :placeholder="config.placeholder"
+                :maxlength="config.wordLimit"
                 :disabled="isDisabled"
             ></b-form-textarea>
         </b-col>
