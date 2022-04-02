@@ -106,6 +106,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 //#region Src
 import { Model } from '@/config/index';
 import { IConfigInputSingleText } from '@/components/form-builders/elements/models';
+import { delay } from '@/components/form-builders/elements/models/function';
 //#endregion
 
 //#region Views
@@ -164,12 +165,14 @@ export default class ComponentElementSetting extends Vue {
     //#endregion
 
     //#region View Event
-    private updateWordLimit(value: string): void {
+    private async updateWordLimit(value: string): Promise<void> {
         if (+value <= 0) {
             this.config.wordLimit = null;
         } else {
             this.config.wordLimit = +value;
         }
+
+        await delay();
 
         if (this.config.content.length > +this.config.wordLimit) {
             this.config.content = this.config.content.substring(0, this.config.wordLimit);
