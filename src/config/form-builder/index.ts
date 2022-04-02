@@ -124,8 +124,12 @@ export const FormBuilderElements: Model.IFormBuilder[] = [
                     placeholder: '請選擇',
                     content: null,
                     isSearchable: true,
-                    isMultiple: false,
-                    options: '',
+                    isMultiple: true,
+                    options: [
+                        { value: 'option1', text: 'option 1', checked: false, unchecked: true },
+                        { value: 'option2', text: 'option 2', checked: false, unchecked: true },
+                        { value: 'option3', text: 'option 3', checked: false, unchecked: true },
+                    ],
                 },
             },
             {

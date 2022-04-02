@@ -169,10 +169,10 @@ export interface IConfigPickDropdownList {
     isRequired: boolean;
 
     placeholder: string;
-    content: IValueText | IValueText[];
+    content: IValueTextRadioCheckbox | IValueTextRadioCheckbox[];
     isSearchable: boolean;
     isMultiple: boolean;
-    options: string;
+    options: IValueTextRadioCheckbox[];
 }
 
 export interface IConfigPickRadio {
