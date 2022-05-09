@@ -125,7 +125,7 @@
                 >
                     <slot name="beforeList"></slot>
 
-                    <div class="multiselect__input-box">
+                    <div :class="{'multiselect__input-box': searchable}">
 
                         <input
                             ref="search"
@@ -1272,9 +1272,15 @@ export default class VuePageClass extends Vue {
 
     //#region pointerMixin.js
     private optionHighlight(index: number, option: Model.IOption): object {
+        if (this.multiple) {
+            return {
+                'multiselect__option--highlight': index === this.pointer && this.showPointer,
+                'multiselect__option--selected-multiple': this.isSelected(option),
+            };
+        }
         return {
             'multiselect__option--highlight': index === this.pointer && this.showPointer,
-            'multiselect__option--selected': this.isSelected(option),
+            'multiselect__option--selected-single': this.isSelected(option),
         };
     }
 
@@ -1556,7 +1562,9 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__input-box {
-    margin: 8px;
+    padding: 6px 8px;
+
+    border-bottom: 1px solid #e3e3e3;
 }
 
 .multiselect--active .multiselect__select {
@@ -1631,18 +1639,21 @@ fieldset[disabled] .multiselect {
 
 .multiselect__tag {
     position: relative;
-    display: inline-block;
+    display: inline-flex;
     padding: 4px 26px 4px 10px;
-    border-radius: 5px;
-    margin-right: 10px;
-    color: #fff;
     line-height: 1;
-    background: #41b883;
-    margin-bottom: 5px;
     white-space: nowrap;
     overflow: hidden;
     max-width: 100%;
     text-overflow: ellipsis;
+
+    // update
+    background: #eaf6ff;
+    color: #7d7d7d;
+    align-items: center;
+    border-radius: 100px;
+    margin: 4px 4px 4px 4px;
+    box-sizing: border-box;
 }
 
 .multiselect__tag-icon {
@@ -1663,18 +1674,22 @@ fieldset[disabled] .multiselect {
 
 .multiselect__tag-icon:after {
     content: '×';
-    color: #266d4d;
     font-size: 14px;
+
+    // update
+    color: #7d7d7d;
 }
 
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-    background: #369a6e;
+    // update
+    background: #eaf6ff;
 }
 
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
-    color: white;
+    // update
+    color: #7d7d7d;
 }
 
 .multiselect__current {
@@ -1727,8 +1742,10 @@ fieldset[disabled] .multiselect {
 .multiselect__placeholder {
     color: #adadad;
     display: inline-block;
-    margin-bottom: 10px;
-    padding-top: 2px;
+    display: flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 8px;
 }
 
 .multiselect--active .multiselect__placeholder {
@@ -1749,6 +1766,7 @@ fieldset[disabled] .multiselect {
 
     // update
     margin-top: 4px;
+    margin-bottom: 4px;
     border-radius: 4px;
 }
 
@@ -1814,11 +1832,18 @@ fieldset[disabled] .multiselect {
     color: white;
 }
 
-.multiselect__option--selected {
+.multiselect__option--selected-single {
     font-weight: bold;
 
     // update
     background: #eaf6ff;
+    color: #003b65;
+}
+
+.multiselect__option--selected-multiple {
+    font-weight: bold;
+
+    // update
     color: #003b65;
 }
 
