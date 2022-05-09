@@ -4,11 +4,11 @@ export namespace Multiselect {
         value: string;
     }
 
-    export interface IGroupOptions {
+    export interface IGroupOption {
         groupName: string;
         lists: IOption[];
     }
 
-    export type IOptions = IOption[] | IGroupOptions[];
+    export type IOptions = IOption[] | IGroupOption[];
     export type IValue = IOption | IOption[];
 }
