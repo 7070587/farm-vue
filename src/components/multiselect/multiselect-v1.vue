@@ -83,26 +83,6 @@
                 </slot>
             </transition>
 
-            <input
-                ref="search"
-                v-if="searchable"
-                :name="name"
-                :id="id"
-                type="text"
-                autocomplete="off"
-                spellcheck="false"
-                :placeholder="placeholder"
-                :style="inputStyle"
-                :value="search"
-                :disabled="disabled"
-                :tabindex="tabindex"
-                @input="updateSearch($event.target.value)"
-                @focus.prevent="activate()"
-                @blur.prevent="deactivate()"
-                class="multiselect__input"
-                :aria-controls="'listbox-'+id"
-            />
-
             <span
                 v-if="isSingleLabelVisible"
                 class="multiselect__single"
@@ -145,12 +125,34 @@
                 >
                     <slot name="beforeList"></slot>
 
+                    <div class="multiselect__input-box">
+
+                        <input
+                            ref="search"
+                            v-if="searchable"
+                            :name="name"
+                            :id="id"
+                            type="text"
+                            autocomplete="off"
+                            spellcheck="false"
+                            :placeholder="placeholder"
+                            :style="inputStyle"
+                            :value="search"
+                            :disabled="disabled"
+                            :tabindex="tabindex"
+                            @input="updateSearch($event.target.value)"
+                            @focus.prevent="activate()"
+                            @blur.prevent="deactivate()"
+                            class="multiselect__input"
+                            :aria-controls="'listbox-'+id"
+                        />
+                    </div>
+
                     <li v-if="multiple && max === internalValue.length">
                         <span class="multiselect__option">
                             <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
                         </span>
                     </li>
-
                     <template v-if="!max || internalValue.length < max">
                         <li
                             class="multiselect__element"
@@ -159,6 +161,8 @@
                             v-bind:id="id + '-' + index"
                             v-bind:role="!(option && (option.isLabel || option.isDisabled)) ? 'option' : null"
                         >
+                            <!-- {{ option }} -->
+
                             <span
                                 v-if="!(option && (option.isLabel || option.isDisabled))"
                                 :class="optionHighlight(index, option)"
@@ -179,6 +183,10 @@
                                 </slot>
                             </span>
 
+                            <!-- 1 {{ option }}
+                            2 {{ option.isLabel }}
+                            3 {{ option.isDisabled }} -->
+
                             <span
                                 v-if="option && (option.isLabel || option.isDisabled)"
                                 :data-select="groupSelect && selectGroupLabelText"
@@ -188,6 +196,7 @@
                                 @mousedown.prevent="selectGroup(option)"
                                 class="multiselect__option"
                             >
+
                                 <slot
                                     name="option"
                                     :option="option"
@@ -936,30 +945,37 @@ export default class VuePageClass extends Vue {
      * @returns {Object||String}
      */
     private getOptionLabel(option: any): string {
-        console.log(`getOptionLabel => `, option);
+        // console.log(` => `, option, option.isLabel);
+        let result: string = '';
         // // TODO:
         if (isEmpty(option)) {
-            return '';
+            // return '';
+            result = '';
         }
 
         /* istanbul ignore else */
         if (option.isTag) {
-            return option.label;
+            // return option.label;
+            result = option.label;
         }
 
         /* istanbul ignore else */
         if (option.isLabel) {
-            return option.groupLabel;
+            // return option.groupLabel;
+            result = option.groupLabel;
         }
 
         let label = this.customLabel(option, this.label);
 
         /* istanbul ignore else */
         if (isEmpty(label)) {
-            return '';
+            // return '';
+            result = '';
         }
 
-        return label;
+        result = label;
+
+        return result;
     }
 
     /**
@@ -1497,9 +1513,11 @@ fieldset[disabled] .multiselect {
     display: block;
     position: relative;
     width: 100%;
-    min-height: 40px;
     text-align: left;
     color: #35495e;
+
+    // update
+    min-height: 32px;
 }
 
 .multiselect * {
@@ -1521,10 +1539,24 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect--active:not(.multiselect--above) .multiselect__current,
-.multiselect--active:not(.multiselect--above) .multiselect__input,
 .multiselect--active:not(.multiselect--above) .multiselect__tags {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    // update
+    border-radius: 4px;
+}
+
+.multiselect--active:not(.multiselect--above) .multiselect__input {
+    // update
+    border-radius: 4px;
+    border: 1px solid #e3e3e3;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 6px 8px;
+}
+
+.multiselect__input-box {
+    margin: 8px;
 }
 
 .multiselect--active .multiselect__select {
@@ -1551,12 +1583,12 @@ fieldset[disabled] .multiselect {
     width: calc(100%);
     transition: border 0.1s ease;
     box-sizing: border-box;
-    margin-bottom: 8px;
     vertical-align: top;
 }
 
 .multiselect__input::placeholder {
-    color: #35495e;
+    // update
+    color: #7d7d7d;
 }
 
 .multiselect__tag ~ .multiselect__input,
@@ -1576,8 +1608,9 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__single {
-    padding-left: 5px;
-    margin-bottom: 8px;
+    // update
+    padding: 6px 8px;
+    margin-bottom: 0;
 }
 
 .multiselect__tags-wrap {
@@ -1585,13 +1618,15 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__tags {
-    min-height: 40px;
     display: block;
-    padding: 8px 40px 0 8px;
-    border-radius: 5px;
     border: 1px solid #e8e8e8;
     background: #fff;
     font-size: 14px;
+
+    // update
+    min-height: 32px;
+    box-sizing: border-box;
+    border-radius: 4px;
 }
 
 .multiselect__tag {
@@ -1644,7 +1679,6 @@ fieldset[disabled] .multiselect {
 
 .multiselect__current {
     line-height: 16px;
-    min-height: 40px;
     box-sizing: border-box;
     display: block;
     overflow: hidden;
@@ -1656,6 +1690,9 @@ fieldset[disabled] .multiselect {
     border-radius: 5px;
     border: 1px solid #e8e8e8;
     cursor: pointer;
+
+    // update
+    min-height: 32px;
 }
 
 .multiselect__select {
@@ -1706,11 +1743,13 @@ fieldset[disabled] .multiselect {
     max-height: 240px;
     overflow: auto;
     border: 1px solid #e8e8e8;
-    border-top: none;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+
     z-index: 50;
     -webkit-overflow-scrolling: touch;
+
+    // update
+    margin-top: 4px;
+    border-radius: 4px;
 }
 
 .multiselect__content {
@@ -1776,9 +1815,11 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--selected {
-    background: #f3f3f3;
-    color: #35495e;
     font-weight: bold;
+
+    // update
+    background: #eaf6ff;
+    color: #003b65;
 }
 
 .multiselect__option--selected:after {
