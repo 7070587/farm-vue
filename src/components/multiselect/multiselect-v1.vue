@@ -293,7 +293,7 @@ export default class VuePageClass extends Vue {
         default: () => [],
         required: true,
     })
-    private options: Model.IOptions;
+    private options: any[];
 
     /**
      * Presets the selected options value.
@@ -303,7 +303,7 @@ export default class VuePageClass extends Vue {
         type: [Object, Array],
         default: () => null,
     })
-    private value: Model.IValue;
+    private value: any;
 
     /**
      * Equivalent to the `multiple` attribute on a `<select>` input.
@@ -401,16 +401,16 @@ export default class VuePageClass extends Vue {
     //  * @default false
     //  * @type {Function}
     //  */
-    // @Prop({
-    //     type: Function,
-    //     default: (option: number | any[], label: string) => {
-    //         if (isEmpty(option)) {
-    //             return '';
-    //         }
-    //         return label ? option[label] : option;
-    //     },
-    // })
-    // private customLabel: Function;
+    @Prop({
+        type: Function,
+        default: (option: number | any[], label: string) => {
+            if (isEmpty(option)) {
+                return '';
+            }
+            return label ? option[label] : option;
+        },
+    })
+    private customLabel: Function;
 
     /**
      * Number of allowed selected options.
@@ -653,8 +653,8 @@ export default class VuePageClass extends Vue {
     //#region temp
     private groupValues: string = 'groupName';
     private groupLabel: string = 'lists';
-    // private trackBy: string = 'key';
-    // private label: string = 'value';
+    private trackBy: string = 'key';
+    private label: string = 'value';
 
     private selectLabel: string = '';
     private selectGroupLabel: string = '';
@@ -673,7 +673,7 @@ export default class VuePageClass extends Vue {
     //#region Computed
     //#region multiselect.js
     private get internalValue(): any[] {
-        return !!this.value ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
+        return this.value || this.value === 0 ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
     }
 
     private get filteredOptions(): any[] {
@@ -697,12 +697,16 @@ export default class VuePageClass extends Vue {
     }
 
     private get valueKeys(): any[] {
-        return this.internalValue;
+        if (this.trackBy) {
+            return this.internalValue.map((element) => element[this.trackBy]);
+        } else {
+            return this.internalValue;
+        }
     }
 
     private get optionKeys(): any[] {
-        // const options = this.groupValues ? this.flatAndStrip(this.options) : this.options;
-        return this.options.map((element) => element.key.toString().toLowerCase());
+        const options = this.groupValues ? this.flatAndStrip(this.options) : this.options;
+        return options.map((element) => this.customLabel(element, this.label).toString().toLowerCase());
     }
 
     private get currentOptionLabel(): string | object {
@@ -868,21 +872,21 @@ export default class VuePageClass extends Vue {
     //  * @param  {Array}
     //  * @returns {Array} returns a filtered and flat options list
     //  */
-    // private filterAndFlat(options: any[], search: string, label: string): any[] {
-    //     return this.flow(
-    //         this.filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
-    //         this.flattenOptions(this.groupValues, this.groupLabel),
-    //     )(options);
-    // }
+    private filterAndFlat(options: any[], search: string, label: string): any[] {
+        return this.flow(
+            this.filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
+            this.flattenOptions(this.groupValues, this.groupLabel),
+        )(options);
+    }
 
     // /**
     //  * Flattens and then strips the group labels from the options list
     //  * @param  {Array}
     //  * @returns {Array} returns a flat options list without group labels
     //  */
-    // private flatAndStrip(options: any[]): any[] {
-    //     return this.flow(this.flattenOptions(this.groupValues, this.groupLabel), this.stripGroups)(options);
-    // }
+    private flatAndStrip(options: any[]): any[] {
+        return this.flow(this.flattenOptions(this.groupValues, this.groupLabel), this.stripGroups)(options);
+    }
 
     /**
      * Updates the search value
@@ -909,7 +913,7 @@ export default class VuePageClass extends Vue {
      * @returns {Boolean} returns true if element is selected
      */
     private isSelected(option: Model.IOption): boolean {
-        const opt = option['key'];
+        const opt = this.trackBy ? option[this.trackBy] : option;
         return this.valueKeys.indexOf(opt) > -1;
     }
 
@@ -934,34 +938,28 @@ export default class VuePageClass extends Vue {
     private getOptionLabel(option: any): string {
         // console.log(`getOptionLabel => `, option);
         // // TODO:
-        // if (isEmpty(option)) {
-        //     console.log(` => `, 11);
-        //     return '';
-        // }
+        if (isEmpty(option)) {
+            return '';
+        }
 
-        // /* istanbul ignore else */
-        // if (option.isTag) {
-        //     return option.label;
-        // }
+        /* istanbul ignore else */
+        if (option.isTag) {
+            return option.label;
+        }
 
         /* istanbul ignore else */
         if (option.isLabel) {
-            console.log(` => `, 22);
             return option.groupLabel;
-        } else {
-            return option.value;
         }
 
-        // let label = this.customLabel(option, 'value');
+        let label = this.customLabel(option, 'value');
 
-        // /* istanbul ignore else */
-        // if (isEmpty(label)) {
-        //     console.log(` => `, 33);
-        //     return '';
-        // }
+        /* istanbul ignore else */
+        if (isEmpty(label)) {
+            return '';
+        }
 
-        // console.log(` => `, 44);
-        // return label;
+        return label;
     }
 
     /**
@@ -1050,11 +1048,9 @@ export default class VuePageClass extends Vue {
      */
     private selectGroup(selectedGroup): void {
         // TODO:
-        const group =
-            Array.isArray(this.options) &&
-            this.options.find((option) => {
-                return option[this.groupLabel] === selectedGroup.groupLabel;
-            });
+        const group = this.options.find((option) => {
+            return option[this.groupLabel] === selectedGroup.$groupLabel;
+        });
 
         if (!group) {
             return null;
@@ -1124,7 +1120,7 @@ export default class VuePageClass extends Vue {
             return null;
         }
 
-        const index: number = typeof option === 'object' ? this.valueKeys.indexOf(option['key']) : this.valueKeys.indexOf(option);
+        const index = typeof option === 'object' ? this.valueKeys.indexOf(option[this.trackBy]) : this.valueKeys.indexOf(option);
 
         this.$emit('remove', option, this.id);
 
