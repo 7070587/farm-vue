@@ -936,7 +936,7 @@ export default class VuePageClass extends Vue {
      * @returns {Object||String}
      */
     private getOptionLabel(option: any): string {
-        // console.log(`getOptionLabel => `, option);
+        console.log(`getOptionLabel => `, option);
         // // TODO:
         if (isEmpty(option)) {
             return '';
@@ -952,7 +952,7 @@ export default class VuePageClass extends Vue {
             return option.groupLabel;
         }
 
-        let label = this.customLabel(option, 'value');
+        let label = this.customLabel(option, this.label);
 
         /* istanbul ignore else */
         if (isEmpty(label)) {
@@ -1268,12 +1268,9 @@ export default class VuePageClass extends Vue {
             return ['multiselect__option--disabled', { 'multiselect__option--group': selectedGroup.isLabel }];
         }
 
-        const group =
-            Array.isArray(this.options) &&
-            this.options.find((option) => {
-                console.log(` => `, option);
-                return option[this.groupLabel] === selectedGroup.groupLabel;
-            });
+        const group = this.options.find((option) => {
+            return option[this.groupLabel] === selectedGroup.$groupLabel;
+        });
 
         return group && !this.wholeGroupDisabled(group)
             ? [
