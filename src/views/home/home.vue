@@ -8,6 +8,36 @@
             :max='4'
             :allow-empty="allowEmpty"
             :searchable="true"
+            :multiple="false"
+            :options="options"
+            :disabled="false"
+            @input="input"
+        >
+            <template #maxElements>
+                已達選擇數量上限，請先移除選定項目後再選擇新項目
+            </template>
+
+            <template #noResult>
+                找不到資料，請更改搜尋條件後再次查詢
+            </template>
+
+            <template #noOptions>
+                清單為空
+            </template>
+        </Multiselect>
+
+        <br>
+        <br>
+        <br>
+
+        <Multiselect
+            v-model="value"
+            placeholder="please select"
+            selectedLabel=""
+            :deselectLabel="deselectLabel"
+            :max='4'
+            :allow-empty="allowEmpty"
+            :searchable="true"
             :multiple="true"
             :options="options"
             :disabled="false"
@@ -39,8 +69,6 @@
             :allow-empty="allowEmpty"
             :searchable="true"
             :multiple="true"
-            group-values="libs"
-            group-label="type"
             :group-select="true"
             :options="groupOptions"
             @input="input"
@@ -83,6 +111,7 @@ import { Vue, Component } from 'vue-property-decorator';
 
 //#region Components Src
 import Multiselect from '@/components/multiselect/multiselect-v1.vue';
+// import Multiselect from '@/components/multiselect/Multiselect.vue';
 
 //#endregion
 
@@ -113,8 +142,8 @@ export default class VuePageClass extends Vue {
     private groupValue = [{ value: 'Vue.js', key: 'Front-end' }];
     private groupOptions = [
         {
-            type: 'Javascript',
-            libs: [
+            groupName: 'Javascript',
+            lists: [
                 { value: 'Vue.js', key: 'Front-end' },
                 { value: 'Adonis', key: 'Backend' },
                 { value: 'Moment.js', key: 'Moment' },
@@ -122,15 +151,15 @@ export default class VuePageClass extends Vue {
             ],
         },
         {
-            type: 'Ruby',
-            libs: [
+            groupName: 'Ruby',
+            lists: [
                 { value: 'Rails', key: 'Backend' },
                 { value: 'Sinatra', key: 'Backend' },
             ],
         },
         {
-            type: 'Other',
-            libs: [
+            groupName: 'Other',
+            lists: [
                 { value: 'Laravel', key: 'Backend' },
                 { value: 'Phoenix', key: 'Backend' },
             ],
