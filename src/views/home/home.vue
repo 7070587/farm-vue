@@ -1,7 +1,7 @@
 <template>
     <div>
         <Multiselect
-            v-model="value"
+            v-model="valuesSingle"
             placeholder="please select"
             selectedLabel=""
             :deselectLabel="deselectLabel"
@@ -27,6 +27,33 @@
         </Multiselect>
 
         <br>
+        <br>
+        <Multiselect
+            v-model="valuesSingle"
+            placeholder="please select"
+            selectedLabel=""
+            :deselectLabel="deselectLabel"
+            :max='4'
+            :allow-empty="allowEmpty"
+            :searchable="false"
+            :multiple="false"
+            :options="options"
+            :disabled="false"
+            @input="input"
+        >
+            <template #maxElements>
+                已達選擇數量上限，請先移除選定項目後再選擇新項目
+            </template>
+
+            <template #noResult>
+                找不到資料，請更改搜尋條件後再次查詢
+            </template>
+
+            <template #noOptions>
+                清單為空
+            </template>
+        </Multiselect>
+
         <br>
         <br>
 
@@ -56,7 +83,6 @@
             </template>
         </Multiselect>
 
-        <br>
         <br>
         <br>
 
@@ -129,6 +155,8 @@ export default class VuePageClass extends Vue {
 
     //#region Variables
     // private value = [{ value: 'Javascript', key: 'js' }];
+    private valuesSingle = [{ value: 'Javascript', key: 'js' }];
+
     private value = [{ value: 'Javascript', key: 'js' }];
     private options = [
         { value: 'Vue.js', key: 'vu' },
