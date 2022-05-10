@@ -1,7 +1,7 @@
 <template>
     <div
         :tabindex="searchable ? -1 : tabindex"
-        :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
+        :class="[{ 'multiselect--active': isOpen }, { 'multiselect--disabled': disabled }, { 'multiselect--above': isAbove }, multiple ? 'multiselect--multiple' : 'multiselect--single']"
         @focus="activate()"
         @blur="searchable ? false : deactivate()"
         class="multiselect"
@@ -1457,6 +1457,14 @@ fieldset[disabled] .multiselect {
     pointer-events: none;
 }
 
+.multiselect--single {
+    width: 220px;
+}
+
+.multiselect--multiple {
+    width: 400px;
+}
+
 .multiselect__spinner {
     position: absolute;
     right: 1px;
@@ -1516,7 +1524,6 @@ fieldset[disabled] .multiselect {
     box-sizing: content-box;
     display: block;
     position: relative;
-    width: 100%;
     text-align: left;
     color: #35495e;
 
