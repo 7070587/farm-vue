@@ -31,15 +31,15 @@
                 name="selection"
                 :search="search"
                 :remove="removeElement"
-                :values="visibleValues"
+                :values="mulitipleSelectedValues"
                 :is-open="isOpen"
             >
                 <div
                     class="multiselect__tags-wrap"
-                    v-show="visibleValues.length > 0"
+                    v-show="mulitipleSelectedValues.length > 0"
                 >
                     <template
-                        v-for="(option, index) of visibleValues"
+                        v-for="(option, index) of mulitipleSelectedValues"
                         @mousedown.prevent
                     >
                         <slot
@@ -53,7 +53,7 @@
                                 :key="index"
                             >
                                 <span v-text="getOptionLabel(option)"></span>
-                                TODO /
+                                / TODO-mulitipleSelectedValues /
                                 <i
                                     tabindex="1"
                                     @mousedown.prevent="removeElement(option)"
@@ -655,9 +655,10 @@ export default class VuePageClass extends Vue {
     private optimizedHeight: number = null;
 
     private searchI18n: string = 'Search';
-    private singleSelectedValue: any = null;
+    private singleSelectedValue: string = '';
+    private mulitipleSelectedValues: Model.IOptionData[] = [];
 
-    // private visibleValues: any[] = [];
+    // private mulitipleSelectedValues: any[] = [];
 
     //#region temp
     private groupValues: string = 'groupName';
@@ -731,16 +732,16 @@ export default class VuePageClass extends Vue {
 
     //#region Multiselect.vue
     private get isSingleLabelVisible(): boolean {
-        return !!this.singleValue && (!this.isOpen || !this.searchable) && !this.visibleValues.length;
+        return !!this.singleValue && (!this.isOpen || !this.searchable) && !this.mulitipleSelectedValues.length;
     }
 
     private get isPlaceholderVisible(): boolean {
         return !this.internalValue.length && (!this.searchable || !this.isOpen);
     }
 
-    private get visibleValues(): any[] {
-        return this.multiple ? this.internalValue.slice(0, this.limit) : [];
-    }
+    // private get mulitipleSelectedValues(): any[] {
+    //     return this.multiple ? this.internalValue.slice(0, this.limit) : [];
+    // }
 
     private get singleValue(): any {
         return this.internalValue[0];
@@ -818,8 +819,8 @@ export default class VuePageClass extends Vue {
 
     @Watch('value', { immediate: true, deep: true })
     private valueChanged(newVal: Model.IValue, oldVal: Model.IValue): void {
-        console.log(`valueChanged => `, newVal);
         if (this.multiple) {
+            this.mulitipleSelectedValues = !!newVal ? (newVal as Model.IOption[]) : [];
         } else {
             this.singleSelectedValue = !!newVal ? (newVal as Model.IOption).value : '';
         }
@@ -956,6 +957,30 @@ export default class VuePageClass extends Vue {
         console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
 
         if (this.multiple) {
+            let index: number = this.internalValue.findIndex((x) => x.key === option.key);
+            if (this.allowEmpty) {
+                if (index > -1) {
+                    this.internalValue.splice(index, 1);
+                    this.mulitipleSelectedValues = this.internalValue;
+                    this.$emit('input', this.mulitipleSelectedValues);
+                } else {
+                    delete option.groupName;
+                    this.mulitipleSelectedValues.push(option);
+                    this.$emit('input', this.mulitipleSelectedValues);
+                }
+            } else {
+                if (index > -1) {
+                    if (this.internalValue.length >= 2) {
+                        this.internalValue.splice(index, 1);
+                        this.mulitipleSelectedValues = this.internalValue;
+                    }
+                    this.$emit('input', this.mulitipleSelectedValues);
+                } else {
+                    delete option.groupName;
+                    this.mulitipleSelectedValues.push(option);
+                    this.$emit('input', this.mulitipleSelectedValues);
+                }
+            }
         } else {
             let index: number = this.internalValue.findIndex((x) => x.key === option.key);
             if (this.allowEmpty) {
