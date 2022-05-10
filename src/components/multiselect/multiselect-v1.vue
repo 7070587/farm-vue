@@ -700,23 +700,12 @@ export default class VuePageClass extends Vue {
 
             options = tempOptions;
         } else {
-            options.forEach((x) => (x.isGroupName = false));
+            options.forEach((x) => (x.groupName = x.groupName));
         }
 
         options = options.filter((array) => array.value.match(normalizedSearch));
 
-        // options = this.hideSelected ? options.filter(this.not(this.isSelected)) : options;
-
-        // console.log(` => `, JSON.parse(JSON.stringify(options)));
-
-        // /* istanbul ignore else */
-        // if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-        //     if (this.tagPosition === 'bottom') {
-        //         options.push({ isTag: true, label: search });
-        //     } else {
-        //         options.unshift({ isTag: true, label: search });
-        //     }
-        // }
+        console.log(`filteredOptions => `, options);
 
         return options;
     }
@@ -727,11 +716,6 @@ export default class VuePageClass extends Vue {
         } else {
             return this.internalValue;
         }
-    }
-
-    private get optionKeys(): any[] {
-        const options = this.groupValues ? this.flatAndStrip(this.options) : this.options;
-        return options.map((element) => this.customLabel(element, this.label).toString().toLowerCase());
     }
 
     private get currentOptionLabel(): string | object {
@@ -808,15 +792,6 @@ export default class VuePageClass extends Vue {
     }
     //#endregion
 
-    //#region pointerMixin.js
-    private get pointerPosition(): number {
-        return this.pointer * this.optionHeight;
-    }
-
-    private get visibleElements(): number {
-        return this.optimizedHeight / this.optionHeight;
-    }
-
     //#endregion
     //#endregion
 
@@ -846,9 +821,7 @@ export default class VuePageClass extends Vue {
 
     //#region pointerMixin.js
     @Watch('filteredOptions', { immediate: true, deep: true })
-    private filteredOptionsChanged(newVal: any[], oldVal: any[]): void {
-        this.pointerAdjust();
-    }
+    private filteredOptionsChanged(newVal: any[], oldVal: any[]): void {}
 
     @Watch('isOpen', { immediate: true, deep: true })
     private isOpenChanged(newVal: boolean, oldVal: boolean): void {
@@ -894,43 +867,12 @@ export default class VuePageClass extends Vue {
         return this.multiple ? this.internalValue : this.internalValue.length === 0 ? null : this.internalValue[0];
     }
 
-    // /**
-    //  * Filters and then flattens the options list
-    //  * @param  {Array}
-    //  * @returns {Array} returns a filtered and flat options list
-    //  */
-    private filterAndFlat(options: any[], search: string, label: string): any[] {
-        return this.flow(
-            this.filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
-            this.flattenOptions(this.groupValues, this.groupLabel),
-        )(options);
-    }
-
-    // /**
-    //  * Flattens and then strips the group labels from the options list
-    //  * @param  {Array}
-    //  * @returns {Array} returns a flat options list without group labels
-    //  */
-    private flatAndStrip(options: any[]): any[] {
-        return this.flow(this.flattenOptions(this.groupValues, this.groupLabel), this.stripGroups)(options);
-    }
-
     /**
      * Updates the search value
      * @param  {String}
      */
     private updateSearch(query: string): void {
         this.search = query;
-    }
-
-    /**
-     * Finds out if the given query is already present
-     * in the available options
-     * @param  {String}
-     * @returns {Boolean} returns true if element is available
-     */
-    private isExistingOption(query: string): boolean {
-        return !this.options ? false : this.optionKeys.indexOf(query) > -1;
     }
 
     /**
@@ -1018,31 +960,31 @@ export default class VuePageClass extends Vue {
             return null;
         }
 
-        if (option.isTag) {
-            this.$emit('tag', option.label, this.id);
-            this.search = '';
+        // if (option.isTag) {
+        //     this.$emit('tag', option.label, this.id);
+        //     this.search = '';
 
-            if (this.closeOnSelect && !this.multiple) {
-                this.deactivate();
-            }
-        } else {
-            const isSelected = this.isSelected(option);
+        //     if (this.closeOnSelect && !this.multiple) {
+        //         this.deactivate();
+        //     }
+        // } else {
+        //     const isSelected = this.isSelected(option);
 
-            if (isSelected) {
-                if (key !== 'Tab') {
-                    this.removeElement(option);
-                }
+        //     if (isSelected) {
+        //         if (key !== 'Tab') {
+        //             this.removeElement(option);
+        //         }
 
-                return null;
-            }
+        //         return null;
+        //     }
 
-            this.$emit('select', option, this.id);
+        //     this.$emit('select', option, this.id);
 
-            /* istanbul ignore else */
-            if (this.clearOnSelect) {
-                this.search = '';
-            }
-        }
+        //     /* istanbul ignore else */
+        //     if (this.clearOnSelect) {
+        //         this.search = '';
+        //     }
+        // }
 
         if (this.multiple) {
             this.$emit('input', this.internalValue.concat([option]), this.id);
@@ -1153,19 +1095,6 @@ export default class VuePageClass extends Vue {
         /* istanbul ignore else */
         if (this.closeOnSelect && shouldClose) {
             this.deactivate();
-        }
-    }
-
-    /**
-     * Calls this.removeElement() with the last element
-     * from this.internalValue (selected element Array)
-     *
-     * @fires this#removeElement
-     */
-    private removeLastElement(): void {
-        /* istanbul ignore else */
-        if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
-            this.removeElement(this.internalValue[this.internalValue.length - 1], false);
         }
     }
 
@@ -1301,78 +1230,6 @@ export default class VuePageClass extends Vue {
             : 'multiselect__option--disabled';
     }
 
-    private pointerForward(): void {
-        /* istanbul ignore else */
-        if (this.pointer < this.filteredOptions.length - 1) {
-            this.pointer++;
-
-            this.$nextTick(() => {
-                let refList: any = this.$refs.list;
-                /* istanbul ignore next */
-                if (refList.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
-                    refList.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight;
-                }
-            });
-
-            /* istanbul ignore else */
-            if (this.filteredOptions[this.pointer] && this.filteredOptions[this.pointer].isLabel && !this.groupSelect) {
-                this.pointerForward();
-            }
-        }
-
-        this.pointerDirty = true;
-    }
-
-    private pointerBackward(): void {
-        if (this.pointer > 0) {
-            this.pointer--;
-
-            /* istanbul ignore else */
-            let refList: any = this.$refs.list;
-            if (refList.scrollTop >= this.pointerPosition) {
-                refList.scrollTop = this.pointerPosition;
-            }
-
-            /* istanbul ignore else */
-            if (this.filteredOptions[this.pointer] && this.filteredOptions[this.pointer].isLabel && !this.groupSelect) {
-                this.pointerBackward();
-            }
-        } else {
-            /* istanbul ignore else */
-            if (this.filteredOptions[this.pointer] && this.filteredOptions[0].isLabel && !this.groupSelect) {
-                this.pointerForward();
-            }
-        }
-
-        this.pointerDirty = true;
-    }
-
-    private pointerReset(): void {
-        /* istanbul ignore else */
-        if (!this.closeOnSelect) {
-            return null;
-        }
-
-        this.pointer = 0;
-
-        /* istanbul ignore else */
-        let refList: any = this.$refs.list;
-        if (!!refList) {
-            refList.scrollTop = 0;
-        }
-    }
-
-    private pointerAdjust(): void {
-        /* istanbul ignore else */
-        if (this.pointer >= this.filteredOptions.length - 1) {
-            this.pointer = this.filteredOptions.length ? this.filteredOptions.length - 1 : 0;
-        }
-
-        if (this.filteredOptions.length > 0 && this.filteredOptions[this.pointer].isLabel && !this.groupSelect) {
-            this.pointerForward();
-        }
-    }
-
     private pointerSet(index: number): void {
         this.pointer = index;
         this.pointerDirty = true;
@@ -1386,68 +1243,7 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Other Function
-    private not(fun) {
-        // TODO:
-        return (...params) => !fun(...params);
-    }
 
-    private includes(str: string | boolean, query: string): boolean {
-        /* istanbul ignore else */
-        if (str === undefined) str = 'undefined';
-        if (str === null) str = 'null';
-        if (str === false) str = 'false';
-
-        const text = str.toString().toLowerCase();
-        return text.indexOf(query.trim()) !== -1;
-    }
-
-    private filterOptions(options: any[], search: string, label: string, customLabel: Function): any[] {
-        return options.filter((option) => this.includes(customLabel(option, label), search));
-    }
-
-    private stripGroups(options): any[] {
-        // TODO:
-        return options.filter((option) => !option.isLabel);
-    }
-
-    private flattenOptions(values: string, label: string): Function {
-        return (options) =>
-            options.reduce((prev, curr) => {
-                /* istanbul ignore else */
-                if (curr[values] && curr[values].length) {
-                    prev.push({
-                        groupLabel: curr[label],
-                        isLabel: true,
-                    });
-                    return prev.concat(curr[values]);
-                }
-                return prev;
-            }, []);
-    }
-
-    private filterGroups(search: string, label: string, values: string, groupLabel: string, customLabel: Function): Function {
-        return (groups: any[]) =>
-            groups.map((group: any[]) => {
-                /* istanbul ignore else */
-                if (!group[values]) {
-                    console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`);
-                    return [];
-                }
-
-                const groupOptions = this.filterOptions(group[values], search, label, customLabel);
-
-                return groupOptions.length
-                    ? {
-                          [groupLabel]: group[groupLabel],
-                          [values]: groupOptions,
-                      }
-                    : [];
-            });
-    }
-
-    private flow(...fns): Function {
-        return (x) => fns.reduce((v, f) => f(v), x);
-    }
     //#endregion
 }
 </script>
