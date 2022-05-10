@@ -192,7 +192,7 @@
                                 </slot>
                             </span>
 
-                            <span
+                            <!-- <span
                                 v-if="option && (option.isLabel || option.isDisabled)"
                                 :data-select="groupSelect && selectGroupLabelText"
                                 :data-deselect="groupSelect && deselectGroupLabelText"
@@ -211,7 +211,7 @@
                                         {{ getOptionLabel(option) }}
                                     </span>
                                 </slot>
-                            </span>
+                            </span> -->
                         </li>
                     </template>
 
@@ -697,7 +697,9 @@ export default class VuePageClass extends Vue {
             let tempOptions = [];
             options.forEach((x) => {
                 tempOptions.push({ key: x.groupName, value: x.groupName, isGroupName: true });
-                x.lists.forEach((x) => tempOptions.push({ ...x, groupName: x.groupName }));
+                x.lists.forEach((y) => {
+                    tempOptions.push({ ...y, groupName: x.groupName });
+                });
             });
 
             options = tempOptions;
@@ -820,7 +822,12 @@ export default class VuePageClass extends Vue {
     @Watch('value', { immediate: true, deep: true })
     private valueChanged(newVal: Model.IValue, oldVal: Model.IValue): void {
         if (this.multiple) {
-            this.mulitipleSelectedValues = !!newVal ? (newVal as Model.IOption[]) : [];
+            if (!!newVal) {
+                const filteredOptions = JSON.parse(JSON.stringify(this.filteredOptions));
+                const value = JSON.parse(JSON.stringify(newVal as Model.IOption[]));
+                const results = filteredOptions.filter(({ value: id1 }) => value.some(({ value: id2 }) => id2 === id1));
+                this.mulitipleSelectedValues = results;
+            }
         } else {
             this.singleSelectedValue = !!newVal ? (newVal as Model.IOption).value : '';
         }
@@ -954,7 +961,12 @@ export default class VuePageClass extends Vue {
      * @param  {Boolean} block removing
      */
     private select(option: Model.IOptionData): void {
-        console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
+        // console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
+
+        if (this.groupSelect) {
+            this.selectGroup(option);
+            return null;
+        }
 
         if (this.multiple) {
             let index: number = this.internalValue.findIndex((x) => x.key === option.key);
@@ -1040,7 +1052,6 @@ export default class VuePageClass extends Vue {
         //     this.$emit('input', option, this.id);
         // }
 
-        /* istanbul ignore else */
         if (this.closeOnSelect) {
             this.deactivate();
         }
@@ -1054,29 +1065,61 @@ export default class VuePageClass extends Vue {
      *
      * @param  {Object||String||Integer} group to select/deselect
      */
-    private selectGroup(selectedGroup): void {
-        console.log(`selectGroup => `, selectedGroup);
+    private selectGroup(selectedGroup: Model.IOptionData): void {
+        console.log(`selectGroup => `, selectedGroup, JSON.stringify(this.mulitipleSelectedValues, null, 4));
         // TODO:
-        const group = this.options.find((option) => {
-            return option[this.groupLabel] === selectedGroup.groupLabel;
+
+        let options = [];
+        let group = this.options.find((option) => {
+            return option.groupName === selectedGroup.key;
         });
 
-        if (!group) {
-            return null;
+        let isSelectdOneGroup: boolean = this.mulitipleSelectedValues.filter((x) => x.groupName === selectedGroup.key).length === group.lists.length;
+
+        if (selectedGroup.isGroupName) {
+            if (isSelectdOneGroup) {
+                this.mulitipleSelectedValues = this.mulitipleSelectedValues.filter((x) => x.groupName !== selectedGroup.key);
+                console.log(` => `, JSON.stringify(this.mulitipleSelectedValues, null, 4));
+            } else {
+                options = this.filteredOptions.filter((x) => x.groupName === selectedGroup.key);
+                this.mulitipleSelectedValues = this.mulitipleSelectedValues.concat(options);
+                this.mulitipleSelectedValues = [...new Set(this.mulitipleSelectedValues.map((item) => JSON.stringify(item)))].map((item) =>
+                    JSON.parse(item),
+                );
+            }
         }
 
-        if (this.wholeGroupSelected(group)) {
-            this.$emit('remove', group[this.groupValues], this.id);
+        let emitMulitipleSelectedValues = this.mulitipleSelectedValues.map((x) => {
+            return {
+                key: x.key,
+                value: x.value,
+            };
+        });
 
-            const newValue: any[] = this.internalValue.filter((option) => group[this.groupValues].indexOf(option) === -1);
+        console.log(`options => `, options, JSON.stringify(emitMulitipleSelectedValues, null, 4));
+        this.$emit('input', emitMulitipleSelectedValues);
 
-            this.$emit('input', newValue, this.id);
-        } else {
-            const optionsToAdd: any[] = group[this.groupValues].filter((option) => !(this.isOptionDisabled(option) || this.isSelected(option)));
+        //
+        // console.log(`emitMulitipleSelectedValues => `, emitMulitipleSelectedValues);
 
-            this.$emit('select', optionsToAdd, this.id);
-            this.$emit('input', this.internalValue.concat(optionsToAdd), this.id);
-        }
+        // console.log(`selectGroup => group`, this.mulitipleSelectedValues);
+
+        // if (!group) {
+        //     return null;
+        // }
+
+        // if (this.wholeGroupSelected(group)) {
+        //     this.$emit('remove', group[this.groupValues], this.id);
+
+        //     const newValue: any[] = this.internalValue.filter((option) => group[this.groupValues].indexOf(option) === -1);
+
+        //     this.$emit('input', newValue, this.id);
+        // } else {
+        //     const optionsToAdd: any[] = group[this.groupValues].filter((option) => !(this.isOptionDisabled(option) || this.isSelected(option)));
+
+        //     this.$emit('select', optionsToAdd, this.id);
+        //     this.$emit('input', this.internalValue.concat(optionsToAdd), this.id);
+        // }
 
         if (this.closeOnSelect) {
             this.deactivate();
