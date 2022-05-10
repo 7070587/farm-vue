@@ -126,7 +126,6 @@
                     <slot name="beforeList"></slot>
 
                     <div :class="{'multiselect__input-box': searchable}">
-
                         <input
                             ref="search"
                             v-if="searchable"
@@ -135,7 +134,7 @@
                             type="text"
                             autocomplete="off"
                             spellcheck="false"
-                            :placeholder="placeholder"
+                            :placeholder="searchI18n"
                             :style="inputStyle"
                             :value="search"
                             :disabled="disabled"
@@ -153,6 +152,7 @@
                             <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
                         </span>
                     </li>
+
                     <template v-if="!max || internalValue.length < max">
                         <li
                             class="multiselect__element"
@@ -161,8 +161,6 @@
                             v-bind:id="id + '-' + index"
                             v-bind:role="!(option && (option.isLabel || option.isDisabled)) ? 'option' : null"
                         >
-                            <!-- {{ option }} -->
-
                             <span
                                 v-if="!(option && (option.isLabel || option.isDisabled))"
                                 :class="optionHighlight(index, option)"
@@ -179,13 +177,20 @@
                                     :search="search"
                                     :index="index"
                                 >
-                                    <span>{{ getOptionLabel(option) }}</span>
+                                    <div
+                                        v-if="option.isGroupName"
+                                        :class="{'multiselect__option--group-box': option.isGroupName}"
+                                    >
+                                        <div>
+                                            {{ getOptionLabel(option) }}
+                                        </div>
+                                        <div class="multiselect__option--group-hr">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div v-else> {{ getOptionLabel(option) }} </div>
                                 </slot>
                             </span>
-
-                            <!-- 1 {{ option }}
-                            2 {{ option.isLabel }}
-                            3 {{ option.isDisabled }} -->
 
                             <span
                                 v-if="option && (option.isLabel || option.isDisabled)"
@@ -196,14 +201,15 @@
                                 @mousedown.prevent="selectGroup(option)"
                                 class="multiselect__option"
                             >
-
                                 <slot
                                     name="option"
                                     :option="option"
                                     :search="search"
                                     :index="index"
                                 >
-                                    <span>{{ getOptionLabel(option) }}</span>
+                                    <span>
+                                        {{ getOptionLabel(option) }}
+                                    </span>
                                 </slot>
                             </span>
                         </li>
@@ -456,17 +462,6 @@ export default class VuePageClass extends Vue {
     private groupSelect: boolean;
 
     /**
-     * Array of keyboard keys to block when selecting
-     * @default 1000
-     * @type {String}
-     */
-    @Prop({
-        type: Array,
-        default: () => [],
-    })
-    private blockKeys: any[];
-
-    /**
      * Decide whether to filter the results based on search query.
      * Useful for async filtering, where we search through more complex data.
      * @type {Boolean}
@@ -659,6 +654,10 @@ export default class VuePageClass extends Vue {
     private preferredOpenDirection: 'below' | 'above' = 'below';
     private optimizedHeight: number = null;
 
+    private searchI18n: string = 'Search';
+
+    // private visibleValues: any[] = [];
+
     //#region temp
     private groupValues: string = 'groupName';
     private groupLabel: string = 'lists';
@@ -685,24 +684,41 @@ export default class VuePageClass extends Vue {
         return this.value || this.value === 0 ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
     }
 
-    private get filteredOptions(): any[] {
+    // TODO: search error
+    private get filteredOptions(): Model.IOptionData[] {
         const search: string = this.search || '';
         const normalizedSearch: string = search.toLowerCase().trim();
 
         let options: any[] = this.options;
 
-        options = this.hideSelected ? options.filter(this.not(this.isSelected)) : options;
+        if (this.groupSelect) {
+            let tempOptions = [];
+            options.forEach((x) => {
+                tempOptions.push({ key: x.groupName, value: x.groupName, isGroupName: true });
+                x.lists.forEach((x) => tempOptions.push({ ...x, groupName: x.groupName }));
+            });
 
-        /* istanbul ignore else */
-        if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-            if (this.tagPosition === 'bottom') {
-                options.push({ isTag: true, label: search });
-            } else {
-                options.unshift({ isTag: true, label: search });
-            }
+            options = tempOptions;
+        } else {
+            options.forEach((x) => (x.isGroupName = false));
         }
 
-        return options.slice(0, this.optionsLimit);
+        options = options.filter((array) => array.value.match(normalizedSearch));
+
+        // options = this.hideSelected ? options.filter(this.not(this.isSelected)) : options;
+
+        // console.log(` => `, JSON.parse(JSON.stringify(options)));
+
+        // /* istanbul ignore else */
+        // if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
+        //     if (this.tagPosition === 'bottom') {
+        //         options.push({ isTag: true, label: search });
+        //     } else {
+        //         options.unshift({ isTag: true, label: search });
+        //     }
+        // }
+
+        return options;
     }
 
     private get valueKeys(): any[] {
@@ -843,7 +859,9 @@ export default class VuePageClass extends Vue {
     private pointerChanged(newVal: number, oldVal: number): void {
         this.$nextTick(() => {
             let refSearch: any = this.$refs.search;
-            refSearch.setAttribute('aria-activedescendant', this.id + '-' + newVal.toString());
+            if (!!refSearch) {
+                refSearch.setAttribute('aria-activedescendant', this.id + '-' + newVal.toString());
+            }
         });
     }
     //#endregion
@@ -945,7 +963,6 @@ export default class VuePageClass extends Vue {
      * @returns {Object||String}
      */
     private getOptionLabel(option: any): string {
-        // console.log(` => `, option, option.isLabel);
         let result: string = '';
         // // TODO:
         if (isEmpty(option)) {
@@ -986,34 +1003,22 @@ export default class VuePageClass extends Vue {
      * @param  {Object||String||Integer} option to select/deselect
      * @param  {Boolean} block removing
      */
-    private select(option, key?): void {
-        console.log(`select => `, JSON.parse(JSON.stringify(option)), key);
+    private select(option: Model.IOptionData): void {
+        console.log(`select => `, JSON.parse(JSON.stringify(option)));
         // TODO:
         /* istanbul ignore else */
-        if (option.isLabel && this.groupSelect) {
-            console.log(` => `, 1);
-            this.selectGroup(option);
-            return null;
-        }
-
-        if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.isDisabled || option.isLabel) {
-            console.log(` => `, 2);
+        if (option.isGroupName && this.groupSelect) {
+            console.log(`select => 01 `, this.internalValue);
+            // this.selectGroup(option);
             return null;
         }
 
         /* istanbul ignore else */
         if (this.max && this.multiple && this.internalValue.length === this.max) {
-            console.log(` => `, 3);
-            return null;
-        }
-
-        /* istanbul ignore else */
-        if (key === 'Tab' && !this.pointerDirty) {
             return null;
         }
 
         if (option.isTag) {
-            console.log(` => `, 4);
             this.$emit('tag', option.label, this.id);
             this.search = '';
 
@@ -1021,11 +1026,9 @@ export default class VuePageClass extends Vue {
                 this.deactivate();
             }
         } else {
-            console.log(` => `, 5);
             const isSelected = this.isSelected(option);
 
             if (isSelected) {
-                console.log(` => `, 6);
                 if (key !== 'Tab') {
                     this.removeElement(option);
                 }
@@ -1035,25 +1038,24 @@ export default class VuePageClass extends Vue {
 
             this.$emit('select', option, this.id);
 
-            if (this.multiple) {
-                console.log(` => `, 7, JSON.parse(JSON.stringify(this.internalValue.concat([option]))));
-                this.$emit('input', this.internalValue.concat([option]), this.id);
-            } else {
-                this.$emit('input', option, this.id);
-            }
-
             /* istanbul ignore else */
             if (this.clearOnSelect) {
-                console.log(` => `, 8);
                 this.search = '';
             }
         }
 
+        if (this.multiple) {
+            this.$emit('input', this.internalValue.concat([option]), this.id);
+        } else {
+            this.$emit('input', option, this.id);
+        }
+
         /* istanbul ignore else */
         if (this.closeOnSelect) {
-            console.log(` => `, 9);
             this.deactivate();
         }
+
+        // selectGroup
     }
 
     /**
@@ -1063,9 +1065,10 @@ export default class VuePageClass extends Vue {
      * @param  {Object||String||Integer} group to select/deselect
      */
     private selectGroup(selectedGroup): void {
+        console.log(`selectGroup => `, selectedGroup);
         // TODO:
         const group = this.options.find((option) => {
-            return option[this.groupLabel] === selectedGroup.$groupLabel;
+            return option[this.groupLabel] === selectedGroup.groupLabel;
         });
 
         if (!group) {
@@ -1160,11 +1163,6 @@ export default class VuePageClass extends Vue {
      * @fires this#removeElement
      */
     private removeLastElement(): void {
-        /* istanbul ignore else */
-        if (this.blockKeys.indexOf('Delete') !== -1) {
-            return null;
-        }
-
         /* istanbul ignore else */
         if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
             this.removeElement(this.internalValue[this.internalValue.length - 1], false);
@@ -1879,6 +1877,20 @@ fieldset[disabled] .multiselect {
 .multiselect__option--group {
     background: #ededed;
     color: #35495e;
+}
+
+// update
+.multiselect__option--group-box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #7d7d7d;
+}
+
+// update
+.multiselect__option--group-hr {
+    width: 100%;
+    margin-left: 4px;
 }
 
 .multiselect__option--group.multiselect__option--highlight {
