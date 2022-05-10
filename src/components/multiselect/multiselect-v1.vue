@@ -963,7 +963,7 @@ export default class VuePageClass extends Vue {
     private select(option: Model.IOptionData): void {
         // console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
 
-        if (this.groupSelect) {
+        if (this.groupSelect && this.multiple) {
             this.selectGroup(option);
             return null;
         }
@@ -1087,6 +1087,10 @@ export default class VuePageClass extends Vue {
                     JSON.parse(item),
                 );
             }
+        }
+
+        if (this.mulitipleSelectedValues.length > this.max) {
+            this.mulitipleSelectedValues = this.mulitipleSelectedValues.slice(0, 3);
         }
 
         let emitMulitipleSelectedValues = this.mulitipleSelectedValues.map((x) => {
