@@ -53,9 +53,9 @@
                                 :key="index"
                             >
                                 <span v-text="getOptionLabel(option)"></span>
+                                TODO /
                                 <i
                                     tabindex="1"
-                                    @keypress.enter.prevent="removeElement(option)"
                                     @mousedown.prevent="removeElement(option)"
                                     class="multiselect__tag-icon"
                                 ></i>
@@ -655,6 +655,7 @@ export default class VuePageClass extends Vue {
     private optimizedHeight: number = null;
 
     private searchI18n: string = 'Search';
+    private singleSelectedValue: any = null;
 
     // private visibleValues: any[] = [];
 
@@ -705,8 +706,6 @@ export default class VuePageClass extends Vue {
 
         options = options.filter((array) => array.value.match(normalizedSearch));
 
-        console.log(`filteredOptions => `, options);
-
         return options;
     }
 
@@ -719,21 +718,20 @@ export default class VuePageClass extends Vue {
     }
 
     private get currentOptionLabel(): string | object {
-        return this.multiple
-            ? this.searchable
-                ? ''
-                : this.placeholder
-            : this.internalValue.length
-            ? this.getOptionLabel(this.internalValue[0])
-            : this.searchable
-            ? ''
-            : this.placeholder;
+        if (this.multiple) {
+            return this.placeholder;
+        } else {
+            if (!!this.singleSelectedValue) {
+                return this.singleSelectedValue;
+            }
+            return this.placeholder;
+        }
     }
     //#endregion
 
     //#region Multiselect.vue
     private get isSingleLabelVisible(): boolean {
-        return (!!this.singleValue || this.singleValue === 0) && (!this.isOpen || !this.searchable) && !this.visibleValues.length;
+        return !!this.singleValue && (!this.isOpen || !this.searchable) && !this.visibleValues.length;
     }
 
     private get isPlaceholderVisible(): boolean {
@@ -744,7 +742,7 @@ export default class VuePageClass extends Vue {
         return this.multiple ? this.internalValue.slice(0, this.limit) : [];
     }
 
-    private get singleValue(): object | number {
+    private get singleValue(): any {
         return this.internalValue[0];
     }
 
@@ -816,6 +814,15 @@ export default class VuePageClass extends Vue {
     @Watch('search', { immediate: true, deep: true })
     private searchChanged(newVal: string, oldVal: string): void {
         this.$emit('search-change', this.search, this.id);
+    }
+
+    @Watch('value', { immediate: true, deep: true })
+    private valueChanged(newVal: Model.IValue, oldVal: Model.IValue): void {
+        console.log(`valueChanged => `, newVal);
+        if (this.multiple) {
+        } else {
+            this.singleSelectedValue = !!newVal ? (newVal as Model.IOption).value : '';
+        }
     }
     //#endregion
 
@@ -946,17 +953,33 @@ export default class VuePageClass extends Vue {
      * @param  {Boolean} block removing
      */
     private select(option: Model.IOptionData): void {
-        console.log(`select => `, JSON.parse(JSON.stringify(option)));
+        console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
+
+        if (this.multiple) {
+        } else {
+            let index: number = this.internalValue.findIndex((x) => x.key === option.key);
+            if (this.allowEmpty) {
+                if (index > -1) {
+                    this.internalValue.splice(index, 1);
+                    this.singleSelectedValue = '';
+                    this.$emit('input', undefined);
+                } else {
+                    this.singleSelectedValue = option.value;
+                    delete option.groupName;
+                    this.$emit('input', option);
+                }
+            } else {
+                this.singleSelectedValue = option.value;
+                delete option.groupName;
+                this.$emit('input', option);
+            }
+        }
+
         // TODO:
         /* istanbul ignore else */
         if (option.isGroupName && this.groupSelect) {
             console.log(`select => 01 `, this.internalValue);
             // this.selectGroup(option);
-            return null;
-        }
-
-        /* istanbul ignore else */
-        if (this.max && this.multiple && this.internalValue.length === this.max) {
             return null;
         }
 
@@ -986,11 +1009,11 @@ export default class VuePageClass extends Vue {
         //     }
         // }
 
-        if (this.multiple) {
-            this.$emit('input', this.internalValue.concat([option]), this.id);
-        } else {
-            this.$emit('input', option, this.id);
-        }
+        // if (this.multiple) {
+        //     this.$emit('input', this.internalValue.concat([option]), this.id);
+        // } else {
+        //     this.$emit('input', option, this.id);
+        // }
 
         /* istanbul ignore else */
         if (this.closeOnSelect) {
