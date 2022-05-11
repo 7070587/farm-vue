@@ -53,7 +53,6 @@
                                 :key="index"
                             >
                                 <span v-text="getOptionLabel(option)"></span>
-                                / TODO-mulitipleSelectedValues /
                                 <i
                                     tabindex="1"
                                     @mousedown.prevent="removeElement(option)"
@@ -184,30 +183,11 @@
                                             <hr>
                                         </div>
                                     </div>
+
                                     <div v-else> {{ getOptionLabel(option) }} </div>
                                 </slot>
                             </span>
 
-                            <!-- <span
-                                v-if="option && (option.isLabel || option.isDisabled)"
-                                :data-select="groupSelect && selectGroupLabelText"
-                                :data-deselect="groupSelect && deselectGroupLabelText"
-                                :class="groupHighlight(index, option)"
-                                @mouseenter.self="groupSelect && pointerSet(index)"
-                                @mousedown.prevent="selectGroup(option)"
-                                class="multiselect__option"
-                            >
-                                <slot
-                                    name="option"
-                                    :option="option"
-                                    :search="search"
-                                    :index="index"
-                                >
-                                    <span>
-                                        {{ getOptionLabel(option) }}
-                                    </span>
-                                </slot>
-                            </span> -->
                         </li>
                     </template>
 
@@ -504,17 +484,6 @@ export default class VuePageClass extends Vue {
     private name: string;
 
     /**
-     * Decide whether to show pointer labels
-     * @default true
-     * @type {Boolean}
-     */
-    @Prop({
-        type: Boolean,
-        default: true,
-    })
-    private showLabels: boolean;
-
-    /**
      * Limit the display of selected options. The rest will be hidden within the limitText string.
      * @default 99999
      * @type {Integer}
@@ -662,17 +631,10 @@ export default class VuePageClass extends Vue {
     private trackBy: string = 'key';
     private label: string = 'value';
 
-    private selectLabel: string = '';
-    private selectGroupLabel: string = '';
-    private selectedLabel: string = '';
-    private deselectLabel: string = '';
-    private deselectGroupLabel: string = '';
-
     // 可以刪除
     private taggable: boolean = false;
     private tagPlaceholder: string = 'Press enter to create a tag';
     private tagPosition: 'top' | 'bottom' = 'top';
-
     //#endregion
     //#endregion
 
@@ -682,7 +644,6 @@ export default class VuePageClass extends Vue {
         return this.value || this.value === 0 ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
     }
 
-    // TODO: search error
     private get filteredOptions(): Model.IOptionData[] {
         const search: string = this.search || '';
         const normalizedSearch: string = search.toLowerCase().trim();
@@ -737,32 +698,8 @@ export default class VuePageClass extends Vue {
         return !this.internalValue.length && (!this.searchable || !this.isOpen);
     }
 
-    // private get mulitipleSelectedValues(): any[] {
-    //     return this.multiple ? this.internalValue.slice(0, this.limit) : [];
-    // }
-
     private get singleValue(): any {
         return this.internalValue[0];
-    }
-
-    private get deselectLabelText(): string {
-        return this.showLabels ? this.deselectLabel : '';
-    }
-
-    private get deselectGroupLabelText(): string {
-        return this.showLabels ? this.deselectGroupLabel : '';
-    }
-
-    private get selectLabelText(): string {
-        return this.showLabels ? this.selectLabel : '';
-    }
-
-    private get selectGroupLabelText(): string {
-        return this.showLabels ? this.selectGroupLabel : '';
-    }
-
-    private get selectedLabelText(): string {
-        return this.showLabels ? this.selectedLabel : '';
     }
 
     private get inputStyle(): string | object {
@@ -788,7 +725,6 @@ export default class VuePageClass extends Vue {
         }
     }
     //#endregion
-
     //#endregion
     //#endregion
 
@@ -856,11 +792,6 @@ export default class VuePageClass extends Vue {
     private async created(): Promise<void> {}
     private async beforeMount(): Promise<void> {}
     private async mounted(): Promise<void> {
-        /* istanbul ignore else */
-        if (!this.multiple && this.max) {
-            console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.');
-        }
-
         if (this.preselectFirst && !this.internalValue.length && this.options.length) {
             this.select(this.filteredOptions[0]);
         }
@@ -917,22 +848,9 @@ export default class VuePageClass extends Vue {
      */
     private getOptionLabel(option: any): string {
         let result: string = '';
-        // // TODO:
         if (isEmpty(option)) {
             // return '';
             result = '';
-        }
-
-        /* istanbul ignore else */
-        if (option.isTag) {
-            // return option.label;
-            result = option.label;
-        }
-
-        /* istanbul ignore else */
-        if (option.isLabel) {
-            // return option.groupLabel;
-            result = option.groupLabel;
         }
 
         let label = this.customLabel(option, this.label);
@@ -1009,46 +927,6 @@ export default class VuePageClass extends Vue {
             }
         }
 
-        // TODO:
-        /* istanbul ignore else */
-        if (option.isGroupName && this.groupSelect) {
-            console.log(`select => 01 `, this.internalValue);
-            // this.selectGroup(option);
-            return null;
-        }
-
-        // if (option.isTag) {
-        //     this.$emit('tag', option.label, this.id);
-        //     this.search = '';
-
-        //     if (this.closeOnSelect && !this.multiple) {
-        //         this.deactivate();
-        //     }
-        // } else {
-        //     const isSelected = this.isSelected(option);
-
-        //     if (isSelected) {
-        //         if (key !== 'Tab') {
-        //             this.removeElement(option);
-        //         }
-
-        //         return null;
-        //     }
-
-        //     this.$emit('select', option, this.id);
-
-        //     /* istanbul ignore else */
-        //     if (this.clearOnSelect) {
-        //         this.search = '';
-        //     }
-        // }
-
-        // if (this.multiple) {
-        //     this.$emit('input', this.internalValue.concat([option]), this.id);
-        // } else {
-        //     this.$emit('input', option, this.id);
-        // }
-
         if (this.closeOnSelect) {
             this.deactivate();
         }
@@ -1063,9 +941,6 @@ export default class VuePageClass extends Vue {
      * @param  {Object||String||Integer} group to select/deselect
      */
     private selectGroup(selectedGroup: Model.IOptionData): void {
-        console.log(`selectGroup => `, selectedGroup, JSON.stringify(this.mulitipleSelectedValues, null, 4));
-        // TODO:
-
         let options = [];
         let group = this.options.find((option) => {
             return option.groupName === selectedGroup.key;
@@ -1086,7 +961,6 @@ export default class VuePageClass extends Vue {
         }
 
         if (this.mulitipleSelectedValues.length > this.max) {
-            console.log(` => `, this.max, this.mulitipleSelectedValues.length);
             this.mulitipleSelectedValues = this.mulitipleSelectedValues.slice(0, this.max);
         }
 
@@ -1097,30 +971,7 @@ export default class VuePageClass extends Vue {
             };
         });
 
-        console.log(`options => `, options, JSON.stringify(emitMulitipleSelectedValues, null, 4));
         this.$emit('input', emitMulitipleSelectedValues);
-
-        //
-        // console.log(`emitMulitipleSelectedValues => `, emitMulitipleSelectedValues);
-
-        // console.log(`selectGroup => group`, this.mulitipleSelectedValues);
-
-        // if (!group) {
-        //     return null;
-        // }
-
-        // if (this.wholeGroupSelected(group)) {
-        //     this.$emit('remove', group[this.groupValues], this.id);
-
-        //     const newValue: any[] = this.internalValue.filter((option) => group[this.groupValues].indexOf(option) === -1);
-
-        //     this.$emit('input', newValue, this.id);
-        // } else {
-        //     const optionsToAdd: any[] = group[this.groupValues].filter((option) => !(this.isOptionDisabled(option) || this.isSelected(option)));
-
-        //     this.$emit('select', optionsToAdd, this.id);
-        //     this.$emit('input', this.internalValue.concat(optionsToAdd), this.id);
-        // }
 
         if (this.closeOnSelect) {
             this.deactivate();
