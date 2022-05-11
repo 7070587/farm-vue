@@ -653,7 +653,7 @@ export default class VuePageClass extends Vue {
         if (this.groupSelect) {
             let tempOptions = [];
             options.forEach((x) => {
-                tempOptions.push({ key: x.groupName, value: x.groupName, isGroupName: true });
+                tempOptions.push({ key: x.groupName, value: x.groupName, isGroupName: true, name: x.groupName });
                 x.lists.forEach((y) => {
                     tempOptions.push({ ...y, groupName: x.groupName });
                 });
@@ -665,6 +665,17 @@ export default class VuePageClass extends Vue {
         }
 
         options = options.filter((array) => array.value.match(normalizedSearch));
+
+        if (this.groupSelect) {
+            let optionsObj = this.groupByKey(options, 'groupName');
+            let tempOptions = [];
+            for (const [key, value] of Object.entries(optionsObj)) {
+                tempOptions.push({ key: key, value: key, isGroupName: true, name: key });
+                tempOptions = tempOptions.concat(value);
+            }
+
+            options = tempOptions;
+        }
 
         return options;
     }
@@ -1194,7 +1205,12 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Other Function
-
+    private groupByKey(array, key): any[] {
+        return array.reduce((hash, obj) => {
+            if (obj[key] === undefined) return hash;
+            return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) });
+        }, {});
+    }
     //#endregion
 }
 </script>
