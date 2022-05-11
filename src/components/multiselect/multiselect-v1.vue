@@ -88,6 +88,16 @@
                 @mousedown.prevent="toggle"
             >
                 <slot
+                    name="caret"
+                    :toggle="toggle"
+                >
+                    <div
+                        @mousedown.prevent.stop="toggle()"
+                        class="multiselect__select"
+                    ></div>
+                </slot>
+
+                <slot
                     name="singleLabel"
                     :option="singleValue"
                 >
