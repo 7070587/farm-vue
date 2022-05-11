@@ -168,7 +168,6 @@
                             v-for="(option, index) of filteredOptions"
                             :key="index"
                             v-bind:id="id + '-' + index"
-                            v-bind:role="!(option && (option.isLabel || option.isDisabled)) ? 'option' : null"
                         >
                             <span
                                 :class="[optionHighlight(index, option), optionPointer(option)]"
@@ -254,10 +253,6 @@ import { Multiselect as Model } from './models';
 //#endregion
 
 function isEmpty(opt: number | any[]): boolean {
-    if (opt === 0) {
-        return false;
-    }
-
     if (Array.isArray(opt) && opt.length === 0) {
         return true;
     }
@@ -294,7 +289,7 @@ export default class VuePageClass extends Vue {
         default: () => [],
         required: true,
     })
-    private options: any[];
+    private options: Model.IOptions;
 
     /**
      * Presets the selected options value.
@@ -304,7 +299,7 @@ export default class VuePageClass extends Vue {
         type: [Object, Array],
         default: () => null,
     })
-    private value: any;
+    private value: Model.IValue;
 
     /**
      * Equivalent to the `multiple` attribute on a `<select>` input.
@@ -327,29 +322,6 @@ export default class VuePageClass extends Vue {
         default: () => true,
     })
     private searchable: boolean;
-
-    /**
-     * Clear the search input after `select()`.
-     * Use only when multiple is true.
-     * @default true
-     * @type {Boolean}
-     */
-    @Prop({
-        type: Boolean,
-        default: true,
-    })
-    private clearOnSelect: boolean;
-
-    /**
-     * Hide already selected options
-     * @default false
-     * @type {Boolean}
-     */
-    @Prop({
-        type: Boolean,
-        default: false,
-    })
-    private hideSelected: boolean;
 
     /**
      * Equivalent to the `placeholder` attribute on a `<select>` input.
@@ -426,17 +398,6 @@ export default class VuePageClass extends Vue {
     private max: number;
 
     /**
-     * Limits the options displayed in the dropdown to the first X options.
-     * @default 1000
-     * @type {Number}
-     */
-    @Prop({
-        type: Number,
-        default: 1000,
-    })
-    private optionsLimit: number;
-
-    /**
      * Allow to select all group values by selecting the group label
      * @default false
      * @type {Boolean}
@@ -446,17 +407,6 @@ export default class VuePageClass extends Vue {
         default: false,
     })
     private groupSelect: boolean;
-
-    /**
-     * Decide whether to filter the results based on search query.
-     * Useful for async filtering, where we search through more complex data.
-     * @type {Boolean}
-     */
-    @Prop({
-        type: Boolean,
-        default: true,
-    })
-    private internalSearch: boolean;
 
     /**
      * Prevent from wiping up the search value
@@ -640,18 +590,13 @@ export default class VuePageClass extends Vue {
     private groupLabel: string = 'lists';
     private trackBy: string = 'key';
     private label: string = 'value';
-
-    // 可以刪除
-    private taggable: boolean = false;
-    private tagPlaceholder: string = 'Press enter to create a tag';
-    private tagPosition: 'top' | 'bottom' = 'top';
     //#endregion
     //#endregion
 
     //#region Computed
     //#region multiselect.js
     private get internalValue(): any[] {
-        return this.value || this.value === 0 ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
+        return !!this.value ? (Array.isArray(this.value) ? this.value : [this.value]) : [];
     }
 
     private get filteredOptions(): Model.IOptionData[] {
@@ -698,7 +643,7 @@ export default class VuePageClass extends Vue {
         }
     }
 
-    private get currentOptionLabel(): string | object {
+    private get currentOptionLabel(): string {
         if (this.multiple) {
             return this.placeholder;
         } else {
@@ -855,7 +800,6 @@ export default class VuePageClass extends Vue {
      * @returns {Boolean} returns true if element is disabled
      */
     private isOptionDisabled(option): boolean {
-        // TODO:
         return !!option.isDisabled;
     }
 
@@ -963,7 +907,7 @@ export default class VuePageClass extends Vue {
      */
     private selectGroup(selectedGroup: Model.IOptionData): void {
         let options = [];
-        let group = this.options.find((option) => {
+        let group = (this.options as any[]).find((option) => {
             return option.groupName === selectedGroup.key;
         });
 
@@ -1000,22 +944,11 @@ export default class VuePageClass extends Vue {
     }
 
     /**
-     * Helper to identify if all values in a group are selected
-     *
-     * @param {Object} group to validated selected values against
-     */
-    private wholeGroupSelected(group: any[]): boolean {
-        // TODO:
-        return group[this.groupValues].every((option) => this.isSelected(option) || this.isOptionDisabled(option));
-    }
-
-    /**
      * Helper to identify if all values in a group are disabled
      *
      * @param {Object} group to check for disabled values
      */
     private wholeGroupDisabled(group: any[]): boolean {
-        // TODO:
         return group[this.groupValues].every(this.isOptionDisabled);
     }
 
@@ -1027,15 +960,9 @@ export default class VuePageClass extends Vue {
      * @param  {type} option description
      * @returns {type}        description
      */
-    private removeElement(option, shouldClose: boolean = true): void {
-        // TODO:
+    private removeElement(option: Model.IOptionData, shouldClose: boolean = true): void {
         /* istanbul ignore else */
         if (this.disabled) {
-            return null;
-        }
-
-        /* istanbul ignore else */
-        if (option.isDisabled) {
             return null;
         }
 
@@ -1184,24 +1111,6 @@ export default class VuePageClass extends Vue {
         }
     }
 
-    private groupHighlight(index: number, selectedGroup): object | string {
-        if (!this.groupSelect) {
-            return ['multiselect__option--disabled', { 'multiselect__option--group': selectedGroup.isLabel }];
-        }
-
-        const group = this.options.find((option) => {
-            return option[this.groupLabel] === selectedGroup.$groupLabel;
-        });
-
-        return group && !this.wholeGroupDisabled(group)
-            ? [
-                  'multiselect__option--group',
-                  { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
-                  { 'multiselect__option--group-selected': this.wholeGroupSelected(group) },
-              ]
-            : 'multiselect__option--disabled';
-    }
-
     private pointerSet(index: number): void {
         this.pointer = index;
         this.pointerDirty = true;
@@ -1215,7 +1124,7 @@ export default class VuePageClass extends Vue {
     //#endregion
 
     //#region Other Function
-    private groupByKey(array, key): any[] {
+    private groupByKey(array: any[], key: string): any[] {
         return array.reduce((hash, obj) => {
             if (obj[key] === undefined) return hash;
             return Object.assign(hash, { [obj[key]]: (hash[obj[key]] || []).concat(obj) });
