@@ -1457,10 +1457,15 @@ fieldset[disabled] .multiselect {
     padding: 6px 8px;
 }
 
+// update
 .multiselect__input-box {
     padding: 6px 8px;
-
     border-bottom: 1px solid #e3e3e3;
+}
+
+// update
+.multiselect--cursor-default {
+    cursor: default;
 }
 
 .multiselect--active .multiselect__select {
@@ -1470,8 +1475,8 @@ fieldset[disabled] .multiselect {
 .multiselect--above.multiselect--active .multiselect__current,
 .multiselect--above.multiselect--active .multiselect__input,
 .multiselect--above.multiselect--active .multiselect__tags {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .multiselect__input,
@@ -1488,6 +1493,14 @@ fieldset[disabled] .multiselect {
     transition: border 0.1s ease;
     box-sizing: border-box;
     vertical-align: top;
+}
+
+// update
+.multiselect__input {
+    box-sizing: border-box;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    height: 32px;
 }
 
 .multiselect__input::placeholder {
@@ -1565,7 +1578,7 @@ fieldset[disabled] .multiselect {
     text-align: center;
     line-height: 22px;
     transition: all 0.2s ease;
-    border-radius: 5px;
+    border-radius: 4px;
 }
 
 .multiselect__tag-icon:after {
@@ -1598,7 +1611,7 @@ fieldset[disabled] .multiselect {
     white-space: nowrap;
     margin: 0;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 4px;
     border: 1px solid #e8e8e8;
     cursor: pointer;
 
@@ -1677,12 +1690,13 @@ fieldset[disabled] .multiselect {
 
 .multiselect--above .multiselect__content-wrapper {
     bottom: 100%;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom: none;
+
+    // border-bottom: none;
+
+    // update
     border-top: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    border-radius: 4px;
 }
 
 .multiselect__content::webkit-scrollbar {
