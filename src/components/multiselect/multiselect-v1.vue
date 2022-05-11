@@ -996,7 +996,7 @@ export default class VuePageClass extends Vue {
                 if (index > -1) {
                     this.internalValue.splice(index, 1);
                     this.singleSelectedValue = '';
-                    this.$emit('input', undefined);
+                    this.$emit('input', null);
                 } else {
                     this.singleSelectedValue = option.value;
                     delete option.groupName;
