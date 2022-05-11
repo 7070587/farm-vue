@@ -155,20 +155,16 @@
 
                     <template v-if="!max || internalValue.length < max">
                         <li
-                            class="multiselect__element"
+                            class="multiselect__element multiselect__option--cursor-pointer"
                             v-for="(option, index) of filteredOptions"
                             :key="index"
                             v-bind:id="id + '-' + index"
                             v-bind:role="!(option && (option.isLabel || option.isDisabled)) ? 'option' : null"
                         >
                             <span
-                                v-if="!(option && (option.isLabel || option.isDisabled))"
-                                :class="optionHighlight(index, option)"
+                                :class="[optionHighlight(index, option), optionPointer(option)]"
                                 @click.stop="select(option)"
                                 @mouseenter.self="pointerSet(index)"
-                                :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
-                                :data-selected="selectedLabelText"
-                                :data-deselect="deselectLabelText"
                                 class="multiselect__option"
                             >
                                 <slot
@@ -179,7 +175,7 @@
                                 >
                                     <div
                                         v-if="option.isGroupName"
-                                        :class="{'multiselect__option--group-box': option.isGroupName}"
+                                        :class="[{ 'multiselect__option--group-box': option.isGroupName }]"
                                     >
                                         <div>
                                             {{ getOptionLabel(option) }}
@@ -1306,8 +1302,16 @@ export default class VuePageClass extends Vue {
         };
     }
 
+    private optionPointer(option: Model.IOptionData): object {
+        if (option.isGroupName) {
+            return {
+                'multiselect__option--cursor-pointer': this.multiple,
+                'multiselect__option--cursor-default': !this.multiple,
+            };
+        }
+    }
+
     private groupHighlight(index: number, selectedGroup): object | string {
-        // TODO:
         if (!this.groupSelect) {
             return ['multiselect__option--disabled', { 'multiselect__option--group': selectedGroup.isLabel }];
         }
@@ -1461,11 +1465,6 @@ fieldset[disabled] .multiselect {
 .multiselect__input-box {
     padding: 6px 8px;
     border-bottom: 1px solid #e3e3e3;
-}
-
-// update
-.multiselect--cursor-default {
-    cursor: default;
 }
 
 .multiselect--active .multiselect__select {
@@ -1691,8 +1690,6 @@ fieldset[disabled] .multiselect {
 .multiselect--above .multiselect__content-wrapper {
     bottom: 100%;
 
-    // border-bottom: none;
-
     // update
     border-top: 1px solid #e8e8e8;
     border-bottom: 1px solid #e8e8e8;
@@ -1716,8 +1713,16 @@ fieldset[disabled] .multiselect {
     text-transform: none;
     /* vertical-align: middle; */
     position: relative;
-    cursor: pointer;
+    // cursor: pointer;
     white-space: nowrap;
+}
+
+.multiselect__option--cursor-default {
+    cursor: default;
+}
+
+.multiselect__option--cursor-pointer {
+    cursor: pointer;
 }
 
 .multiselect__option:after {
