@@ -957,10 +957,11 @@ export default class VuePageClass extends Vue {
      * @param  {Boolean} block removing
      */
     private select(option: Model.IOptionData): void {
-        // console.log(`select => `, JSON.parse(JSON.stringify(option)), this.internalValue, this.allowEmpty);
-
-        if (this.groupSelect && this.multiple && option.isGroupName) {
-            this.selectGroup(option);
+        if (this.groupSelect && option.isGroupName) {
+            if (this.multiple) {
+                this.selectGroup(option);
+                return null;
+            }
             return null;
         }
 
