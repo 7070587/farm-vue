@@ -1,0 +1,35 @@
+:root {
+    --theme-background-color: #f9fbf5;
+
+    --card-title-background: #f2f9f4;
+    --card-body-background: #e0f8e9;
+    --card-footer-background: #f2f9f4;
+    --card-border-color: #23ab8a;
+
+    --button-background: #35cda8;
+    --button-color: #0a6750;
+}
+
+[theme='light'] {
+    --theme-background-color: #e3e3e3;
+
+    --card-title-background: #c5e6ff;
+    --card-body-background: #eaf6ff;
+    --card-footer-background: #c5e6ff;
+    --card-border-color: #2fa8ff;
+
+    --button-background: #003b65;
+    --button-color: #8debff;
+}
+
+[theme='dark'] {
+    --theme-background-color: #fffbee;
+
+    --card-title-background: #9fd7ff;
+    --card-body-background: #55b7ff;
+    --card-footer-background: #9fd7ff;
+    --card-border-color: #006ab7;
+
+    --button-background: #d1f7ff;
+    --button-color: #316b76;
+}

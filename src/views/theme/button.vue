@@ -1,14 +1,15 @@
 <template>
     <div>
-        <!-- theme -->
-        <Theme />
+        <button class="button">
+            <div class="button--text"> {{ text }} </div>
+        </button>
     </div>
 </template>
 
 <script lang="ts">
 //#region Import
 //#region Vue
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 //#endregion
 
 //#region Module
@@ -27,7 +28,6 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Src
-import Theme from '@/views/theme/theme.vue';
 //#endregion
 
 //#region Components Views
@@ -35,10 +35,15 @@ import Theme from '@/views/theme/theme.vue';
 //#endregion
 
 @Component({
-    components: { Theme },
+    components: {},
 })
 export default class VuePageClass extends Vue {
     //#region Prop
+    @Prop({
+        type: [String, Number], // Boolean, Number, String, Array, Object
+        default: () => null,
+    })
+    private text: string | number;
     //#endregion
 
     //#region Variables
@@ -71,4 +76,7 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
+.theme {
+    padding: 0 1rem;
+}
 </style>

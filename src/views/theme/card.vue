@@ -1,7 +1,16 @@
 <template>
-    <div>
-        <!-- theme -->
-        <Theme />
+    <div class="card">
+        <div class="card--header">
+            <slot name="header"></slot>
+        </div>
+
+        <div class="card--body">
+            <slot name="body"></slot>
+        </div>
+
+        <div class="card--footer">
+            <slot name="footer"></slot>
+        </div>
     </div>
 </template>
 
@@ -27,7 +36,6 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Src
-import Theme from '@/views/theme/theme.vue';
 //#endregion
 
 //#region Components Views
@@ -35,7 +43,7 @@ import Theme from '@/views/theme/theme.vue';
 //#endregion
 
 @Component({
-    components: { Theme },
+    components: {},
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -71,4 +79,7 @@ export default class VuePageClass extends Vue {
 </script>
 
 <style scoped lang="scss">
+.theme {
+    padding: 0 1rem;
+}
 </style>
