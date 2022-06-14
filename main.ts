@@ -14,7 +14,9 @@ config.autoReplaceSvg = false;
 // Vue config
 Vue.config.productionTip = false;
 
-import '@/scss/index.scss';
+import '@/../scss/index.scss';
+
+import '@/main';
 
 new Vue({
     router,

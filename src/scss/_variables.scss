@@ -1,13 +1,6 @@
 :root {
-    --theme-background-color: #f9fbf5;
-
-    --card-title-background: #f2f9f4;
-    --card-body-background: #e0f8e9;
-    --card-footer-background: #f2f9f4;
-    --card-border-color: #23ab8a;
-
-    --button-background: #35cda8;
-    --button-color: #0a6750;
+    --button-background: #8743a8;
+    --button-color: #efcdff;
 }
 
 [theme='light'] {
@@ -33,3 +26,6 @@
     --button-background: #d1f7ff;
     --button-color: #316b76;
 }
+
+$button-background: var(--button-background);
+$button-color: var(--button-color);
