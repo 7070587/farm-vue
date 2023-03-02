@@ -1,6 +1,6 @@
 <template>
     <div>
-        123
+        <VideoPage />
     </div>
 </template>
 
@@ -29,11 +29,12 @@ import { Vue, Component } from 'vue-property-decorator';
 //#endregion
 
 //#region Components Views
+import VideoPage from '../video/video-page.vue';
 //#endregion
 //#endregion
 
 @Component({
-    components: {},
+    components: { VideoPage },
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -51,7 +52,6 @@ export default class VuePageClass extends Vue {
     //#region Vue Life
     private async beforeCreate(): Promise<void> {}
     private async created(): Promise<void> {}
-    private async beforeMount(): Promise<void> {}
     private async mounted(): Promise<void> {}
     private async beforeDestroy(): Promise<void> {}
     private async destroyed(): Promise<void> {}
