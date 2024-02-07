@@ -125,12 +125,12 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 //#endregion
 
 //#region Src
-import { FormBuilderElements, Model as FormBuilderModel } from '@/config';
+import { FormBuilderElements, Model as FormBuilderConfigModel } from '@/config';
 import { EElementType } from '@/components/form-builders/elements';
 //#endregion
 
 //#region Views
-import { Model } from './models';
+import { FormBuilderModel as Model } from '@/components/form-builders/models';
 //#endregion
 
 //#region Components
@@ -158,13 +158,13 @@ export default class FormBuilderList extends Vue {
         type: Array, // Boolean, Number, String, Array, Object
         default: () => [],
     })
-    private generateListData: FormBuilderModel.IFormBuilderElement[];
+    private generateListData: FormBuilderConfigModel.IFormBuilderElement[];
 
     @Prop({
         type: Object, // Boolean, Number, String, Array, Object
         default: () => {},
     })
-    private activedItemData: FormBuilderModel.IFormBuilderElement;
+    private activedItemData: FormBuilderConfigModel.IFormBuilderElement;
     //#endregion
 
     @Prop({
@@ -175,11 +175,11 @@ export default class FormBuilderList extends Vue {
     //#endregion
 
     //#region Variables
-    private formBuilderElementList: FormBuilderModel.IFormBuilder[] = [];
+    private formBuilderElementList: FormBuilderConfigModel.IFormBuilder[] = [];
 
-    private generateList: FormBuilderModel.IFormBuilderElement[] = [];
+    private generateList: FormBuilderConfigModel.IFormBuilderElement[] = [];
 
-    private activedItem: FormBuilderModel.IFormBuilderElement = null;
+    private activedItem: FormBuilderConfigModel.IFormBuilderElement = null;
 
     private currentTab: Model.ETab = Model.ETab.component;
 
@@ -199,7 +199,10 @@ export default class FormBuilderList extends Vue {
 
     //#region Watch
     @Watch('generateListData', { immediate: true, deep: true })
-    private generateListDataChanged(newVal: FormBuilderModel.IFormBuilderElement[], oldVal: FormBuilderModel.IFormBuilderElement[]): void {
+    private generateListDataChanged(
+        newVal: FormBuilderConfigModel.IFormBuilderElement[],
+        oldVal: FormBuilderConfigModel.IFormBuilderElement[],
+    ): void {
         this.generateList = JSON.parse(JSON.stringify(newVal));
         if (newVal.length === 0) {
             this.currentTab = Model.ETab.component;
@@ -208,7 +211,7 @@ export default class FormBuilderList extends Vue {
     }
 
     @Watch('activedItemData', { immediate: true, deep: true })
-    private activedItemDataChanged(newVal: FormBuilderModel.IFormBuilderElement, oldVal: FormBuilderModel.IFormBuilderElement): void {
+    private activedItemDataChanged(newVal: FormBuilderConfigModel.IFormBuilderElement, oldVal: FormBuilderConfigModel.IFormBuilderElement): void {
         this.activedItem = newVal;
     }
 
@@ -237,8 +240,8 @@ export default class FormBuilderList extends Vue {
 
     //#region View Event
     //#region right
-    private addFormBuilder(item: FormBuilderModel.IFormBuilderElement): void {
-        let clone: FormBuilderModel.IFormBuilderElement = JSON.parse(JSON.stringify(item));
+    private addFormBuilder(item: FormBuilderConfigModel.IFormBuilderElement): void {
+        let clone: FormBuilderConfigModel.IFormBuilderElement = JSON.parse(JSON.stringify(item));
         clone.id = `form_element_${new Date().getTime()}`;
         this.generateList.push(clone);
 
@@ -246,7 +249,7 @@ export default class FormBuilderList extends Vue {
     }
 
     private dragEndFormBuilder(): void {
-        let activedItem: FormBuilderModel.IFormBuilderElement = undefined;
+        let activedItem: FormBuilderConfigModel.IFormBuilderElement = undefined;
         this.generateList.forEach((element) => {
             if (!element.id) {
                 element.id = `form_element_${new Date().getTime()}`;

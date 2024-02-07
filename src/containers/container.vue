@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <router-view></router-view>
     </div>
 </template>
@@ -75,3 +75,4 @@ export default class App extends Vue {
 
 <style lang="scss">
 </style>
+
