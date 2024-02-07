@@ -1,0 +1,31 @@
+:root {
+    --button-background: #8743a8;
+    --button-color: #efcdff;
+}
+
+[theme='light'] {
+    --theme-background-color: #e3e3e3;
+
+    --card-title-background: #c5e6ff;
+    --card-body-background: #eaf6ff;
+    --card-footer-background: #c5e6ff;
+    --card-border-color: #2fa8ff;
+
+    --button-background: #003b65;
+    --button-color: #8debff;
+}
+
+[theme='dark'] {
+    --theme-background-color: #fffbee;
+
+    --card-title-background: #9fd7ff;
+    --card-body-background: #55b7ff;
+    --card-footer-background: #9fd7ff;
+    --card-border-color: #006ab7;
+
+    --button-background: #d1f7ff;
+    --button-color: #316b76;
+}
+
+$button-background: var(--button-background);
+$button-color: var(--button-color);

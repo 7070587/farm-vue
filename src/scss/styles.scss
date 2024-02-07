@@ -1,7 +1,8 @@
 @import './variables.scss';
 @import './home.scss';
-@import './element-setting.scss';
-@import './form-builder.scss';
-@import './generate.scss';
-@import './action.scss';
-@import './behavior.scss';
+
+@import 'form-builder/element-setting.scss';
+@import 'form-builder/form-builder.scss';
+@import 'form-builder/generate.scss';
+@import 'form-builder/action.scss';
+@import 'form-builder/behavior.scss';

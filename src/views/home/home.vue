@@ -9,10 +9,19 @@
                 >
                     Form Builder
                 </div>
+
+                <div
+                    class="nav"
+                    :class="{'selected': showTheme}"
+                    @click="clickToTheme"
+                >
+                    Theme
+                </div>
             </div>
 
             <div class="center">
-                <FormBuilder />
+                <FormBuilder v-if="showFormBuilder" />
+                <Theme v-if="showTheme" />
             </div>
         </div>
     </div>
@@ -44,6 +53,7 @@ import { Model } from './models';
 
 //#region Components Src
 import { FormBuilder } from '@/components';
+import Theme from '@/views/theme/theme.vue';
 //#endregion
 
 //#region Components Views
@@ -52,7 +62,7 @@ import { FormBuilder } from '@/components';
 //#endregion
 
 @Component({
-    components: { FormBuilder },
+    components: { FormBuilder, Theme },
 })
 export default class VuePageClass extends Vue {
     //#region Prop
@@ -60,6 +70,7 @@ export default class VuePageClass extends Vue {
 
     //#region Variables
     private showFormBuilder: boolean = true;
+    private showTheme: boolean = false;
     //#endregion
 
     //#region Computed
@@ -81,6 +92,12 @@ export default class VuePageClass extends Vue {
     //#region View Event
     private clickToFormBuilder(): void {
         this.showFormBuilder = true;
+        this.showTheme = false;
+    }
+
+    private clickToTheme(): void {
+        this.showFormBuilder = false;
+        this.showTheme = true;
     }
     //#endregion
 
